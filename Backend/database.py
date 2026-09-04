@@ -14,6 +14,9 @@ def create_database():
         "golden_car_glass.db"
     )
 
+    # Database folder agar exist nahi karta to create karo
+    os.makedirs(os.path.dirname(DATABASE_PATH), exist_ok=True)
+
     connection = sqlite3.connect(DATABASE_PATH)
 
     cursor = connection.cursor()
