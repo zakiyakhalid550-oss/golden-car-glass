@@ -22,6 +22,8 @@ DATABASE_PATH = os.path.join(
     "golden_car_glass.db"
 )
 
+os.makedirs(os.path.dirname(DATABASE_PATH), exist_ok=True)
+
 app = Flask(
     __name__,
     template_folder="../Frontend"
