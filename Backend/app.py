@@ -143,6 +143,48 @@ def login_required(f):
 
     return decorated_function
 
+# =========================================================
+# PWA FILES
+# =========================================================
+
+@app.route("/manifest.json")
+def manifest():
+
+    manifest_path = os.path.join(
+        BASE_DIR,
+        "Frontend",
+        "manifest.json"
+    )
+
+    with open(manifest_path, "r", encoding="utf-8") as file:
+        return file.read(), 200, {
+            "Content-Type": "application/manifest+json"
+        }
+
+
+@app.route("/icons/<path:filename>")
+def pwa_icons(filename):
+
+    icons_folder = os.path.join(
+        BASE_DIR,
+        "Frontend",
+        "icons"
+    )
+
+    file_path = os.path.join(
+        icons_folder,
+        filename
+    )
+
+    if not os.path.isfile(file_path):
+        return "Icon not found.", 404
+
+    from flask import send_from_directory
+
+    return send_from_directory(
+        icons_folder,
+        filename
+    )
 
 # =========================================================
 # HOME
@@ -153,10 +195,6 @@ def home():
 
     return render_template("index.html")
 
-
-# =========================================================
-# BOOKING
-# =========================================================
 
 # =========================================================
 # BOOKING
@@ -672,7 +710,7 @@ def view_booking(id):
 
 
 # =========================================================
-# TRACK BOOKING
+# TRACK BOOKING - CUSTOMER
 # =========================================================
 
 @app.route("/track_booking", methods=["GET", "POST"])
@@ -685,14 +723,22 @@ def track_booking():
             ""
         ).strip()
 
+        # Validate booking number
         if not booking_id.isdigit():
-            return "Invalid Booking Reference.", 400
+            return render_template(
+                "track_booking.html",
+                error="Please enter a valid Booking Reference Number."
+            )
 
         connection = get_db_connection()
         cursor = connection.cursor()
 
         cursor.execute(
-            "SELECT * FROM bookings WHERE id = ?",
+            """
+            SELECT *
+            FROM bookings
+            WHERE id = ?
+            """,
             (int(booking_id),)
         )
 
@@ -701,23 +747,17 @@ def track_booking():
         connection.close()
 
         if not booking:
-            return "Booking not found.", 404
+            return render_template(
+                "track_booking.html",
+                error=f"Booking #{booking_id} was not found. Please check your Booking Reference Number."
+            )
 
         return render_template(
-            "booking_details.html",
+            "customer_booking_status.html",
             booking=booking
         )
 
     return render_template("track_booking.html")
-@app.route(
-    "/delete/<int:id>",
-    methods=["POST"]
-)
-@login_required
-def delete_booking(id):
-    connection = get_db_connection()
-
-    cursor = connection.cursor()
 
 
     # -------------------------------------------------
