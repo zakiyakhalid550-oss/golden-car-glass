@@ -1,52 +1,41 @@
-import sqlite3
+import os
+import psycopg
+from dotenv import load_dotenv
 from flask_bcrypt import Bcrypt
 from flask import Flask
+
+load_dotenv()
 
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
 
-connection = sqlite3.connect("../Database/golden_car_glass.db")
+username = input("Enter new admin username: ").strip()
+password = input("Enter new admin password: ").strip()
 
-cursor = connection.cursor()
-
-cursor.execute("""
-CREATE TABLE IF NOT EXISTS admins(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT UNIQUE NOT NULL,
-    password TEXT NOT NULL
-)
-""")
-
-username = input("Enter admin username: ")
-password = input("Enter admin password: ")
+if not username or not password:
+    print("Username and password cannot be empty.")
+    exit()
 
 hashed_password = bcrypt.generate_password_hash(password).decode("utf-8")
 
-# Check if admin already exists
-cursor.execute(
-    "SELECT id FROM admins WHERE username = ?",
-    (username,)
+conn = psycopg.connect(os.environ["DATABASE_URL"])
+
+cur = conn.cursor()
+
+cur.execute(
+    """
+    INSERT INTO admins (username, password)
+    VALUES (%s, %s)
+    ON CONFLICT (username)
+    DO UPDATE SET password = EXCLUDED.password
+    """,
+    (username, hashed_password)
 )
 
-existing_admin = cursor.fetchone()
+conn.commit()
 
-if existing_admin:
+cur.close()
+conn.close()
 
-    cursor.execute(
-        "UPDATE admins SET password = ? WHERE username = ?",
-        (hashed_password, username)
-    )
-
-    print("Admin password updated successfully!")
-
-else:
-
-    cursor.execute(
-        "INSERT INTO admins(username, password) VALUES (?, ?)",
-        (username, hashed_password)
-    )
-
-    print("Admin created successfully!")
-
-connection.commit()
-connection.close()
+print("Admin account created/updated successfully!")
+print(f"Username: {username}")

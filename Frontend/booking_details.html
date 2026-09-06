@@ -180,7 +180,7 @@
         <h1>🚗 Booking Details</h1>
 
         <div class="booking-reference">
-            Booking Reference: #{{ booking[0] }}
+            Booking Reference: #{{ booking['id'] }}
         </div>
 
         <div class="detail-row">
@@ -189,7 +189,7 @@
             </span>
 
             <span class="detail-value">
-                {{ booking[1] }}
+                {{ booking['name'] }}
             </span>
         </div>
 
@@ -199,7 +199,7 @@
             </span>
 
             <span class="detail-value">
-                {{ booking[2] }}
+                {{ booking['mobile'] }}
             </span>
         </div>
 
@@ -209,7 +209,7 @@
             </span>
 
             <span class="detail-value">
-                {{ booking[3] }}
+                {{ booking['car_model'] }}
             </span>
         </div>
 
@@ -219,7 +219,7 @@
             </span>
 
             <span class="detail-value">
-                {{ booking[4] }}
+                {{ booking['glass_type'] }}
             </span>
         </div>
 
@@ -229,7 +229,7 @@
             </span>
 
             <span class="detail-value">
-                {{ booking[5] }}
+                {{ booking['date'] }}
             </span>
         </div>
 
@@ -239,7 +239,7 @@
             </span>
 
             <span class="detail-value">
-                {{ booking[6] }}
+                {{ booking['message'] }}
             </span>
         </div>
 
@@ -257,7 +257,7 @@
 
         <form
             class="status-form"
-            action="{{ url_for('update_status', id=booking[0]) }}"
+            action="{{ url_for('update_status', id=booking['id']) }}"
             method="POST"
         >
 
@@ -270,13 +270,13 @@
             <select
                 name="status"
                 class="status-select
-                {% if booking[7] == 'Pending' %}
+                {% if booking['status'] == 'Pending' %}
                     pending
-                {% elif booking[7] == 'In Progress' %}
+                {% elif booking['status'] == 'In Progress' %}
                     in-progress
-                {% elif booking[7] == 'Completed' %}
+                {% elif booking['status'] == 'Completed' %}
                     completed
-                {% elif booking[7] == 'Cancelled' %}
+                {% elif booking['status'] == 'Cancelled' %}
                     cancelled
                 {% endif %}"
                 onchange="this.form.submit()"
@@ -284,28 +284,28 @@
 
                 <option
                     value="Pending"
-                    {% if booking[7] == "Pending" %}selected{% endif %}
+                    {% if booking['status'] == "Pending" %}selected{% endif %}
                 >
                     🟡 Pending
                 </option>
 
                 <option
                     value="In Progress"
-                    {% if booking[7] == "In Progress" %}selected{% endif %}
+                    {% if booking['status'] == "In Progress" %}selected{% endif %}
                 >
                     🔵 In Progress
                 </option>
 
                 <option
                     value="Completed"
-                    {% if booking[7] == "Completed" %}selected{% endif %}
+                    {% if booking['status'] == "Completed" %}selected{% endif %}
                 >
                     🟢 Completed
                 </option>
 
                 <option
                     value="Cancelled"
-                    {% if booking[7] == "Cancelled" %}selected{% endif %}
+                    {% if booking['status'] == "Cancelled" %}selected{% endif %}
                 >
                     🔴 Cancelled
                 </option>
