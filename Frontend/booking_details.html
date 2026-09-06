@@ -81,6 +81,28 @@
             font-size: 14px;
         }
 
+        /* Status Colors */
+
+.status-select.pending {
+    background-color: #fff3cd;
+    border-color: #ffe69c;
+}
+
+.status-select.in-progress {
+    background-color: #cfe2ff;
+    border-color: #9ec5fe;
+}
+
+.status-select.completed {
+    background-color: #d1e7dd;
+    border-color: #a3cfbb;
+}
+
+.status-select.cancelled {
+    background-color: #f8d7da;
+    border-color: #f1aeb5;
+}
+
         .update-btn {
             background-color: #c99a00;
             color: white;
@@ -223,7 +245,7 @@
 
         <!-- STATUS -->
 
-        <!-- STATUS -->
+<!-- STATUS -->
 
 <div class="detail-row">
 
@@ -233,27 +255,64 @@
 
     <span class="detail-value">
 
-        {% if booking[7] == "Pending" %}
+        <form
+            class="status-form"
+            action="{{ url_for('update_status', id=booking[0]) }}"
+            method="POST"
+        >
 
-            🟡 Pending
+            <input
+                type="hidden"
+                name="csrf_token"
+                value="{{ csrf_token() }}"
+            >
 
-        {% elif booking[7] == "In Progress" %}
+            <select
+                name="status"
+                class="status-select
+                {% if booking[7] == 'Pending' %}
+                    pending
+                {% elif booking[7] == 'In Progress' %}
+                    in-progress
+                {% elif booking[7] == 'Completed' %}
+                    completed
+                {% elif booking[7] == 'Cancelled' %}
+                    cancelled
+                {% endif %}"
+                onchange="this.form.submit()"
+            >
 
-            🔵 In Progress
+                <option
+                    value="Pending"
+                    {% if booking[7] == "Pending" %}selected{% endif %}
+                >
+                    🟡 Pending
+                </option>
 
-        {% elif booking[7] == "Completed" %}
+                <option
+                    value="In Progress"
+                    {% if booking[7] == "In Progress" %}selected{% endif %}
+                >
+                    🔵 In Progress
+                </option>
 
-            🟢 Completed
+                <option
+                    value="Completed"
+                    {% if booking[7] == "Completed" %}selected{% endif %}
+                >
+                    🟢 Completed
+                </option>
 
-        {% elif booking[7] == "Cancelled" %}
+                <option
+                    value="Cancelled"
+                    {% if booking[7] == "Cancelled" %}selected{% endif %}
+                >
+                    🔴 Cancelled
+                </option>
 
-            🔴 Cancelled
+            </select>
 
-        {% else %}
-
-            ⚪ Unknown
-
-        {% endif %}
+        </form>
 
     </span>
 

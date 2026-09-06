@@ -1,6 +1,14 @@
 from datetime import date as datetime_date
-
-from flask import Flask, render_template, request, redirect, session, url_for, make_response
+from flask import (
+    Flask,
+    render_template,
+    request,
+    redirect,
+    session,
+    url_for,
+    make_response,
+    send_from_directory
+)
 from flask_bcrypt import Bcrypt
 from flask_wtf.csrf import CSRFProtect
 from dotenv import load_dotenv
@@ -22,19 +30,28 @@ DATABASE_PATH = os.path.join(
     "golden_car_glass.db"
 )
 
-os.makedirs(os.path.dirname(DATABASE_PATH), exist_ok=True)
+FRONTEND_DIR = os.path.join(
+    BASE_DIR,
+    "Frontend"
+)
+
+os.makedirs(
+    os.path.dirname(DATABASE_PATH),
+    exist_ok=True
+)
 
 app = Flask(
     __name__,
-    template_folder="../Frontend"
+    template_folder=FRONTEND_DIR
 )
 
 csrf = CSRFProtect(app)
 
 
 # =========================================================
-# SECRET KEY
+# ENVIRONMENT / SECRET KEY
 # =========================================================
+
 load_dotenv()
 
 app.secret_key = os.environ.get(
@@ -53,9 +70,8 @@ app.config["SESSION_REFRESH_EACH_REQUEST"] = True
 app.config["SESSION_COOKIE_HTTPONLY"] = True
 app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 
-# Local development ke liye False
-# Production HTTPS par True karna
-app.config["SESSION_COOKIE_SECURE"] = False
+# HTTPS / Render ke liye True
+app.config["SESSION_COOKIE_SECURE"] = True
 
 
 bcrypt = Bcrypt(app)
@@ -66,13 +82,11 @@ bcrypt = Bcrypt(app)
 # =========================================================
 
 MAX_LOGIN_ATTEMPTS = 5
-
-# 5 minutes
 LOCKOUT_TIME = 300
 
 
 # =========================================================
-# DATABASE
+# DATABASE CONNECTION
 # =========================================================
 
 def get_db_connection():
@@ -86,17 +100,23 @@ def get_db_connection():
 
     return connection
 
+
 # =========================================================
 # DATABASE INITIALIZATION
 # =========================================================
 
 def initialize_database():
 
-    connection = sqlite3.connect(DATABASE_PATH)
+    connection = sqlite3.connect(
+        DATABASE_PATH
+    )
 
     cursor = connection.cursor()
 
-    # Create bookings table if it does not exist
+    # -----------------------------------------------------
+    # BOOKINGS TABLE
+    # -----------------------------------------------------
+
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS bookings (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -110,7 +130,10 @@ def initialize_database():
         )
     """)
 
-    # Create admins table if it does not exist
+    # -----------------------------------------------------
+    # ADMINS TABLE
+    # -----------------------------------------------------
+
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS admins (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -122,7 +145,9 @@ def initialize_database():
     connection.commit()
     connection.close()
 
+
 initialize_database()
+
 
 # =========================================================
 # LOGIN REQUIRED
@@ -133,58 +158,68 @@ def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
 
-        if "admin_id" not in session or "username" not in session:
+        if (
+            "admin_id" not in session
+            or
+            "username" not in session
+        ):
 
             session.clear()
 
-            return redirect(url_for("login"))
+            return redirect(
+                url_for("login")
+            )
 
         return f(*args, **kwargs)
 
     return decorated_function
 
+
 # =========================================================
-# PWA FILES
+# PWA - MANIFEST
 # =========================================================
 
 @app.route("/manifest.json")
 def manifest():
 
     manifest_path = os.path.join(
-        BASE_DIR,
-        "Frontend",
+        FRONTEND_DIR,
         "manifest.json"
     )
 
-    with open(manifest_path, "r", encoding="utf-8") as file:
-        return file.read(), 200, {
-            "Content-Type": "application/manifest+json"
-        }
+    if not os.path.isfile(manifest_path):
+        return "Manifest not found.", 404
 
+    with open(
+        manifest_path,
+        "r",
+        encoding="utf-8"
+    ) as file:
+
+        content = file.read()
+
+    return content, 200, {
+        "Content-Type": "application/manifest+json"
+    }
+
+
+# =========================================================
+# PWA - ICONS
+# =========================================================
 
 @app.route("/icons/<path:filename>")
 def pwa_icons(filename):
 
     icons_folder = os.path.join(
-        BASE_DIR,
-        "Frontend",
+        FRONTEND_DIR,
         "icons"
     )
-
-    file_path = os.path.join(
-        icons_folder,
-        filename
-    )
-
-    if not os.path.isfile(file_path):
-        return "Icon not found.", 404
-
-    from flask import send_from_directory
 
     return send_from_directory(
         icons_folder,
         filename
     )
+
 
 # =========================================================
 # HOME
@@ -193,57 +228,110 @@ def pwa_icons(filename):
 @app.route("/")
 def home():
 
-    return render_template("index.html")
+    return render_template(
+        "index.html"
+    )
 
 
 # =========================================================
-# BOOKING
+# BOOK SERVICE
 # =========================================================
 
-@app.route("/book", methods=["POST"])
+@app.route(
+    "/book",
+    methods=["POST"]
+)
 def book():
 
-    name = request.form.get("name", "").strip()
-    mobile = request.form.get("mobile", "").strip()
-    car_model = request.form.get("car_model", "").strip()
-    glass_type = request.form.get("glass_type", "").strip()
-    date = request.form.get("date", "").strip()
-    message = request.form.get("message", "").strip()
+    name = request.form.get(
+        "name",
+        ""
+    ).strip()
+
+    mobile = request.form.get(
+        "mobile",
+        ""
+    ).strip()
+
+    car_model = request.form.get(
+        "car_model",
+        ""
+    ).strip()
+
+    glass_type = request.form.get(
+        "glass_type",
+        ""
+    ).strip()
+
+    booking_date = request.form.get(
+        "date",
+        ""
+    ).strip()
+
+    message = request.form.get(
+        "message",
+        ""
+    ).strip()
 
 
-    # =========================================================
-    # BASIC INPUT VALIDATION
-    # =========================================================
+    # =====================================================
+    # VALIDATION
+    # =====================================================
 
     if not name:
+
         return "Please enter your name.", 400
 
     if not mobile:
+
         return "Please enter your mobile number.", 400
 
     if not car_model:
+
         return "Please enter your car model.", 400
 
     if not glass_type:
+
         return "Please select a glass type.", 400
 
-    if not date:
+    if not booking_date:
+
         return "Please select a booking date.", 400
 
 
+    # =====================================================
+    # DATE VALIDATION
+    # =====================================================
 
     try:
-        booking_date = datetime_date.fromisoformat(date)
+
+        selected_date = datetime_date.fromisoformat(
+            booking_date
+        )
+
     except ValueError:
+
         return "Invalid booking date.", 400
 
-    if booking_date < datetime_date.today():
-        return "Booking date cannot be in the past.", 400
+
+    if selected_date < datetime_date.today():
+
+        return (
+            "Booking date cannot be in the past.",
+            400
+        )
+
+
+    # =====================================================
+    # INSERT BOOKING
+    # =====================================================
 
     connection = get_db_connection()
+
     cursor = connection.cursor()
 
-    cursor.execute("""
+    cursor.execute(
+        """
         INSERT INTO bookings
         (
             name,
@@ -255,15 +343,17 @@ def book():
             status
         )
         VALUES (?, ?, ?, ?, ?, ?, ?)
-    """, (
-        name,
-        mobile,
-        car_model,
-        glass_type,
-        date,
-        message,
-        "Pending"
-    ))
+        """,
+        (
+            name,
+            mobile,
+            car_model,
+            glass_type,
+            booking_date,
+            message,
+            "Pending"
+        )
+    )
 
     connection.commit()
 
@@ -271,18 +361,31 @@ def book():
 
     connection.close()
 
+
+    # =====================================================
+    # SUCCESS PAGE
+    # =====================================================
+
     return f"""
 <!DOCTYPE html>
 <html>
 <head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
     <title>Booking Confirmed</title>
 
     <style>
+
         body {{
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background: #f4f4f4;
             text-align: center;
             padding-top: 100px;
+            margin: 0;
         }}
 
         .success-box {{
@@ -304,7 +407,7 @@ def book():
         }}
 
         .booking-id {{
-            background-color: #fff3cd;
+            background: #fff3cd;
             padding: 12px;
             border-radius: 6px;
             font-size: 20px;
@@ -314,7 +417,7 @@ def book():
 
         .home-btn {{
             display: inline-block;
-            background-color: #222;
+            background: #222;
             color: white;
             text-decoration: none;
             padding: 10px 20px;
@@ -322,19 +425,21 @@ def book():
             font-weight: bold;
         }}
 
-        .home-btn:hover {{
-            background-color: #444;
-        }}
     </style>
+
 </head>
 
 <body>
 
     <div class="success-box">
 
-        <div class="success-icon">✅</div>
+        <div class="success-icon">
+            ✅
+        </div>
 
-        <h1>Booking Submitted Successfully!</h1>
+        <h1>
+            Booking Submitted Successfully!
+        </h1>
 
         <p>
             Your booking has been received successfully.
@@ -356,29 +461,41 @@ def book():
 
 </body>
 </html>
-""".replace("{{ booking_id }}", str(booking_id))
+"""
 
 
 # =========================================================
-# LOGIN
+# ADMIN LOGIN
 # =========================================================
 
-@app.route("/login", methods=["GET", "POST"])
+@app.route(
+    "/login",
+    methods=["GET", "POST"]
+)
 def login():
 
     if request.method == "POST":
 
-        username = request.form["username"].strip()
-        password = request.form["password"]
+        username = request.form.get(
+            "username",
+            ""
+        ).strip()
+
+        password = request.form.get(
+            "password",
+            ""
+        )
+
 
         # -------------------------------------------------
-        # CURRENT TIME
+        # TIME
         # -------------------------------------------------
 
         current_time = time.time()
 
+
         # -------------------------------------------------
-        # PREVIOUS FAILED ATTEMPTS
+        # PREVIOUS ATTEMPTS
         # -------------------------------------------------
 
         attempts = session.get(
@@ -391,17 +508,26 @@ def login():
             0
         )
 
+
         # -------------------------------------------------
         # CHECK LOCK
         # -------------------------------------------------
 
         if attempts >= MAX_LOGIN_ATTEMPTS:
 
-            if current_time - lock_time < LOCKOUT_TIME:
+            if (
+                current_time - lock_time
+                < LOCKOUT_TIME
+            ):
 
                 remaining = int(
-                    LOCKOUT_TIME -
-                    (current_time - lock_time)
+                    LOCKOUT_TIME
+                    -
+                    (
+                        current_time
+                        -
+                        lock_time
+                    )
                 )
 
                 return (
@@ -409,7 +535,9 @@ def login():
                     f"Try again after {remaining} seconds."
                 ), 429
 
+
             # Lock expired
+
             session["login_attempts"] = 0
 
             session.pop(
@@ -419,8 +547,9 @@ def login():
 
             attempts = 0
 
+
         # -------------------------------------------------
-        # DATABASE
+        # FIND ADMIN
         # -------------------------------------------------
 
         connection = get_db_connection()
@@ -430,9 +559,11 @@ def login():
             cursor = connection.cursor()
 
             cursor.execute(
-                "SELECT id, username, password "
-                "FROM admins "
-                "WHERE username = ?",
+                """
+                SELECT id, username, password
+                FROM admins
+                WHERE username = ?
+                """,
                 (username,)
             )
 
@@ -442,38 +573,33 @@ def login():
 
             connection.close()
 
+
         # -------------------------------------------------
-        # CORRECT LOGIN
+        # CHECK PASSWORD
         # -------------------------------------------------
+
+        password_correct = False
 
         if admin:
 
-            password_correct = bcrypt.check_password_hash(
-                admin["password"],
-                password
+            password_correct = (
+                bcrypt.check_password_hash(
+                    admin["password"],
+                    password
+                )
             )
 
-        else:
 
-            password_correct = False
+        # -------------------------------------------------
+        # LOGIN SUCCESS
+        # -------------------------------------------------
 
         if password_correct:
 
-            # Clear failed attempts
-            session.pop(
-                "login_attempts",
-                None
-            )
+            session.clear()
 
-            session.pop(
-                "login_lock_time",
-                None
-            )
-
-            # Permanent session
             session.permanent = True
 
-            # Save admin information
             session["admin_id"] = admin["id"]
 
             session["username"] = admin["username"]
@@ -482,15 +608,16 @@ def login():
                 url_for("bookings")
             )
 
+
         # -------------------------------------------------
-        # WRONG LOGIN
+        # LOGIN FAILED
         # -------------------------------------------------
 
         attempts += 1
 
         session["login_attempts"] = attempts
 
-        # Lock after 5 failed attempts
+
         if attempts >= MAX_LOGIN_ATTEMPTS:
 
             session["login_lock_time"] = current_time
@@ -498,19 +625,24 @@ def login():
             return (
                 "Too many failed attempts. "
                 "Login locked for 5 minutes."
-            )
+            ), 429
+
 
         remaining_attempts = (
-            MAX_LOGIN_ATTEMPTS - attempts
+            MAX_LOGIN_ATTEMPTS
+            -
+            attempts
         )
 
         return (
             "Invalid Username or Password. "
             f"{remaining_attempts} attempts remaining."
-        )
+        ), 401
 
-    # GET request
-    return render_template("login.html")
+
+    return render_template(
+        "login.html"
+    )
 
 
 # =========================================================
@@ -529,57 +661,110 @@ def logout():
 
 
 # =========================================================
-# BOOKINGS
+# ADMIN BOOKINGS PAGE
 # =========================================================
-
-# ---------------- BOOKINGS ---------------- #
 
 @app.route("/bookings")
 @login_required
 def bookings():
 
     connection = get_db_connection()
+
     cursor = connection.cursor()
 
-    # All bookings
-    cursor.execute("""
-        SELECT * FROM bookings
-        ORDER BY date ASC
-    """)
+
+    # -----------------------------------------------------
+    # ALL BOOKINGS
+    # -----------------------------------------------------
+
+    cursor.execute(
+        """
+        SELECT *
+        FROM bookings
+        ORDER BY id DESC
+        """
+    )
+
     bookings = cursor.fetchall()
 
-    # Total bookings
+
+    # -----------------------------------------------------
+    # TOTAL
+    # -----------------------------------------------------
+
     total_bookings = len(bookings)
 
-    # Pending
+
+    # -----------------------------------------------------
+    # PENDING
+    # -----------------------------------------------------
+
     cursor.execute(
-        "SELECT COUNT(*) FROM bookings WHERE status = ?",
+        """
+        SELECT COUNT(*)
+        FROM bookings
+        WHERE status = ?
+        """,
         ("Pending",)
     )
+
     pending_bookings = cursor.fetchone()[0]
 
-    # In Progress
+
+    # -----------------------------------------------------
+    # IN PROGRESS
+    # -----------------------------------------------------
+
     cursor.execute(
-        "SELECT COUNT(*) FROM bookings WHERE status = ?",
+        """
+        SELECT COUNT(*)
+        FROM bookings
+        WHERE status = ?
+        """,
         ("In Progress",)
     )
+
     in_progress_bookings = cursor.fetchone()[0]
 
-    # Completed
+
+    # -----------------------------------------------------
+    # COMPLETED
+    # -----------------------------------------------------
+
     cursor.execute(
-        "SELECT COUNT(*) FROM bookings WHERE status = ?",
+        """
+        SELECT COUNT(*)
+        FROM bookings
+        WHERE status = ?
+        """,
         ("Completed",)
     )
+
     completed_bookings = cursor.fetchone()[0]
 
-    # Cancelled
+
+    # -----------------------------------------------------
+    # CANCELLED
+    # -----------------------------------------------------
+
     cursor.execute(
-        "SELECT COUNT(*) FROM bookings WHERE status = ?",
+        """
+        SELECT COUNT(*)
+        FROM bookings
+        WHERE status = ?
+        """,
         ("Cancelled",)
     )
+
     cancelled_bookings = cursor.fetchone()[0]
 
+
     connection.close()
+
+
+    # -----------------------------------------------------
+    # RESPONSE
+    # -----------------------------------------------------
 
     response = make_response(
         render_template(
@@ -593,18 +778,30 @@ def bookings():
         )
     )
 
-    response.headers["Cache-Control"] = (
-        "no-store, no-cache, must-revalidate, max-age=0"
+
+    # Prevent old booking page cache
+
+    response.headers[
+        "Cache-Control"
+    ] = (
+        "no-store, no-cache, "
+        "must-revalidate, max-age=0"
     )
 
-    response.headers["Pragma"] = "no-cache"
-    response.headers["Expires"] = "0"
+    response.headers[
+        "Pragma"
+    ] = "no-cache"
+
+    response.headers[
+        "Expires"
+    ] = "0"
+
 
     return response
 
 
 # =========================================================
-# UPDATE STATUS
+# UPDATE BOOKING STATUS
 # =========================================================
 
 @app.route(
@@ -620,7 +817,10 @@ def update_status(id):
     ).strip()
 
 
-    # Allowed statuses
+    # -----------------------------------------------------
+    # ALLOWED STATUS
+    # -----------------------------------------------------
+
     allowed_statuses = [
         "Pending",
         "In Progress",
@@ -629,9 +829,9 @@ def update_status(id):
     ]
 
 
-    # -------------------------------------------------
-    # VALIDATE STATUS
-    # -------------------------------------------------
+    # -----------------------------------------------------
+    # VALIDATE
+    # -----------------------------------------------------
 
     if status not in allowed_statuses:
 
@@ -641,14 +841,13 @@ def update_status(id):
         )
 
 
-    # -------------------------------------------------
+    # -----------------------------------------------------
     # UPDATE DATABASE
-    # -------------------------------------------------
+    # -----------------------------------------------------
 
     connection = get_db_connection()
 
     cursor = connection.cursor()
-
 
     cursor.execute(
         """
@@ -662,18 +861,14 @@ def update_status(id):
         )
     )
 
-
     connection.commit()
 
     connection.close()
 
 
-    # -------------------------------------------------
-    # IMPORTANT
-    # -------------------------------------------------
-    # AJAX fetch ke liye redirect allowed hai.
-    # Browser page reload nahi karega because
-    # JavaScript fetch use kar raha hai.
+    # -----------------------------------------------------
+    # RETURN TO BOOKINGS
+    # -----------------------------------------------------
 
     return redirect(
         url_for("bookings")
@@ -684,15 +879,22 @@ def update_status(id):
 # VIEW BOOKING DETAILS
 # =========================================================
 
-@app.route("/booking/<int:id>")
+@app.route(
+    "/booking/<int:id>"
+)
 @login_required
 def view_booking(id):
 
     connection = get_db_connection()
+
     cursor = connection.cursor()
 
     cursor.execute(
-        "SELECT * FROM bookings WHERE id = ?",
+        """
+        SELECT *
+        FROM bookings
+        WHERE id = ?
+        """,
         (id,)
     )
 
@@ -700,8 +902,14 @@ def view_booking(id):
 
     connection.close()
 
+
     if not booking:
-        return "Booking not found.", 404
+
+        return (
+            "Booking not found.",
+            404
+        )
+
 
     return render_template(
         "booking_details.html",
@@ -710,59 +918,24 @@ def view_booking(id):
 
 
 # =========================================================
-# TRACK BOOKING - CUSTOMER
+# DELETE BOOKING
 # =========================================================
 
-@app.route("/track_booking", methods=["GET", "POST"])
-def track_booking():
+@app.route(
+    "/delete/<int:id>",
+    methods=["POST"]
+)
+@login_required
+def delete_booking(id):
 
-    if request.method == "POST":
+    connection = get_db_connection()
 
-        booking_id = request.form.get(
-            "booking_id",
-            ""
-        ).strip()
-
-        # Validate booking number
-        if not booking_id.isdigit():
-            return render_template(
-                "track_booking.html",
-                error="Please enter a valid Booking Reference Number."
-            )
-
-        connection = get_db_connection()
-        cursor = connection.cursor()
-
-        cursor.execute(
-            """
-            SELECT *
-            FROM bookings
-            WHERE id = ?
-            """,
-            (int(booking_id),)
-        )
-
-        booking = cursor.fetchone()
-
-        connection.close()
-
-        if not booking:
-            return render_template(
-                "track_booking.html",
-                error=f"Booking #{booking_id} was not found. Please check your Booking Reference Number."
-            )
-
-        return render_template(
-            "customer_booking_status.html",
-            booking=booking
-        )
-
-    return render_template("track_booking.html")
+    cursor = connection.cursor()
 
 
-    # -------------------------------------------------
+    # -----------------------------------------------------
     # CHECK BOOKING
-    # -------------------------------------------------
+    # -----------------------------------------------------
 
     cursor.execute(
         """
@@ -773,11 +946,9 @@ def track_booking():
         (id,)
     )
 
-
     booking = cursor.fetchone()
 
 
-    # Booking not found
     if not booking:
 
         connection.close()
@@ -788,9 +959,9 @@ def track_booking():
         )
 
 
-    # -------------------------------------------------
+    # -----------------------------------------------------
     # DELETE
-    # -------------------------------------------------
+    # -----------------------------------------------------
 
     cursor.execute(
         """
@@ -810,163 +981,266 @@ def track_booking():
         url_for("bookings")
     )
 
+
 # =========================================================
-# ERROR HANDLING
+# CUSTOMER TRACK BOOKING
+# =========================================================
+
+@app.route(
+    "/track_booking",
+    methods=["GET", "POST"]
+)
+def track_booking():
+
+    if request.method == "POST":
+
+        booking_id = request.form.get(
+            "booking_id",
+            ""
+        ).strip()
+
+
+        # -------------------------------------------------
+        # VALIDATE NUMBER
+        # -------------------------------------------------
+
+        if not booking_id.isdigit():
+
+            return render_template(
+                "track_booking.html",
+                error=(
+                    "Please enter a valid "
+                    "Booking Reference Number."
+                )
+            )
+
+
+        connection = get_db_connection()
+
+        cursor = connection.cursor()
+
+
+        # -------------------------------------------------
+        # FIND BOOKING
+        # -------------------------------------------------
+
+        cursor.execute(
+            """
+            SELECT *
+            FROM bookings
+            WHERE id = ?
+            """,
+            (int(booking_id),)
+        )
+
+        booking = cursor.fetchone()
+
+        connection.close()
+
+
+        # -------------------------------------------------
+        # NOT FOUND
+        # -------------------------------------------------
+
+        if not booking:
+
+            return render_template(
+                "track_booking.html",
+                error=(
+                    f"Booking #{booking_id} "
+                    "was not found. Please check "
+                    "your Booking Reference Number."
+                )
+            )
+
+
+        # -------------------------------------------------
+        # SHOW STATUS
+        # -------------------------------------------------
+
+        return render_template(
+            "customer_booking_status.html",
+            booking=booking
+        )
+
+
+    return render_template(
+        "track_booking.html"
+    )
+
+
+# =========================================================
+# 404 ERROR
 # =========================================================
 
 @app.errorhandler(404)
 def page_not_found(error):
 
     return """
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>Page Not Found</title>
+<!DOCTYPE html>
+<html>
 
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                background-color: #f4f4f4;
-                text-align: center;
-                padding-top: 100px;
-            }
+<head>
 
-            .error-box {
-                background: white;
-                width: 450px;
-                max-width: 90%;
-                margin: auto;
-                padding: 35px;
-                border-radius: 12px;
-                box-shadow: 0 0 15px rgba(0,0,0,0.15);
-            }
+    <title>Page Not Found</title>
 
-            .error-icon {
-                font-size: 55px;
-            }
+    <style>
 
-            h1 {
-                color: #c99a00;
-            }
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            text-align: center;
+            padding-top: 100px;
+        }
 
-            .home-btn {
-                display: inline-block;
-                background-color: #222;
-                color: white;
-                text-decoration: none;
-                padding: 10px 20px;
-                border-radius: 6px;
-                font-weight: bold;
-            }
+        .error-box {
+            background: white;
+            width: 450px;
+            max-width: 90%;
+            margin: auto;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.15);
+        }
 
-            .home-btn:hover {
-                background-color: #444;
-            }
-        </style>
-    </head>
+        .error-icon {
+            font-size: 55px;
+        }
 
-    <body>
+        h1 {
+            color: #c99a00;
+        }
 
-        <div class="error-box">
+        .home-btn {
+            display: inline-block;
+            background: #222;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
 
-            <div class="error-icon">🔍</div>
+    </style>
 
-            <h1>Page Not Found</h1>
+</head>
 
-            <p>
-                Sorry, the page you are looking for does not exist.
-            </p>
+<body>
 
-            <a href="/" class="home-btn">
-                🏠 Back to Home
-            </a>
+    <div class="error-box">
 
+        <div class="error-icon">
+            🔍
         </div>
 
-    </body>
-    </html>
-    """, 404
+        <h1>
+            Page Not Found
+        </h1>
+
+        <p>
+            Sorry, the page you are looking for
+            does not exist.
+        </p>
+
+        <a href="/" class="home-btn">
+            🏠 Back to Home
+        </a>
+
+    </div>
+
+</body>
+
+</html>
+""", 404
+
 
 # =========================================================
-# INTERNAL SERVER ERROR
+# 500 ERROR
 # =========================================================
 
 @app.errorhandler(500)
 def internal_server_error(error):
 
     return """
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>Something Went Wrong</title>
+<!DOCTYPE html>
+<html>
 
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                background-color: #f4f4f4;
-                text-align: center;
-                padding-top: 100px;
-            }
+<head>
 
-            .error-box {
-                background: white;
-                width: 450px;
-                max-width: 90%;
-                margin: auto;
-                padding: 35px;
-                border-radius: 12px;
-                box-shadow: 0 0 15px rgba(0,0,0,0.15);
-            }
+    <title>Something Went Wrong</title>
 
-            .error-icon {
-                font-size: 55px;
-            }
+    <style>
 
-            h1 {
-                color: #c99a00;
-            }
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            text-align: center;
+            padding-top: 100px;
+        }
 
-            .home-btn {
-                display: inline-block;
-                background-color: #222;
-                color: white;
-                text-decoration: none;
-                padding: 10px 20px;
-                border-radius: 6px;
-                font-weight: bold;
-            }
+        .error-box {
+            background: white;
+            width: 450px;
+            max-width: 90%;
+            margin: auto;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.15);
+        }
 
-            .home-btn:hover {
-                background-color: #444;
-            }
-        </style>
-    </head>
+        .error-icon {
+            font-size: 55px;
+        }
 
-    <body>
+        h1 {
+            color: #c99a00;
+        }
 
-        <div class="error-box">
+        .home-btn {
+            display: inline-block;
+            background: #222;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
 
-            <div class="error-icon">⚠️</div>
+    </style>
 
-            <h1>Something Went Wrong</h1>
+</head>
 
-            <p>
-                Sorry, something went wrong on our side.
-            </p>
+<body>
 
-            <p>
-                Please try again later.
-            </p>
+    <div class="error-box">
 
-            <a href="/" class="home-btn">
-                🏠 Back to Home
-            </a>
-
+        <div class="error-icon">
+            ⚠️
         </div>
 
-    </body>
-    </html>
-    """, 500
+        <h1>
+            Something Went Wrong
+        </h1>
+
+        <p>
+            Sorry, something went wrong on our side.
+        </p>
+
+        <p>
+            Please try again later.
+        </p>
+
+        <a href="/" class="home-btn">
+            🏠 Back to Home
+        </a>
+
+    </div>
+
+</body>
+
+</html>
+""", 500
+
 
 # =========================================================
 # RUN APPLICATION
@@ -977,5 +1251,13 @@ if __name__ == "__main__":
     app.run(
         host="0.0.0.0",
         port=5000,
-        debug=os.environ.get("FLASK_DEBUG", "False").lower() == "true"
+        debug=(
+            os.environ
+            .get(
+                "FLASK_DEBUG",
+                "False"
+            )
+            .lower()
+            == "true"
+        )
     )

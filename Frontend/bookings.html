@@ -5,244 +5,29 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Golden Car Glass - Bookings</title>
 
-
     <style>
 
-        /* =========================
-           LOGOUT BUTTON
-        ========================= */
-
-        .logout-btn {
-
-            display: inline-block;
-
-            background-color: #dc3545;
-
-            color: white;
-
-            text-decoration: none;
-
-            padding: 10px 20px;
-
-            border-radius: 6px;
-
-            font-weight: bold;
-
-            margin-left: 10px;
-
-        }
-
-
-        .logout-btn:hover {
-
-            background-color: #b02a37;
-
-        }
-
-
-        /* =========================
-           STATUS SELECT
-        ========================= */
-
-        .status-select {
-
-            padding: 8px;
-
-            min-width: 135px;
-
-            font-size: 14px;
-
-            border: 1px solid #ccc;
-
-            border-radius: 5px;
-
-            font-weight: bold;
-
-            cursor: pointer;
-
-        }
-
-
-        /* =========================
-           SEARCH BOX
-        ========================= */
-
-        .search-box {
-
-            max-width: 500px;
-
-            margin: 20px auto;
-
-            text-align: center;
-
-        }
-
-
-        .search-box input {
-
-            width: 100%;
-
-            padding: 12px;
-
-            font-size: 16px;
-
-            border: 1px solid #ccc;
-
-            border-radius: 6px;
-
+        * {
             box-sizing: border-box;
-
         }
 
-        .search-input-wrapper {
-    position: relative;
-    width: 100%;
-}
-
-.search-input-wrapper .search-icon {
-    position: absolute;
-    left: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 18px;
-    pointer-events: none;
-}
-
-.search-input-wrapper input {
-    padding-left: 40px;
-}
-
-
-        .status-filter {
-
-            width: 100%;
-
-            margin-top: 10px;
-
-            padding: 12px;
-
-            font-size: 16px;
-
-            border: 1px solid #ccc;
-
-            border-radius: 6px;
-
-            box-sizing: border-box;
-
-            background: white;
-
-            cursor: pointer;
-
-        }
-
-
-        /* =========================
-           ACTION BUTTONS
-        ========================= */
-
-        .action-buttons {
-
-            display: flex;
-
-            flex-direction: column;
-
-            align-items: center;
-
-            justify-content: center;
-
-            gap: 5px;
-
-            width: 100%;
-
-        }
-
-
-        .action-buttons form {
-
+        body {
             margin: 0;
-
-            padding: 0;
-
-            width: 78px;
-
+            padding: 25px;
+            background: #f4f4f4;
+            color: #222;
+            font-family: Arial, sans-serif;
         }
 
-
-        .view-btn,
-        .delete-btn {
-
-            width: 78px;
-
-            height: 36px;
-
-            box-sizing: border-box;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            padding: 0;
-
-            border-radius: 5px;
-
-            font-size: 14px;
-
-            font-weight: bold;
-
-            white-space: nowrap;
-
-            cursor: pointer;
-
-        }
-
-
-        /* =========================
-           DETAILS BUTTON
-        ========================= */
-
-        .view-btn {
-
-            background-color: #c99a00;
-
-            color: white;
-
-            text-decoration: none;
-
-        }
-
-
-        .view-btn:hover {
-
-            background-color: #a67f00;
-
-        }
-
-
-        /* =========================
-           DELETE BUTTON
-        ========================= */
-
-        .delete-btn {
-
-            background-color: #dc3545;
-
-            color: white;
-
-            border: none;
-
-        }
-
-
-        .delete-btn:hover {
-
-            background-color: #b02a37;
-
+        h1 {
+            text-align: center;
+            margin: 0 0 20px;
+            font-size: 28px;
         }
 
 
@@ -251,164 +36,161 @@
         ========================= */
 
         .top-buttons {
-
             text-align: center;
-
             margin-bottom: 20px;
-
         }
 
+        .home-btn,
+        .logout-btn {
+            display: inline-block;
+            text-decoration: none;
+            color: white;
+            padding: 9px 18px;
+            border-radius: 6px;
+            margin: 3px;
+            font-size: 14px;
+            font-weight: bold;
+        }
 
         .home-btn {
-
-            display: inline-block;
-
-            background-color: #222;
-
-            color: white;
-
-            text-decoration: none;
-
-            padding: 10px 20px;
-
-            border-radius: 6px;
-
-            font-weight: bold;
-
+            background: #222;
         }
 
-
-        .home-btn:hover {
-
-            background-color: #444;
-
+        .logout-btn {
+            background: #dc3545;
         }
 
 
         /* =========================
-           BODY
-        ========================= */
-
-        body {
-
-            font-family: Arial, sans-serif;
-
-            background-color: #f4f4f4;
-
-            margin: 0;
-
-            padding: 30px;
-
-        }
-
-
-        h1 {
-
-            text-align: center;
-
-            color: #222;
-
-        }
-
-
-        /* =========================
-           STATISTICS
+           STAT BOXES
         ========================= */
 
         .stats {
-
-            max-width: 1200px;
-
-            margin: 0 auto 20px auto;
-
+            max-width: 1100px;
+            margin: 0 auto 20px;
             display: grid;
-
-            grid-template-columns: repeat(5, 1fr);
-
-            gap: 15px;
-
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
         }
-
 
         .stat-box {
-
             background: white;
-
-            padding: 20px;
-
-            border-radius: 10px;
-
+            border-radius: 9px;
+            padding: 14px 8px;
             text-align: center;
-
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
             cursor: pointer;
-
-            transition: 0.2s;
-
+            border: 1px solid #ddd;
         }
 
+        .total-box {
+    grid-column: 1 / -1;
+    background: #e9ecef;
+    border-color: #adb5bd;
+}
 
-        .stat-box:hover {
+        /* Pending */
 
-            transform: translateY(-3px);
-
+        .stats .stat-box:nth-child(2) {
+            background: #fff3cd;
+            border-color: #ffe69c;
         }
 
+        /* In Progress */
+
+        .stats .stat-box:nth-child(3) {
+            background: #cfe2ff;
+            border-color: #9ec5fe;
+        }
+
+        /* Completed */
+
+        .stats .stat-box:nth-child(4) {
+            background: #d1e7dd;
+            border-color: #a3cfbb;
+        }
+
+        /* Cancelled */
+
+        .stats .stat-box:nth-child(5) {
+            background: #f8d7da;
+            border-color: #f1aeb5;
+        }
 
         .stat-box h2 {
-
             margin: 0;
-
-            color: #222;
-
+            font-size: 16px;
         }
-
 
         .stat-box p {
-
-            font-size: 35px;
-
+            margin: 6px 0 0;
+            font-size: 28px;
             font-weight: bold;
-
-            margin: 10px 0 0;
-
         }
 
 
         /* =========================
-           TABLE CONTAINER
+           SEARCH
         ========================= */
 
-        .container {
-
-            max-width: 1200px;
-
-            margin: auto;
-
-            background: white;
-
-            padding: 20px;
-
-            border-radius: 10px;
-
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-
-        }
-
-
-        /* =========================
-           TABLE WRAPPER
-        ========================= */
-
-        .table-wrapper {
-
+        .search-box {
             width: 100%;
+            max-width: 600px;
+            margin: 0 auto 20px;
+        }
 
-            overflow-x: auto;
+        .search-input-wrapper {
+            width: 100%;
+            position: relative;
+        }
 
-            margin-top: 20px;
+        .search-icon {
+            position: absolute;
+            left: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            pointer-events: none;
+        }
 
+        #searchInput,
+        #statusFilter {
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            padding: 11px;
+            font-family: Arial, sans-serif;
+            font-size: 15px;
+            background: white;
+            color: #222;
+            outline: none;
+        }
+
+        #searchInput {
+            padding-left: 38px;
+        }
+
+        #searchInput:focus,
+        #statusFilter:focus {
+            border-color: #999;
+        }
+
+        #statusFilter {
+            margin-top: 9px;
+        }
+
+
+        /* =========================
+           NO RESULTS
+        ========================= */
+
+        .no-results {
+            max-width: 1100px;
+            margin: 15px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
         }
 
 
@@ -416,136 +198,396 @@
            TABLE
         ========================= */
 
-        table {
-
-            width: 100%;
-
-            min-width: 1100px;
-
-            border-collapse: collapse;
-
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            background: white;
+            padding: 15px;
+            border-radius: 9px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
         }
 
+        .table-wrapper {
+            width: 100%;
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
 
         th,
         td {
-
             border: 1px solid #ddd;
-
-            padding: 12px;
-
-            text-align: left;
-
+            padding: 10px 7px;
+            text-align: center;
+            vertical-align: middle;
+            font-family: Arial, sans-serif;
+            font-size: 13px;
         }
-
 
         th {
-
-            background-color: #222;
-
+            background: #222;
             color: white;
-
+            font-weight: bold;
         }
 
-
-        tr:nth-child(even) {
-
-            background-color: #f9f9f9;
-
+        tbody tr:nth-child(even) {
+            background: #f9f9f9;
         }
 
-
-        /* =========================
-           BOOKING ROW HOVER
-        ========================= */
-
-        .booking-row {
-
-            transition: 0.2s;
-
-        }
-
-
-        .booking-row:hover {
-
-            background-color: #f1f1f1;
-
+        tbody tr:hover {
+            background: #f1f1f1;
         }
 
 
         /* =========================
-           ACTION COLUMN
+           COLUMN WIDTH
         ========================= */
 
-        th:last-child,
-        td:last-child {
+        th:nth-child(1),
+        td:nth-child(1) {
+            width: 14%;
+        }
 
-            text-align: center;
+        th:nth-child(2),
+        td:nth-child(2) {
+            width: 20%;
+        }
 
+        th:nth-child(3),
+        td:nth-child(3) {
+            width: 22%;
+        }
+
+        th:nth-child(4),
+        td:nth-child(4) {
+            width: 16%;
+        }
+
+        th:nth-child(5),
+        td:nth-child(5) {
+            width: 16%;
+        }
+
+        th:nth-child(6),
+        td:nth-child(6) {
+            width: 12%;
         }
 
 
         /* =========================
-           EMPTY MESSAGE
+           STATUS
         ========================= */
+
+        .status-form {
+            margin: 0;
+            width: 100%;
+        }
+
+        .status-select {
+            width: 100%;
+            padding: 7px 3px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            cursor: pointer;
+            color: #222;
+            font-weight: 500;
+        }
+
+        /* Pending */
+
+        .status-select.pending {
+            background: #fff3cd;
+            border-color: #ffe69c;
+        }
+
+        /* In Progress */
+
+        .status-select.in-progress {
+            background: #cfe2ff;
+            border-color: #9ec5fe;
+        }
+
+        /* Completed */
+
+        .status-select.completed {
+            background: #d1e7dd;
+            border-color: #a3cfbb;
+        }
+
+        /* Cancelled */
+
+        .status-select.cancelled {
+            background: #f8d7da;
+            border-color: #f1aeb5;
+        }
+
+        /* Dropdown options */
+
+        .status-select option[value="Pending"] {
+            background: #fff3cd;
+        }
+
+        .status-select option[value="In Progress"] {
+            background: #cfe2ff;
+        }
+
+        .status-select option[value="Completed"] {
+            background: #d1e7dd;
+        }
+
+        .status-select option[value="Cancelled"] {
+            background: #f8d7da;
+        }
+
+
+        /* =========================
+           ACTION
+        ========================= */
+
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .action-buttons form {
+            width: 75px;
+            margin: 0;
+        }
+
+        .details-btn,
+        .delete-btn {
+            width: 75px;
+            height: 32px;
+            border-radius: 5px;
+            border: none;
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .details-btn {
+            background: #c99a00;
+            color: white;
+            text-decoration: none;
+        }
+
+        .delete-btn {
+            background: #dc3545;
+            color: white;
+        }
 
         .empty {
-
             text-align: center;
-
             padding: 30px;
-
             color: #777;
-
         }
 
 
         /* =========================
-           NO RESULTS MESSAGE
+           MOBILE
         ========================= */
 
-        .no-results {
+        @media (max-width: 600px) {
 
-            max-width: 1200px;
+            body {
+                padding: 10px 6px;
+            }
 
-            margin: 20px auto;
+            h1 {
+                font-size: 21px;
+                margin-bottom: 13px;
+            }
 
-            background: white;
+            .top-buttons {
+                margin-bottom: 13px;
+            }
 
-            text-align: center;
-
-            padding: 25px;
-
-            border-radius: 10px;
-
-            color: #777;
-
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-
-        }
+            .home-btn,
+            .logout-btn {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
 
 
-        /* =========================
-           RESPONSIVE
-        ========================= */
-
-        @media (max-width: 900px) {
+            /* STAT BOXES */
 
             .stats {
-
                 grid-template-columns: repeat(2, 1fr);
+                gap: 7px;
+                margin-bottom: 14px;
+            }
 
+            .total-box {
+                grid-column: 1 / -1;
+            }
+
+            .stat-box {
+                padding: 9px 4px;
+                border-radius: 7px;
+            }
+
+            .stat-box h2 {
+                font-size: 11px;
+            }
+
+            .stat-box p {
+                font-size: 21px;
+                margin-top: 4px;
+            }
+
+
+            /* SEARCH */
+
+            .search-box {
+                width: 100%;
+                max-width: 600px;
+                margin: 0 auto 13px;
+            }
+
+            .search-input-wrapper {
+                width: 100%;
+            }
+
+            #searchInput,
+            #statusFilter {
+                width: 100%;
+                font-size: 12px;
+                padding: 9px;
+            }
+
+            #searchInput {
+                padding-left: 32px;
+            }
+
+            #statusFilter {
+                margin-top: 9px;
+            }
+
+
+            /* TABLE */
+
+            .container {
+                padding: 5px;
+                border-radius: 7px;
+            }
+
+            .table-wrapper {
+                width: 100%;
+                overflow: hidden;
+            }
+
+            table {
+                width: 100%;
+                table-layout: fixed;
+            }
+
+            th,
+            td {
+                padding: 7px 2px;
+                font-size: 9px;
+                word-break: break-word;
+                overflow-wrap: anywhere;
+            }
+
+            th {
+                font-size: 9px;
+                line-height: 1.1;
+            }
+
+
+            /* MOBILE COLUMN WIDTH */
+
+            th:nth-child(1),
+            td:nth-child(1) {
+                width: 13%;
+            }
+
+            th:nth-child(2),
+            td:nth-child(2) {
+                width: 20%;
+            }
+
+            th:nth-child(3),
+            td:nth-child(3) {
+                width: 22%;
+            }
+
+            th:nth-child(4),
+            td:nth-child(4) {
+                width: 15%;
+            }
+
+            th:nth-child(5),
+            td:nth-child(5) {
+                width: 17%;
+            }
+
+            th:nth-child(6),
+            td:nth-child(6) {
+                width: 13%;
+            }
+
+
+            /* STATUS */
+
+            .status-select {
+                font-size: 8px;
+                padding: 4px 1px;
+            }
+
+
+            /* ACTION */
+
+            .details-btn,
+            .delete-btn {
+                width: 100%;
+                height: 26px;
+                font-size: 8px;
+            }
+
+            .action-buttons form {
+                width: 100%;
             }
 
         }
 
 
-        @media (max-width: 500px) {
+        /* =========================
+           VERY SMALL SCREEN
+        ========================= */
 
-            .stats {
+        @media (max-width: 380px) {
 
-                grid-template-columns: 1fr;
+            th,
+            td {
+                font-size: 8px;
+                padding: 6px 1px;
+            }
 
+            th {
+                font-size: 8px;
+            }
+
+            .status-select {
+                font-size: 7px;
+            }
+
+            .details-btn,
+            .delete-btn {
+                height: 24px;
+                font-size: 7px;
             }
 
         }
@@ -558,14 +600,8 @@
 <body>
 
 
-    <!-- =========================
-         PAGE TITLE
-    ========================= -->
-
     <h1>
-
-        🚗 Golden Car Glass - Bookings
-
+        Golden Car Glass - Bookings
     </h1>
 
 
@@ -576,16 +612,11 @@
     <div class="top-buttons">
 
         <a href="/" class="home-btn">
-
-            🏠 Back to Home
-
+            Back to Home
         </a>
 
-
         <a href="/logout" class="logout-btn">
-
-            🚪 Logout
-
+            Logout
         </a>
 
     </div>
@@ -597,23 +628,14 @@
 
     <div class="stats">
 
-
         <div
-            class="stat-box"
+            class="stat-box total-box"
             onclick="filterByStatus('All')"
         >
 
-            <h2>
+            <h2>Total Bookings</h2>
 
-                📋 Total Bookings
-
-            </h2>
-
-            <p>
-
-                {{ total_bookings }}
-
-            </p>
+            <p>{{ total_bookings }}</p>
 
         </div>
 
@@ -623,17 +645,9 @@
             onclick="filterByStatus('Pending')"
         >
 
-            <h2>
+            <h2>Pending</h2>
 
-                🟡 Pending
-
-            </h2>
-
-            <p>
-
-                {{ pending_bookings }}
-
-            </p>
+            <p>{{ pending_bookings }}</p>
 
         </div>
 
@@ -643,17 +657,9 @@
             onclick="filterByStatus('In Progress')"
         >
 
-            <h2>
+            <h2>In Progress</h2>
 
-                🔵 In Progress
-
-            </h2>
-
-            <p>
-
-                {{ in_progress_bookings }}
-
-            </p>
+            <p>{{ in_progress_bookings }}</p>
 
         </div>
 
@@ -663,17 +669,9 @@
             onclick="filterByStatus('Completed')"
         >
 
-            <h2>
+            <h2>Completed</h2>
 
-                🟢 Completed
-
-            </h2>
-
-            <p>
-
-                {{ completed_bookings }}
-
-            </p>
+            <p>{{ completed_bookings }}</p>
 
         </div>
 
@@ -683,85 +681,57 @@
             onclick="filterByStatus('Cancelled')"
         >
 
-            <h2>
+            <h2>Cancelled</h2>
 
-                🔴 Cancelled
-
-            </h2>
-
-            <p>
-
-                {{ cancelled_bookings }}
-
-            </p>
+            <p>{{ cancelled_bookings }}</p>
 
         </div>
-
 
     </div>
 
 
     <!-- =========================
-         SEARCH + FILTER
+         SEARCH
     ========================= -->
 
     <div class="search-box">
-
 
         <div class="search-input-wrapper">
 
             <span class="search-icon">🔍</span>
 
             <input
-            type="text"
-            id="searchInput"
-            placeholder="Search booking no., customer, mobile, car..."
-    >
+                type="text"
+                id="searchInput"
+                placeholder="Search booking no., name, mobile..."
+            >
 
         </div>
 
 
-        <select
-            id="statusFilter"
-            class="status-filter"
-        >
+        <select id="statusFilter">
 
             <option value="All">
-
                 All Statuses
-
             </option>
-
 
             <option value="Pending">
-
-                🟡 Pending
-
+                Pending
             </option>
-
 
             <option value="In Progress">
-
-                🔵 In Progress
-
+                In Progress
             </option>
-
 
             <option value="Completed">
-
-                🟢 Completed
-
+                Completed
             </option>
 
-
             <option value="Cancelled">
-
-                🔴 Cancelled
-
+                Cancelled
             </option>
 
         </select>
-
 
     </div>
 
@@ -773,20 +743,15 @@
     <div
         id="noResults"
         class="no-results"
-        style="display: none;"
+        style="display:none;"
     >
 
         <h3>
-
-            🔍 Booking Not Found
-
+            Booking Not Found
         </h3>
 
-
         <p id="noResultsText">
-
             Koi matching booking nahi mili.
-
         </p>
 
     </div>
@@ -798,151 +763,141 @@
 
     <div class="container">
 
-
         {% if bookings %}
 
+        <div class="table-wrapper">
 
-            <div class="table-wrapper">
+            <table>
 
+                <thead>
 
-                <table>
+                    <tr>
 
+                        <th>Booking No.</th>
+                        <th>Name</th>
+                        <th>Mobile</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Action</th>
 
-                    <thead>
+                    </tr>
 
-                        <tr>
-
-                            <th>Booking No.</th>
-
-                            <th>Name</th>
-
-                            <th>Mobile</th>
-
-                            <th>Car Model</th>
-
-                            <th>Glass Type</th>
-
-                            <th>Date</th>
-
-                            <th>Message</th>
-
-                            <th>Status</th>
-
-                            <th>Action</th>
-
-                        </tr>
-
-                    </thead>
+                </thead>
 
 
-                    <tbody>
+                <tbody>
+
+                    {% for booking in bookings %}
+
+                    <tr
+                        class="booking-row"
+                        data-booking-number="{{ booking[0] }}"
+                    >
+
+                        <td>
+                            {{ booking[0] }}
+                        </td>
+
+                        <td>
+                            {{ booking[1] }}
+                        </td>
+
+                        <td>
+                            {{ booking[2] }}
+                        </td>
+
+                        <td>
+                            {{ booking[5] }}
+                        </td>
 
 
-                        {% for booking in bookings %}
+                        <!-- STATUS -->
 
+                        <td>
 
-                        <tr class="booking-row">
-
-
-                            <!-- =========================
-                                 ACTUAL BOOKING NUMBER
-                            ========================= -->
-
-                            <td
-                                class="booking-id"
-                                data-booking-number="{{ loop.index }}"
+                            <form
+                                class="status-form"
+                                action="{{ url_for('update_status', id=booking[0]) }}"
+                                method="POST"
                             >
-                                {{ loop.index }}
-                            </td>
+
+                                <input
+                                    type="hidden"
+                                    name="csrf_token"
+                                    value="{{ csrf_token() }}"
+                                >
 
 
-                            <!-- NAME -->
+                                <select
+                                    class="status-select"
+                                    name="status"
+                                    onchange="this.form.submit()"
+                                >
 
-                            <td>
-
-                                {{ booking[1] }}
-
-                            </td>
-
-
-                            <!-- MOBILE -->
-
-                            <td>
-
-                                {{ booking[2] }}
-
-                            </td>
+                                    <option
+                                        value="Pending"
+                                        {% if booking[7] == "Pending" %}
+                                        selected
+                                        {% endif %}
+                                    >
+                                        Pending
+                                    </option>
 
 
-                            <!-- CAR MODEL -->
-
-                            <td>
-
-                                {{ booking[3] }}
-
-                            </td>
-
-
-                            <!-- GLASS TYPE -->
-
-                            <td>
-
-                                {{ booking[4] }}
-
-                            </td>
+                                    <option
+                                        value="In Progress"
+                                        {% if booking[7] == "In Progress" %}
+                                        selected
+                                        {% endif %}
+                                    >
+                                        In Progress
+                                    </option>
 
 
-                            <!-- DATE -->
-
-                            <td>
-
-                                {{ booking[5][8:10] }}
-
-                                {{
-
-                                    [
-                                        "Jan",
-                                        "Feb",
-                                        "Mar",
-                                        "Apr",
-                                        "May",
-                                        "Jun",
-                                        "Jul",
-                                        "Aug",
-                                        "Sep",
-                                        "Oct",
-                                        "Nov",
-                                        "Dec"
-                                    ]
-
-                                    [booking[5][5:7]|int - 1]
-
-                                }}
-
-                                {{ booking[5][0:4] }}
-
-                            </td>
+                                    <option
+                                        value="Completed"
+                                        {% if booking[7] == "Completed" %}
+                                        selected
+                                        {% endif %}
+                                    >
+                                        Completed
+                                    </option>
 
 
-                            <!-- MESSAGE -->
+                                    <option
+                                        value="Cancelled"
+                                        {% if booking[7] == "Cancelled" %}
+                                        selected
+                                        {% endif %}
+                                    >
+                                        Cancelled
+                                    </option>
 
-                            <td>
+                                </select>
 
-                                {{ booking[6] }}
+                            </form>
 
-                            </td>
+                        </td>
 
 
-                            <!-- STATUS -->
+                        <!-- ACTION -->
 
-                            <td>
+                        <td>
+
+                            <div class="action-buttons">
+
+                                <a
+                                    href="{{ url_for('view_booking', id=booking[0]) }}"
+                                    class="details-btn"
+                                >
+                                    Details
+                                </a>
 
 
                                 <form
-                                    class="status-form"
-                                    data-booking-id="{{ booking[0] }}"
+                                    action="{{ url_for('delete_booking', id=booking[0]) }}"
+                                    method="POST"
                                 >
-
 
                                     <input
                                         type="hidden"
@@ -951,566 +906,295 @@
                                     >
 
 
-                                    <select
-                                        class="status-select"
-                                        name="status"
+                                    <button
+                                        type="submit"
+                                        class="delete-btn"
+                                        onclick="return confirm('Are you sure you want to delete this booking?')"
                                     >
-
-
-                                        <option
-                                            value="Pending"
-
-                                            {% if booking[7] == "Pending" %}
-
-                                            selected
-
-                                            {% endif %}
-                                        >
-
-                                            🟡 Pending
-
-                                        </option>
-
-
-                                        <option
-                                            value="In Progress"
-
-                                            {% if booking[7] == "In Progress" %}
-
-                                            selected
-
-                                            {% endif %}
-                                        >
-
-                                            🔵 In Progress
-
-                                        </option>
-
-
-                                        <option
-                                            value="Completed"
-
-                                            {% if booking[7] == "Completed" %}
-
-                                            selected
-
-                                            {% endif %}
-                                        >
-
-                                            🟢 Completed
-
-                                        </option>
-
-
-                                        <option
-                                            value="Cancelled"
-
-                                            {% if booking[7] == "Cancelled" %}
-
-                                            selected
-
-                                            {% endif %}
-                                        >
-
-                                            🔴 Cancelled
-
-                                        </option>
-
-
-                                    </select>
-
+                                        Delete
+                                    </button>
 
                                 </form>
 
+                            </div>
 
-                            </td>
+                        </td>
 
+                    </tr>
 
-                            <!-- ACTION -->
+                    {% endfor %}
 
-                            <td>
+                </tbody>
 
+            </table>
 
-                                <div class="action-buttons">
-
-
-                                    <!-- DETAILS -->
-
-                                    <a
-                                        href="/booking/{{ booking[0] }}"
-                                        class="view-btn"
-                                    >
-
-                                        🔎 Details
-
-                                    </a>
-
-
-                                    <!-- DELETE -->
-
-                                    <form
-                                        action="/delete/{{ booking[0] }}"
-                                        method="POST"
-                                    >
-
-
-                                        <input
-                                            type="hidden"
-                                            name="csrf_token"
-                                            value="{{ csrf_token() }}"
-                                        >
-
-
-                                        <button
-                                            class="delete-btn"
-                                            type="submit"
-
-                                            onclick="return confirm('Are you sure you want to delete this booking?')"
-                                        >
-
-                                            🗑️ Delete
-
-                                        </button>
-
-
-                                    </form>
-
-
-                                </div>
-
-
-                            </td>
-
-
-                        </tr>
-
-
-                        {% endfor %}
-
-
-                    </tbody>
-
-
-                </table>
-
-
-            </div>
+        </div>
 
 
         {% else %}
 
+        <div class="empty">
 
-            <!-- NO BOOKINGS -->
+            <h3>
+                No bookings found.
+            </h3>
 
-            <div class="empty">
+            <p>
+                Abhi koi booking database mein nahi hai.
+            </p>
 
-
-                <h3>
-
-                    No bookings found.
-
-                </h3>
-
-
-                <p>
-
-                    Abhi koi booking database mein nahi hai.
-
-                </p>
-
-
-            </div>
-
+        </div>
 
         {% endif %}
-
 
     </div>
 
 
-    <!-- =========================
-         JAVASCRIPT
-    ========================= -->
-
     <script>
 
-/* =========================
-   STATUS COLOR
-========================= */
 
-document
-    .querySelectorAll(".status-select")
-    .forEach(function(select) {
+        /* =========================
+           STATUS COLOR
+        ========================= */
 
-        function updateStatusColor() {
+        document.querySelectorAll(".status-select").forEach(function(select) {
 
-            select.style.backgroundColor = "";
+            function updateStatusColor() {
 
-            if (select.value === "Pending") {
+                select.classList.remove(
+                    "pending",
+                    "in-progress",
+                    "completed",
+                    "cancelled"
+                );
 
-                select.style.backgroundColor = "#fff3cd";
+
+                if (select.value === "Pending") {
+
+                    select.classList.add("pending");
+
+                }
+
+                else if (select.value === "In Progress") {
+
+                    select.classList.add("in-progress");
+
+                }
+
+                else if (select.value === "Completed") {
+
+                    select.classList.add("completed");
+
+                }
+
+                else if (select.value === "Cancelled") {
+
+                    select.classList.add("cancelled");
+
+                }
 
             }
 
-            else if (select.value === "In Progress") {
 
-                select.style.backgroundColor = "#cfe2ff";
-
-            }
-
-            else if (select.value === "Completed") {
-
-                select.style.backgroundColor = "#d1e7dd";
-
-            }
-
-            else if (select.value === "Cancelled") {
-
-                select.style.backgroundColor = "#f8d7da";
-
-            }
-
-        }
-
-        updateStatusColor();
-
-        select.addEventListener(
-            "change",
-            updateStatusColor
-        );
-
-    });
+            updateStatusColor();
 
 
-/* =========================
-   SEARCH ELEMENTS
-========================= */
+            select.addEventListener(
+                "change",
+                updateStatusColor
+            );
 
-const searchInput =
-    document.getElementById("searchInput");
-
-const statusFilter =
-    document.getElementById("statusFilter");
-
-const noResults =
-    document.getElementById("noResults");
-
-const noResultsText =
-    document.getElementById("noResultsText");
-
-
-/* =========================
-   FILTER BY STATUS
-========================= */
-
-function filterByStatus(status) {
-
-    statusFilter.value = status;
-
-    filterBookings();
-
-    document
-        .querySelector(".container")
-        .scrollIntoView({
-            behavior: "smooth"
         });
 
-}
 
+        /* =========================
+           ELEMENTS
+        ========================= */
 
-/* =========================
-   FILTER BOOKINGS
-========================= */
+        const searchInput =
+            document.getElementById("searchInput");
 
-function filterBookings() {
+        const statusFilter =
+            document.getElementById("statusFilter");
 
-    const searchValue =
-        searchInput.value
-            .trim()
-            .toLowerCase();
+        const noResults =
+            document.getElementById("noResults");
 
-    const selectedStatus =
-        statusFilter.value;
-
-    const rows =
-        document.querySelectorAll(
-            "tbody .booking-row"
-        );
-
-    let visibleRows = 0;
-
-
-    rows.forEach(function(row) {
+        const noResultsText =
+            document.getElementById("noResultsText");
 
 
         /* =========================
-           ACTUAL DISPLAY BOOKING NO.
+           FILTER BY STATUS
         ========================= */
 
-        const bookingCell =
-            row.querySelector(".booking-id");
+        function filterByStatus(status) {
+
+            statusFilter.value = status;
+
+            filterBookings();
 
 
-        const bookingNumber =
-            bookingCell
-                ? bookingCell
+            document.querySelector(".container").scrollIntoView({
+                behavior: "smooth"
+            });
+
+        }
+
+
+        /* =========================
+           SEARCH + STATUS FILTER
+        ========================= */
+
+        function filterBookings() {
+
+            const searchValue =
+                searchInput.value.trim().toLowerCase();
+
+            const selectedStatus =
+                statusFilter.value;
+
+            const rows =
+                document.querySelectorAll(".booking-row");
+
+            let visibleRows = 0;
+
+
+            rows.forEach(function(row) {
+
+                const bookingNumber =
+                    row
                     .getAttribute("data-booking-number")
-                    .trim()
-                    .toLowerCase()
-                : "";
+                    .toLowerCase();
 
 
-        /* =========================
-           OTHER ROW DATA
-        ========================= */
+                const rowText =
+                    row.innerText.toLowerCase();
 
-        const rowText =
-            row.innerText
-                .trim()
-                .toLowerCase();
 
+                const statusSelect =
+                    row.querySelector(".status-select");
 
-        /* =========================
-           STATUS
-        ========================= */
 
-        const statusSelect =
-            row.querySelector(
-                ".status-select"
-            );
+                const rowStatus =
+                    statusSelect
+                    ? statusSelect.value
+                    : "";
 
 
-        const rowStatus =
-            statusSelect
-                ? statusSelect.value
-                : "";
+                let searchMatch;
 
 
-        /* =========================
-           SEARCH MATCH
-        ========================= */
+                /* BOOKING NUMBER */
 
-        let searchMatch = false;
+                if (
+                    searchValue !== "" &&
+                    /^\d+$/.test(searchValue)
+                ) {
 
+                    searchMatch =
+                        bookingNumber === searchValue;
 
-if (searchValue === "") {
+                }
 
-    searchMatch = true;
 
-}
+                /* NAME / MOBILE / OTHER */
 
-else if (/^\d+$/.test(searchValue)) {
+                else {
 
-    searchMatch =
-        bookingNumber === searchValue;
+                    searchMatch =
+                        searchValue === "" ||
+                        rowText.includes(searchValue);
 
-}
+                }
 
-else {
 
-    searchMatch =
-        rowText.includes(searchValue);
+                /* STATUS */
 
-}
+                const statusMatch =
+                    selectedStatus === "All" ||
+                    rowStatus === selectedStatus;
 
 
-        /* =========================
-           STATUS MATCH
-        ========================= */
+                /* SHOW / HIDE */
 
-        const statusMatch =
-            selectedStatus === "All" ||
-            rowStatus === selectedStatus;
+                if (
+                    searchMatch &&
+                    statusMatch
+                ) {
 
+                    row.style.display = "";
 
-        /* =========================
-           SHOW / HIDE
-        ========================= */
+                    visibleRows++;
 
-        if (
-            searchMatch &&
-            statusMatch
-        ) {
+                }
 
-            row.style.display = "";
+                else {
 
-            visibleRows++;
+                    row.style.display = "none";
 
-        }
+                }
 
-        else {
+            });
 
-            row.style.display = "none";
 
-        }
+            /* =========================
+               NO RESULTS
+            ========================= */
 
-    });
+            if (visibleRows === 0) {
 
+                noResults.style.display = "block";
 
-    /* =========================
-       NO RESULTS MESSAGE
-    ========================= */
 
-    if (visibleRows === 0) {
+                if (searchValue !== "") {
 
-        noResults.style.display = "block";
+                    noResultsText.innerText =
+                        "Booking No. " +
+                        searchValue +
+                        " not found. Please enter a valid booking number.";
 
+                }
 
-        if (searchValue !== "") {
+                else {
 
-            noResultsText.innerText =
-                "Booking No. " +
-                searchValue +
-                " not found. Please enter a valid booking number.";
+                    noResultsText.innerText =
+                        "Is status ke liye koi booking nahi mili.";
 
-        }
-
-        else if (
-            selectedStatus !== "All"
-        ) {
-
-            noResultsText.innerText =
-                "Is status ke liye koi booking nahi mili.";
-
-        }
-
-        else {
-
-            noResultsText.innerText =
-                "Koi matching booking nahi mili.";
-
-        }
-
-    }
-
-    else {
-
-        noResults.style.display = "none";
-
-    }
-
-}
-
-
-/* =========================
-   SEARCH EVENT
-========================= */
-
-searchInput.addEventListener(
-    "input",
-    filterBookings
-);
-
-
-/* =========================
-   STATUS FILTER EVENT
-========================= */
-
-statusFilter.addEventListener(
-    "change",
-    filterBookings
-);
-
-
-/* =========================
-   UPDATE STATUS
-   WITHOUT PAGE RELOAD
-========================= */
-
-document
-    .querySelectorAll(".status-form")
-    .forEach(function(form) {
-
-
-        const select =
-            form.querySelector(
-                ".status-select"
-            );
-
-
-        select.addEventListener(
-            "change",
-            function() {
-
-
-                /* =========================
-                   DATABASE ID
-                   STATUS UPDATE KE LIYE
-                ========================= */
-
-                const bookingId =
-                    form.dataset.bookingId;
-
-
-                const status =
-                    select.value;
-
-
-                const csrfToken =
-                    form.querySelector(
-                        'input[name="csrf_token"]'
-                    ).value;
-
-
-                fetch(
-                    "/update_status/" +
-                    bookingId,
-                    {
-
-                        method: "POST",
-
-                        headers: {
-
-                            "Content-Type":
-                                "application/x-www-form-urlencoded"
-
-                        },
-
-                        body:
-                            new URLSearchParams({
-
-                                status:
-                                    status,
-
-                                csrf_token:
-                                    csrfToken
-
-                            })
-
-                    }
-                )
-
-
-                .then(function(response) {
-
-                    if (!response.ok) {
-
-                        throw new Error(
-                            "Status update failed"
-                        );
-
-                    }
-
-                })
-
-
-                .catch(function(error) {
-
-                    console.error(error);
-
-                    alert(
-                        "Status update failed."
-                    );
-
-                });
+                }
 
             }
 
+            else {
+
+                noResults.style.display = "none";
+
+            }
+
+        }
+
+
+        /* =========================
+           SEARCH
+        ========================= */
+
+        searchInput.addEventListener(
+            "input",
+            filterBookings
         );
 
-    });
 
-</script>
+        /* =========================
+           STATUS FILTER
+        ========================= */
+
+        statusFilter.addEventListener(
+            "change",
+            filterBookings
+        );
+
+
+    </script>
 
 
 </body>

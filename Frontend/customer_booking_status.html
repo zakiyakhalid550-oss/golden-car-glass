@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Booking Status - Golden Car Glass</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            color: #222;
+            min-height: 100vh;
+        }
+
+        nav {
+            background: #111;
+            color: white;
+            padding: 20px 50px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav h2 {
+            color: #f5c518;
+            font-size: 24px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+        nav a:hover {
+            color: #f5c518;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .status-box {
+            background: white;
+
+            padding: 38px 35px;
+
+            border-radius: 16px;
+
+            box-shadow:
+                0 4px 18px rgba(0,0,0,0.12);
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .title h1 {
+            font-size: 30px;
+            margin-bottom: 12px;
+        }
+
+        .booking-number {
+            display: inline-block;
+
+            background: #fff3cd;
+
+            padding: 11px 20px;
+
+            border-radius: 9px;
+
+            font-weight: bold;
+            font-size: 16px;
+
+            color: #222;
+        }
+
+        .details {
+            margin-top: 25px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+
+            gap: 20px;
+
+            padding: 15px 0;
+
+            border-bottom: 1px solid #eee;
+
+            font-size: 16px;
+        }
+
+        .label {
+            color: #666;
+        }
+
+        .value {
+            font-weight: bold;
+            text-align: right;
+        }
+
+        .status-section {
+            text-align: center;
+
+            margin-top: 32px;
+
+            padding: 30px 20px;
+
+            border-radius: 14px;
+
+            background: #f8f8f8;
+        }
+
+        .status-section h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .status {
+            display: inline-block;
+
+            padding: 12px 26px;
+
+            border-radius: 30px;
+
+            font-size: 19px;
+
+            font-weight: bold;
+        }
+
+        .pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .progress {
+            background: #cfe2ff;
+            color: #084298;
+        }
+
+        .completed {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .cancelled {
+            background: #f8d7da;
+            color: #842029;
+        }
+
+        .message {
+            margin-top: 18px;
+
+            color: #555;
+
+            font-size: 16px;
+
+            line-height: 1.6;
+        }
+
+        .buttons {
+            display: flex;
+
+            justify-content: center;
+
+            gap: 14px;
+
+            margin-top: 30px;
+
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+
+            padding: 14px 22px;
+
+            border-radius: 9px;
+
+            text-decoration: none;
+
+            font-size: 15px;
+
+            font-weight: bold;
+        }
+
+        .home-btn {
+            background: #222;
+            color: white;
+        }
+
+        .call-btn {
+            background: #f5c518;
+            color: #111;
+        }
+
+        .home-btn:hover {
+            background: #444;
+        }
+
+        .call-btn:hover {
+            background: #d4a900;
+        }
+
+
+        /* =========================
+           MOBILE DESIGN
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            nav {
+                padding: 16px 18px;
+
+                flex-direction: row;
+
+                gap: 10px;
+            }
+
+            nav h2 {
+                font-size: 20px;
+            }
+
+            nav a {
+                font-size: 14px;
+            }
+
+            .container {
+                width: 100%;
+
+                margin: 22px auto;
+
+                padding: 12px;
+            }
+
+            .status-box {
+                width: 100%;
+
+                padding: 30px 20px;
+
+                border-radius: 16px;
+
+                box-shadow:
+                    0 4px 18px rgba(0,0,0,0.12);
+            }
+
+            .title {
+                margin-bottom: 28px;
+            }
+
+            .title h1 {
+                font-size: 29px;
+
+                line-height: 1.25;
+
+                margin-bottom: 14px;
+            }
+
+            .booking-number {
+                font-size: 17px;
+
+                padding: 12px 20px;
+            }
+
+            .details {
+                margin-top: 28px;
+            }
+
+            .detail-row {
+                font-size: 16px;
+
+                padding: 16px 0;
+
+                gap: 15px;
+            }
+
+            .label {
+                flex: 1;
+            }
+
+            .value {
+                flex: 1.4;
+
+                word-break: break-word;
+            }
+
+            .status-section {
+                margin-top: 30px;
+
+                padding: 30px 15px;
+
+                border-radius: 14px;
+            }
+
+            .status-section h3 {
+                font-size: 19px;
+
+                margin-bottom: 16px;
+            }
+
+            .status {
+                font-size: 19px;
+
+                padding: 13px 28px;
+            }
+
+            .message {
+                font-size: 16px;
+
+                line-height: 1.6;
+
+                margin-top: 18px;
+            }
+
+            .buttons {
+                margin-top: 30px;
+
+                flex-direction: column;
+
+                gap: 12px;
+            }
+
+            .btn {
+                width: 100%;
+
+                text-align: center;
+
+                padding: 15px 18px;
+
+                font-size: 16px;
+
+                border-radius: 9px;
+            }
+        }
+
+
+        /* Extra small phones */
+
+        @media (max-width: 380px) {
+
+            .status-box {
+                padding: 26px 16px;
+            }
+
+            .title h1 {
+                font-size: 26px;
+            }
+
+            .booking-number {
+                font-size: 16px;
+            }
+
+            .detail-row {
+                font-size: 15px;
+            }
+
+            .status {
+                font-size: 18px;
+            }
+
+            .message {
+                font-size: 15px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <nav>
+
+        <h2>
+            Golden Car Glass
+        </h2>
+
+        <a href="/">
+            Home
+        </a>
+
+    </nav>
+
+
+
+    <div class="container">
+
+        <div class="status-box">
+
+
+            <div class="title">
+
+                <h1>
+                    Booking Status
+                </h1>
+
+                <span class="booking-number">
+                    Booking #{{ booking["id"] }}
+                </span>
+
+            </div>
+
+
+
+            <div class="details">
+
+
+                <div class="detail-row">
+
+                    <span class="label">
+                        Name
+                    </span>
+
+                    <span class="value">
+                        {{ booking["name"] }}
+                    </span>
+
+                </div>
+
+
+
+                <div class="detail-row">
+
+                    <span class="label">
+                        Car Model
+                    </span>
+
+                    <span class="value">
+                        {{ booking["car_model"] }}
+                    </span>
+
+                </div>
+
+
+
+                <div class="detail-row">
+
+                    <span class="label">
+                        Glass Type
+                    </span>
+
+                    <span class="value">
+                        {{ booking["glass_type"] }}
+                    </span>
+
+                </div>
+
+
+
+                <div class="detail-row">
+
+                    <span class="label">
+                        Service Date
+                    </span>
+
+                    <span class="value">
+                        {{ booking["date"] }}
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="status-section">
+
+                <h3>
+                    Current Status
+                </h3>
+
+
+                {% if booking["status"] == "Pending" %}
+
+                    <span class="status pending">
+                        🟡 Pending
+                    </span>
+
+                    <p class="message">
+                        Your booking has been received.
+                        Our team will contact you soon.
+                    </p>
+
+
+                {% elif booking["status"] == "In Progress" %}
+
+                    <span class="status progress">
+                        🔵 In Progress
+                    </span>
+
+                    <p class="message">
+                        Your service is currently in progress.
+                    </p>
+
+
+                {% elif booking["status"] == "Completed" %}
+
+                    <span class="status completed">
+                        🟢 Completed
+                    </span>
+
+                    <p class="message">
+                        Your service has been completed successfully.
+                    </p>
+
+
+                {% elif booking["status"] == "Cancelled" %}
+
+                    <span class="status cancelled">
+                        🔴 Cancelled
+                    </span>
+
+                    <p class="message">
+                        This booking has been cancelled.
+                        Please contact Golden Car Glass
+                        if you need assistance.
+                    </p>
+
+
+                {% else %}
+
+                    <span class="status pending">
+                        {{ booking["status"] }}
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+
+
+            <div class="buttons">
+
+
+                <a
+                    href="tel:+919326337979"
+                    class="btn call-btn"
+                >
+                    📞 Call Golden Car Glass
+                </a>
+
+
+                <a
+                    href="/"
+                    class="btn home-btn"
+                >
+                    🏠 Back to Home
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+</body>
+
+</html>

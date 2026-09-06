@@ -57,6 +57,49 @@
             color: #333;
         }
 
+        /* =========================
+           USERNAME SUGGESTIONS
+        ========================= */
+
+        .username-wrapper {
+            position: relative;
+        }
+
+        .username-wrapper input {
+            width: 100%;
+        }
+
+        .username-suggestions {
+            display: none;
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            width: 100%;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.10);
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        .username-suggestion {
+            padding: 11px 13px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #333;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .username-suggestion:last-child {
+            border-bottom: none;
+        }
+
+        .username-suggestion:hover {
+            background: #fff8df;
+            color: #ad8200;
+        }
+
         input {
             width: 100%;
             padding: 12px;
@@ -70,7 +113,65 @@
             border-color: #c99a00;
         }
 
-        button {
+        /* =========================
+           PASSWORD FIELD
+        ========================= */
+
+        .password-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .password-wrapper input {
+            padding-right: 52px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 7px;
+            top: 50%;
+            transform: translateY(-50%);
+
+            width: 38px;
+            height: 38px;
+
+            padding: 0;
+            border: none;
+            background: transparent;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            cursor: pointer;
+        }
+
+        .toggle-password:hover {
+            background: transparent;
+        }
+
+        .lock-icon {
+            width: 23px;
+            height: 23px;
+            stroke: #c99a00;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
+
+            transition: 0.2s ease;
+        }
+
+        .toggle-password:hover .lock-icon {
+            stroke: #ad8200;
+            transform: scale(1.08);
+        }
+
+        /* =========================
+           LOGIN BUTTON
+        ========================= */
+
+        button.login-button {
             width: 100%;
             padding: 13px;
             border: none;
@@ -82,9 +183,13 @@
             cursor: pointer;
         }
 
-        button:hover {
+        button.login-button:hover {
             background: #ad8200;
         }
+
+        /* =========================
+           BACK HOME
+        ========================= */
 
         .back-home {
             text-align: center;
@@ -114,68 +219,395 @@
 
         <form method="POST" action="/login">
 
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input
+                type="hidden"
+                name="csrf_token"
+                value="{{ csrf_token() }}"
+            >
+
+            <!-- =========================
+                 USERNAME
+            ========================== -->
 
             <div class="form-group">
-                <label for="username">Username</label>
 
-                <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    placeholder="Enter admin username"
-                    required
-                    autocomplete="username"
-                >
+                <label for="username">
+                    Username
+                </label>
+
+                <div class="username-wrapper">
+
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Enter admin username"
+                        required
+                        autocomplete="off"
+                    >
+
+                    <div
+                        id="usernameSuggestions"
+                        class="username-suggestions"
+                    ></div>
+
+                </div>
+
             </div>
+
+
+            <!-- =========================
+                 PASSWORD
+            ========================== -->
 
             <div class="form-group">
-                <label for="password">Password</label>
 
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="Enter admin password"
-                    required
-                    autocomplete="current-password"
-                >
+                <label for="password">
+                    Password
+                </label>
+
+                <div class="password-wrapper">
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter admin password"
+                        required
+                        autocomplete="current-password"
+                    >
+
+                    <button
+                        type="button"
+                        class="toggle-password"
+                        id="togglePassword"
+                        aria-label="Show password"
+                        title="Show password"
+                    >
+
+                        <svg
+                            id="lockIcon"
+                            class="lock-icon"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+
+                            <rect
+                                x="5"
+                                y="10"
+                                width="14"
+                                height="10"
+                                rx="2"
+                            ></rect>
+
+                            <path
+                                d="M8 10V7a4 4 0 0 1 8 0v3"
+                            ></path>
+
+                        </svg>
+
+                    </button>
+
+                </div>
+
             </div>
 
-            <button type="submit">
+
+            <!-- =========================
+                 LOGIN
+            ========================== -->
+
+            <button
+                type="submit"
+                class="login-button"
+            >
                 Login
             </button>
 
         </form>
 
+
         <div class="back-home">
-            <a href="/">← Back to Home</a>
+            <a href="/">
+                ← Back to Home
+            </a>
         </div>
 
     </div>
 
+
 <script>
-    const usernameInput = document.getElementById("username");
-    const loginForm = document.querySelector("form");
 
-    // Saved username automatically fill karo
-    const savedUsername = localStorage.getItem("goldenCarGlassUsername");
+    // ==========================================
+    // ELEMENTS
+    // ==========================================
 
-    if (savedUsername) {
-        usernameInput.value = savedUsername;
-    }
+    const usernameInput =
+        document.getElementById("username");
 
-    // Login ke time username save karo
-    loginForm.addEventListener("submit", function () {
+    const usernameSuggestions =
+        document.getElementById("usernameSuggestions");
 
-        if (usernameInput.value.trim() !== "") {
-            localStorage.setItem(
-                "goldenCarGlassUsername",
-                usernameInput.value.trim()
+    const loginForm =
+        document.querySelector("form");
+
+    const passwordInput =
+        document.getElementById("password");
+
+    const togglePassword =
+        document.getElementById("togglePassword");
+
+    const lockIcon =
+        document.getElementById("lockIcon");
+
+
+    // ==========================================
+    // USERNAME STORAGE
+    // ==========================================
+
+    let savedUsernames =
+        JSON.parse(
+            localStorage.getItem(
+                "goldenCarGlassUsernames"
+            )
+        ) || [];
+
+
+    // ==========================================
+    // SHOW USERNAME SUGGESTIONS
+    // ==========================================
+
+    usernameInput.addEventListener(
+        "input",
+        function () {
+
+            const typedText =
+                usernameInput.value
+                    .trim()
+                    .toLowerCase();
+
+            usernameSuggestions.innerHTML = "";
+
+            if (typedText.length === 0) {
+
+                usernameSuggestions.style.display =
+                    "none";
+
+                return;
+            }
+
+
+            const matchingUsernames =
+                savedUsernames.filter(
+                    function (username) {
+
+                        return username
+                            .toLowerCase()
+                            .startsWith(typedText);
+
+                    }
+                );
+
+
+            if (matchingUsernames.length === 0) {
+
+                usernameSuggestions.style.display =
+                    "none";
+
+                return;
+            }
+
+
+            matchingUsernames.forEach(
+                function (username) {
+
+                    const suggestion =
+                        document.createElement("div");
+
+                    suggestion.className =
+                        "username-suggestion";
+
+                    suggestion.textContent =
+                        username;
+
+
+                    suggestion.addEventListener(
+                        "click",
+                        function () {
+
+                            usernameInput.value =
+                                username;
+
+                            usernameSuggestions.style.display =
+                                "none";
+
+                        }
+                    );
+
+
+                    usernameSuggestions.appendChild(
+                        suggestion
+                    );
+
+                }
             );
-        }
 
-    });
+
+            usernameSuggestions.style.display =
+                "block";
+
+        }
+    );
+
+
+    // ==========================================
+    // CLOSE SUGGESTIONS WHEN CLICKING OUTSIDE
+    // ==========================================
+
+    document.addEventListener(
+        "click",
+        function (event) {
+
+            if (
+                !event.target.closest(
+                    ".username-wrapper"
+                )
+            ) {
+
+                usernameSuggestions.style.display =
+                    "none";
+
+            }
+
+        }
+    );
+
+
+    // ==========================================
+    // PASSWORD SHOW / HIDE
+    // ==========================================
+
+    togglePassword.addEventListener(
+        "click",
+        function () {
+
+            if (
+                passwordInput.type === "password"
+            ) {
+
+                // Show password
+                passwordInput.type = "text";
+
+
+                // UNLOCK ICON
+                lockIcon.innerHTML = `
+                    <rect
+                        x="5"
+                        y="10"
+                        width="14"
+                        height="10"
+                        rx="2"
+                    ></rect>
+
+                    <path
+                        d="M8 10V7a4 4 0 0 1 6.8-2.8"
+                    ></path>
+                `;
+
+
+                togglePassword.setAttribute(
+                    "aria-label",
+                    "Hide password"
+                );
+
+                togglePassword.setAttribute(
+                    "title",
+                    "Hide password"
+                );
+
+            } else {
+
+                // Hide password
+                passwordInput.type = "password";
+
+
+                // LOCK ICON
+                lockIcon.innerHTML = `
+                    <rect
+                        x="5"
+                        y="10"
+                        width="14"
+                        height="10"
+                        rx="2"
+                    ></rect>
+
+                    <path
+                        d="M8 10V7a4 4 0 0 1 8 0v3"
+                    ></path>
+                `;
+
+
+                togglePassword.setAttribute(
+                    "aria-label",
+                    "Show password"
+                );
+
+                togglePassword.setAttribute(
+                    "title",
+                    "Show password"
+                );
+
+            }
+
+        }
+    );
+
+
+    // ==========================================
+    // SAVE USERNAME AFTER LOGIN
+    // ==========================================
+
+    loginForm.addEventListener(
+        "submit",
+        function () {
+
+            const username =
+                usernameInput.value.trim();
+
+
+            if (username !== "") {
+
+                // Duplicate username avoid karo
+                const alreadyExists =
+                    savedUsernames.some(
+                        function (savedUsername) {
+
+                            return savedUsername
+                                .toLowerCase() ===
+                                username.toLowerCase();
+
+                        }
+                    );
+
+
+                if (!alreadyExists) {
+
+                    savedUsernames.push(username);
+
+                    localStorage.setItem(
+                        "goldenCarGlassUsernames",
+                        JSON.stringify(
+                            savedUsernames
+                        )
+                    );
+
+                }
+
+            }
+
+        }
+    );
+
 </script>
 
 </body>

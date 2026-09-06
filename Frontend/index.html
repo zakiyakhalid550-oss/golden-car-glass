@@ -1,6 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- PWA / APP ICON -->
+
+<link rel="manifest" href="/manifest.json">
+
+<link
+    rel="icon"
+    type="image/png"
+    sizes="192x192"
+    href="/icons/icon-192.png"
+>
+
+<link
+    rel="icon"
+    type="image/png"
+    sizes="512x512"
+    href="/icons/icon-512.png"
+>
+
+<link
+    rel="apple-touch-icon"
+    href="/icons/icon-192.png"
+>
+
+<meta
+    name="theme-color"
+    content="#111111"
+>
+
+<meta
+    name="mobile-web-app-capable"
+    content="yes"
+>
+
+<meta
+    name="apple-mobile-web-app-capable"
+    content="yes"
+>
+
+<meta
+    name="apple-mobile-web-app-status-bar-style"
+    content="black"
+>
+
+<meta
+    name="apple-mobile-web-app-title"
+    content="Golden Car Glass"
+>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -14,7 +61,7 @@
         }
 
         html {
-        scroll-behavior: smooth;
+            scroll-behavior: smooth;
         }
 
         body {
@@ -23,34 +70,65 @@
             color: #222;
         }
 
-        /* Navbar */
+
+        /* =========================
+           NAVBAR
+        ========================== */
+
         nav {
             background: #111;
             color: white;
             padding: 20px 50px;
+
             display: flex;
             justify-content: space-between;
             align-items: center;
+
+            gap: 20px;
         }
 
         nav h2 {
             color: #f5c518;
+            white-space: nowrap;
+            font-size: 24px;
+        }
+
+        nav div {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+
+            flex-wrap: wrap;
+            gap: 18px;
         }
 
         nav a {
             color: white;
             text-decoration: none;
-            margin-left: 25px;
+            font-size: 15px;
+            font-weight: normal;
         }
 
-        /* Hero Section */
+        nav a:hover {
+            color: #f5c518;
+        }
+
+
+        /* =========================
+           HERO SECTION
+        ========================== */
+
         .hero {
             min-height: 500px;
+
             display: flex;
             justify-content: center;
             align-items: center;
+
             text-align: center;
-            padding: 40px;
+
+            padding: 40px 20px;
+
             background: white;
         }
 
@@ -67,15 +145,22 @@
             font-size: 20px;
             color: #555;
             margin-bottom: 30px;
+            font-weight: normal;
         }
 
         .btn {
             display: inline-block;
+
             background: #f5c518;
             color: #111;
+
             padding: 15px 30px;
+
             border-radius: 8px;
+
             text-decoration: none;
+
+            font-size: 16px;
             font-weight: bold;
         }
 
@@ -83,254 +168,1044 @@
             background: #d4a900;
         }
 
-        /* Services Section */
-.services {
-    padding: 70px 40px;
-    text-align: center;
-    background: #f5f5f5;
-}
 
-.services h2 {
-    font-size: 36px;
-    margin-bottom: 10px;
-}
+        /* =========================
+           SERVICES SECTION
+        ========================== */
 
-.services-subtitle {
-    color: #666;
-    margin-bottom: 40px;
-}
+        .services {
+            padding: 70px 40px;
 
-.service-container {
-    display: flex;
-    justify-content: center;
-    gap: 25px;
-    flex-wrap: wrap;
-}
+            text-align: center;
 
-.service-card {
-    background: white;
-    width: 280px;
-    padding: 30px 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
+            background: #f5f5f5;
+        }
 
-.service-card h3 {
-    margin-bottom: 15px;
-}
+        .services h2 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
 
-.service-card p {
-    color: #666;
-    line-height: 1.6;
-}
+        .services-subtitle {
+            color: #666;
 
-/* Booking Section */
-.booking {
-    padding: 70px 20px;
-    text-align: center;
-    background: white;
-}
+            font-size: 16px;
+            font-weight: normal;
 
-.booking h2 {
-    font-size: 36px;
-    margin-bottom: 10px;
-}
+            margin-bottom: 40px;
+        }
 
-.booking-subtitle {
-    color: #666;
-    margin-bottom: 35px;
-}
+        .service-container {
+            display: grid;
 
-.booking form {
-    max-width: 600px;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
+            grid-template-columns:
+                repeat(3, 280px);
 
-.booking input,
-.booking select,
-.booking textarea {
-    width: 100%;
-    padding: 14px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 16px;
-}
+            justify-content: center;
 
-.booking textarea {
-    min-height: 120px;
-    resize: vertical;
-}
+            gap: 25px;
+        }
 
-.booking button {
-    padding: 15px;
-    background: #f5c518;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-}
+        .service-card {
+            background: white;
 
-.booking button:hover {
-    background: #d4a900;
-}
+            width: 100%;
+
+            padding: 30px 20px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-card h3 {
+            margin-bottom: 15px;
+
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .service-card p {
+            color: #666;
+
+            font-size: 16px;
+            font-weight: normal;
+
+            line-height: 1.6;
+        }
+
+
+        /* =========================
+           BOOKING SECTION
+        ========================== */
+
+        .booking {
+            padding: 70px 20px;
+
+            text-align: center;
+
+            background: white;
+        }
+
+        .booking h2 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .booking-subtitle {
+            color: #666;
+
+            font-size: 16px;
+            font-weight: normal;
+
+            margin-bottom: 35px;
+        }
+
+        .booking form {
+            max-width: 600px;
+
+            margin: auto;
+
+            display: flex;
+            flex-direction: column;
+
+            gap: 15px;
+        }
+
+
+        /* =========================
+           ALL FORM FIELDS
+        ========================== */
+
+        .booking input,
+        .booking select,
+        .booking textarea {
+
+            width: 100%;
+
+            padding: 14px;
+
+            border: 1px solid #ddd;
+
+            border-radius: 8px;
+
+            font-family: Arial, sans-serif;
+
+            font-size: 16px;
+
+            font-weight: normal;
+
+            color: #222;
+
+            background: white;
+
+            outline: none;
+        }
+
+        .booking input:focus,
+        .booking select:focus,
+        .booking textarea:focus {
+
+            border-color: #c99a00;
+        }
+
+
+        /* Placeholder text */
+
+        .booking input::placeholder,
+        .booking textarea::placeholder {
+
+            font-family: Arial, sans-serif;
+
+            font-size: 16px;
+
+            font-weight: normal;
+
+            color: #777;
+        }
+
+
+        /* Select */
+
+        .booking select {
+
+            appearance: auto;
+
+            cursor: pointer;
+        }
+
+
+        .booking select option {
+
+            font-family: Arial, sans-serif;
+
+            font-size: 16px;
+
+            font-weight: normal;
+
+            color: #222;
+        }
+
+
+        /* =========================
+           DATE FIELD
+        ========================== */
+
+        .date-wrapper {
+            position: relative;
+
+            width: 100%;
+        }
+
+        .date-wrapper input {
+
+            width: 100%;
+
+            height: 49px;
+
+            font-family: Arial, sans-serif;
+
+            font-size: 16px;
+
+            font-weight: normal;
+
+            color: #777;
+
+            cursor: pointer;
+        }
+
+
+        /* Date placeholder */
+
+        .date-placeholder {
+
+            position: absolute;
+
+            left: 14px;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: #777;
+
+            font-family: Arial, sans-serif;
+
+            font-size: 16px;
+
+            font-weight: normal;
+
+            pointer-events: none;
+
+            background: white;
+
+            padding-right: 5px;
+
+            z-index: 1;
+        }
+
+
+        /* Hide placeholder after date selected */
+
+        .date-wrapper.has-date
+        .date-placeholder {
+
+            display: none;
+        }
+
+
+        /* =========================
+           TEXTAREA
+        ========================== */
+
+        .booking textarea {
+
+            min-height: 120px;
+
+            resize: vertical;
+        }
+
+
+        /* =========================
+           MOBILE ERROR
+        ========================== */
+
+        #mobileError {
+
+            display: none;
+
+            color: red;
+
+            margin: 0;
+
+            font-family: Arial, sans-serif;
+
+            font-size: 14px;
+
+            font-weight: normal;
+
+            text-align: left;
+        }
+
+
+        /* =========================
+           SUBMIT BUTTON
+        ========================== */
+
+        .booking button {
+
+            padding: 15px;
+
+            background: #f5c518;
+
+            border: none;
+
+            border-radius: 8px;
+
+            font-family: Arial, sans-serif;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            color: #111;
+
+            cursor: pointer;
+        }
+
+        .booking button:hover {
+
+            background: #d4a900;
+        }
+
+
+        /* =========================
+           MOBILE RESPONSIVE
+        ========================== */
+
+        @media (max-width: 768px) {
+
+
+            /* Navbar */
+
+            nav {
+
+                padding: 15px 18px;
+
+                flex-direction: column;
+
+                text-align: center;
+
+                gap: 12px;
+            }
+
+            nav h2 {
+
+                font-size: 21px;
+            }
+
+            nav div {
+
+                width: 100%;
+
+                justify-content: center;
+
+                gap: 8px 14px;
+            }
+
+            nav a {
+
+                font-size: 13px;
+            }
+
+
+            /* Hero */
+
+            .hero {
+
+                min-height: 400px;
+
+                padding: 35px 18px;
+            }
+
+            .hero h1 {
+
+                font-size: 38px;
+            }
+
+            .hero p {
+
+                font-size: 17px;
+
+                line-height: 1.5;
+            }
+
+            .btn {
+
+                padding: 13px 22px;
+
+                font-size: 15px;
+            }
+
+
+            /* Services */
+
+            .services {
+
+                padding: 50px 15px;
+            }
+
+            .services h2 {
+
+                font-size: 30px;
+            }
+
+            .services-subtitle {
+
+                font-size: 15px;
+
+                margin-bottom: 25px;
+            }
+
+
+            /* 2 columns */
+
+            .service-container {
+
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+
+                gap: 12px;
+            }
+
+            .service-card {
+
+                padding: 20px 12px;
+
+                border-radius: 10px;
+            }
+
+            .service-card h3 {
+
+                font-size: 15px;
+
+                line-height: 1.35;
+
+                margin-bottom: 10px;
+            }
+
+            .service-card p {
+
+                font-size: 13px;
+
+                line-height: 1.45;
+            }
+
+
+            /* Third card center */
+
+            .service-card:last-child {
+
+                grid-column: 1 / -1;
+
+                width: calc(50% - 6px);
+
+                justify-self: center;
+            }
+
+
+            /* Booking */
+
+            .booking {
+
+                padding: 50px 15px;
+            }
+
+            .booking h2 {
+
+                font-size: 30px;
+            }
+
+            .booking-subtitle {
+
+                font-size: 15px;
+
+                margin-bottom: 25px;
+            }
+
+            .booking form {
+
+                width: 100%;
+
+                gap: 13px;
+            }
+
+
+            /* Mobile form text same */
+
+            .booking input,
+            .booking select,
+            .booking textarea {
+
+                font-size: 15px;
+
+                padding: 13px;
+
+                font-weight: normal;
+            }
+
+            .booking input::placeholder,
+            .booking textarea::placeholder {
+
+                font-size: 15px;
+
+                font-weight: normal;
+            }
+
+            .booking select option {
+
+                font-size: 15px;
+
+                font-weight: normal;
+            }
+
+
+            /* Date */
+
+            .date-wrapper input {
+
+                height: 47px;
+
+                font-size: 15px;
+            }
+
+            .date-placeholder {
+
+                font-size: 15px;
+            }
+
+
+            /* Submit */
+
+            .booking button {
+
+                padding: 14px;
+
+                font-size: 15px;
+            }
+        }
+
+
+        /* =========================
+           SMALL MOBILE
+        ========================== */
+
+        @media (max-width: 420px) {
+
+            nav {
+
+                padding: 14px 10px;
+            }
+
+            nav h2 {
+
+                font-size: 20px;
+            }
+
+            nav div {
+
+                gap: 7px 10px;
+            }
+
+            nav a {
+
+                font-size: 12px;
+            }
+
+
+            .hero h1 {
+
+                font-size: 34px;
+            }
+
+            .hero p {
+
+                font-size: 16px;
+            }
+
+
+            .services {
+
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+
+            .service-container {
+
+                gap: 10px;
+            }
+
+            .service-card {
+
+                padding: 17px 9px;
+            }
+
+            .service-card h3 {
+
+                font-size: 14px;
+            }
+
+            .service-card p {
+
+                font-size: 12px;
+            }
+
+
+            /* Third card centered */
+
+            .service-card:last-child {
+
+                width: calc(50% - 5px);
+            }
+
+
+            .booking {
+
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+
+            .booking input,
+            .booking select,
+            .booking textarea {
+
+                font-size: 14px;
+            }
+
+            .booking input::placeholder,
+            .booking textarea::placeholder {
+
+                font-size: 14px;
+            }
+
+            .booking select option {
+
+                font-size: 14px;
+            }
+
+            .date-wrapper input {
+
+                font-size: 14px;
+            }
+
+            .date-placeholder {
+
+                font-size: 14px;
+            }
+        }
 
     </style>
 </head>
 
+
 <body>
 
-    <!-- Navbar -->
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
     <nav>
-        <h2>Golden Car Glass</h2>
+
+        <h2>
+            Golden Car Glass
+        </h2>
 
         <div>
-            <a href="/">Home</a>
-            <a href="#services">Services</a>
-            <a href="#booking">Book a Service</a>
-            <a href="/track_booking">Track Booking</a>
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="#services">
+                Services
+            </a>
+
+            <a href="#booking">
+                Book a Service
+            </a>
+
+            <a href="/track_booking">
+                Track Booking
+            </a>
+
+            <a href="/login">
+                Admin Login
+            </a>
+
         </div>
+
     </nav>
 
-    <!-- Hero Section -->
+
+    <!-- =========================
+         HERO SECTION
+    ========================== -->
+
     <section class="hero">
+
         <div>
-            <h1>Golden <span>Car Glass</span></h1>
+
+            <h1>
+                Golden <span>Car Glass</span>
+            </h1>
 
             <p>
                 Professional Car Glass Replacement & Repair Service
             </p>
 
-            <a href="#booking" class="btn">Book a Service</a>
+            <a
+                href="#booking"
+                class="btn"
+            >
+                Book a Service
+            </a>
+
         </div>
+
     </section>
 
-    <!-- Services Section -->
-<section class="services" id="services">
-    <h2>Our Services</h2>
-    <p class="services-subtitle">
-        Quality car glass services you can trust
-    </p>
 
-    <div class="service-container">
+    <!-- =========================
+         SERVICES SECTION
+    ========================== -->
 
-        <div class="service-card">
-            <h3>🚗 Windshield Replacement</h3>
-            <p>
-                Fast and professional windshield replacement
-                for your car.
-            </p>
+    <section
+        class="services"
+        id="services"
+    >
+
+        <h2>
+            Our Services
+        </h2>
+
+        <p class="services-subtitle">
+            Quality car glass services you can trust
+        </p>
+
+
+        <div class="service-container">
+
+
+            <!-- Service 1 -->
+
+            <div class="service-card">
+
+                <h3>
+                    🚗 Windshield Replacement
+                </h3>
+
+                <p>
+                    Fast and professional windshield replacement
+                    for your car.
+                </p>
+
+            </div>
+
+
+            <!-- Service 2 -->
+
+            <div class="service-card">
+
+                <h3>
+                    🪟 Car Window Glass
+                </h3>
+
+                <p>
+                    Replacement of damaged or broken car window glass.
+                </p>
+
+            </div>
+
+
+            <!-- Service 3 -->
+
+            <div class="service-card">
+
+                <h3>
+                    🔧 Glass Repair
+                </h3>
+
+                <p>
+                    Repair minor cracks and glass damage quickly.
+                </p>
+
+            </div>
+
+
         </div>
 
-        <div class="service-card">
-            <h3>🪟 Car Window Glass</h3>
-            <p>
-                Replacement of damaged or broken car window glass.
-            </p>
-        </div>
-
-        <div class="service-card">
-            <h3>🔧 Glass Repair</h3>
-            <p>
-                Repair minor cracks and glass damage quickly.
-            </p>
-        </div>
-
-    </div>
-</section>
-
-<!-- Booking Section -->
-<section class="booking" id="booking">
-
-    <h2>Book a Service</h2>
-
-    <p class="booking-subtitle">
-        Fill in your details and we will contact you.
-    </p>
-
-    <form action="/book" method="POST">
-
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-
-    <input type="text" name="name" placeholder="Your Name" required>
-
-    <input
-    type="tel"
-    name="mobile"
-    placeholder="Mobile Number"
-    pattern="[0-9]{10}"
-    maxlength="10"
-    minlength="10"
-    required
-    oninput="validateMobile(this)"
->
-
-<p
-    id="mobileError"
-    style="
-        display: none;
-        color: red;
-        margin: 5px 0 0;
-        font-size: 14px;
-    "
-></p>
+    </section>
 
 
-    <input type="text" name="car_model" placeholder="Car Model" required>
+    <!-- =========================
+         BOOKING SECTION
+    ========================== -->
 
-    <select name="glass_type" required>
-        <option value="">Select Glass Type</option>
-        <option value="Windshield">Windshield</option>
-        <option value="Window Glass">Window Glass</option>
-        <option value="Rear Glass">Rear Glass</option>
-        <option value="Glass Repair">Glass Repair</option>
-    </select>
+    <section
+        class="booking"
+        id="booking"
+    >
 
-    <input type="date" name="date" id="booking-date" required>
+        <h2>
+            Book a Service
+        </h2>
+
+        <p class="booking-subtitle">
+            Fill in your details and we will contact you.
+        </p>
+
+
+        <form
+            action="/book"
+            method="POST"
+        >
+
+            <!-- CSRF -->
+
+            <input
+                type="hidden"
+                name="csrf_token"
+                value="{{ csrf_token() }}"
+            >
+
+
+            <!-- Name -->
+
+            <input
+                type="text"
+                name="name"
+                placeholder="Your Name"
+                required
+            >
+
+
+            <!-- Mobile -->
+
+            <input
+                type="tel"
+                name="mobile"
+                placeholder="Mobile Number"
+                pattern="[0-9]{10}"
+                maxlength="10"
+                minlength="10"
+                required
+                oninput="validateMobile(this)"
+            >
+
+
+            <p id="mobileError"></p>
+
+
+            <!-- Car Model -->
+
+            <input
+                type="text"
+                name="car_model"
+                placeholder="Car Model"
+                required
+            >
+
+
+            <!-- Glass Type -->
+
+            <select
+                name="glass_type"
+                required
+            >
+
+                <option value="">
+                    Select Glass Type
+                </option>
+
+                <option value="Windshield">
+                    Windshield
+                </option>
+
+                <option value="Window Glass">
+                    Window Glass
+                </option>
+
+                <option value="Rear Glass">
+                    Rear Glass
+                </option>
+
+                <option value="Glass Repair">
+                    Glass Repair
+                </option>
+
+            </select>
+
+
+            <!-- Service Date -->
+
+            <div
+                class="date-wrapper"
+                id="dateWrapper"
+            >
+
+                <span
+                    class="date-placeholder"
+                    id="datePlaceholder"
+                >
+                    Select Service Date
+                </span>
+
+                <input
+                    type="date"
+                    name="date"
+                    id="booking-date"
+                    required
+                >
+
+            </div>
+
+
+            <!-- Additional Message -->
+
+            <textarea
+                name="message"
+                placeholder="Additional Message"
+            ></textarea>
+
+
+            <!-- Submit -->
+
+            <button
+                type="submit"
+            >
+                Submit Booking
+            </button>
+
+        </form>
+
+    </section>
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+
     <script>
-        const dateInput = document.getElementById("booking-date");
 
-        const today = new Date().toISOString().split("T")[0];
 
-        dateInput.setAttribute("min", today);
+        /* =========================
+           MOBILE VALIDATION
+        ========================== */
+
+        function validateMobile(input) {
+
+            const errorMessage =
+                document.getElementById("mobileError");
+
+
+            if (/[^0-9]/.test(input.value)) {
+
+                errorMessage.style.display =
+                    "block";
+
+                errorMessage.innerText =
+                    "Please enter numbers only 😊";
+
+            }
+
+            else {
+
+                errorMessage.style.display =
+                    "none";
+
+                errorMessage.innerText =
+                    "";
+
+            }
+
+        }
+
+
+        /* =========================
+           DATE PICKER
+        ========================== */
+
+        const dateInput =
+            document.getElementById("booking-date");
+
+        const dateWrapper =
+            document.getElementById("dateWrapper");
+
+
+        /* Today's date */
+
+        const today =
+            new Date()
+                .toISOString()
+                .split("T")[0];
+
+
+        /* Prevent past dates */
+
+        dateInput.setAttribute(
+            "min",
+            today
+        );
+
+
+        /* Show date after selection */
+
+        dateInput.addEventListener(
+            "change",
+            function () {
+
+                if (dateInput.value !== "") {
+
+                    dateWrapper.classList.add(
+                        "has-date"
+                    );
+
+                }
+
+                else {
+
+                    dateWrapper.classList.remove(
+                        "has-date"
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* Open date picker when box is clicked */
+
+        dateInput.addEventListener(
+            "click",
+            function () {
+
+                if (
+                    typeof dateInput.showPicker ===
+                    "function"
+                ) {
+
+                    dateInput.showPicker();
+
+                }
+
+            }
+        );
+
     </script>
 
-    <textarea name="message" placeholder="Additional Message"></textarea>
-
-    <button type="submit">Submit Booking</button>
-
-</form>
-
-</section>
-
-<script>
-
-function validateMobile(input) {
-
-    const errorMessage =
-        document.getElementById("mobileError");
-
-    if (/[^0-9]/.test(input.value)) {
-
-        errorMessage.style.display = "block";
-
-        errorMessage.innerText =
-            "Please enter numbers only 😊";
-
-    }
-
-    else {
-
-        errorMessage.style.display = "none";
-
-    }
-
-}
-
-</script>
 
 </body>
 </html>
