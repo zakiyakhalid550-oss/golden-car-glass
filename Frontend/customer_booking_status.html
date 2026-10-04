@@ -42,6 +42,12 @@
             font-size: 24px;
         }
 
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
         nav a {
             color: white;
             text-decoration: none;
@@ -215,12 +221,21 @@
             color: #111;
         }
 
+        .bookings-btn {
+            background: #111;
+            color: white;
+        }
+
         .home-btn:hover {
             background: #444;
         }
 
         .call-btn:hover {
             background: #d4a900;
+        }
+
+        .bookings-btn:hover {
+            background: #333;
         }
 
 
@@ -233,13 +248,21 @@
             nav {
                 padding: 16px 18px;
 
-                flex-direction: row;
+                flex-direction: column;
 
-                gap: 10px;
+                gap: 12px;
             }
 
             nav h2 {
                 font-size: 20px;
+            }
+
+            .nav-links {
+                width: 100%;
+
+                justify-content: center;
+
+                gap: 15px;
             }
 
             nav a {
@@ -398,9 +421,17 @@
             Golden Car Glass
         </h2>
 
-        <a href="/">
-            Home
-        </a>
+        <div class="nav-links">
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="/my_bookings">
+                My Bookings
+            </a>
+
+        </div>
 
     </nav>
 
@@ -553,6 +584,14 @@
 
 
             <div class="buttons">
+
+
+                <a
+                    href="/my_bookings"
+                    class="btn bookings-btn"
+                >
+                    📋 My Bookings
+                </a>
 
 
                 <a

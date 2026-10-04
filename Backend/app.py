@@ -994,6 +994,240 @@ def delete_booking(id):
         url_for("bookings")
     )
 
+# =========================================================
+# CUSTOMER MY BOOKINGS
+# =========================================================
+
+@app.route(
+    "/my_bookings",
+    methods=["GET", "POST"]
+)
+def my_bookings():
+
+    # -----------------------------------------------------
+    # CUSTOMER ENTERS MOBILE NUMBER
+    # -----------------------------------------------------
+
+    if request.method == "POST":
+
+        mobile = request.form.get(
+            "mobile",
+            ""
+        ).strip()
+
+
+        # -------------------------------------------------
+        # VALIDATE MOBILE
+        # -------------------------------------------------
+
+        if not mobile:
+
+            return render_template(
+                "my_bookings.html",
+                error="Please enter your mobile number."
+            )
+
+
+        if not mobile.isdigit():
+
+            return render_template(
+                "my_bookings.html",
+                error="Please enter numbers only."
+            )
+
+
+        if len(mobile) != 10:
+
+            return render_template(
+                "my_bookings.html",
+                error="Please enter a valid 10-digit mobile number."
+            )
+
+
+        # -------------------------------------------------
+        # SAVE CUSTOMER MOBILE IN SESSION
+        # -------------------------------------------------
+
+        session["customer_mobile"] = mobile
+        session["my_bookings_searched"] = True
+
+        return redirect(
+            url_for("my_bookings")
+        )
+
+
+    # -----------------------------------------------------
+    # GET MOBILE FROM SESSION
+    # -----------------------------------------------------
+
+    mobile = session.get(
+        "customer_mobile"
+    )
+
+    searched = session.get(
+    "my_bookings_searched",
+    False
+    )
+
+    # -----------------------------------------------------
+    # IF MOBILE NOT ENTERED
+    # -----------------------------------------------------
+
+    if not mobile:
+
+        return render_template(
+            "my_bookings.html"
+        )
+
+
+    # -----------------------------------------------------
+    # FIND CUSTOMER BOOKINGS
+    # -----------------------------------------------------
+
+    connection = get_db_connection()
+
+    try:
+
+        cursor = connection.cursor()
+
+        cursor.execute(
+            """
+            SELECT
+                id,
+                name,
+                car_model,
+                glass_type,
+                date,
+                status
+            FROM bookings
+            WHERE mobile = %s
+            ORDER BY id DESC
+            """,
+            (mobile,)
+        )
+
+        bookings = cursor.fetchall()
+
+    finally:
+
+        connection.close()
+
+
+    # -----------------------------------------------------
+    # SHOW BOOKINGS
+    # -----------------------------------------------------
+
+    return render_template(
+    "my_bookings.html",
+    bookings=bookings,
+    mobile=mobile,
+    searched=searched
+    )
+
+
+# =========================================================
+# CUSTOMER VIEW BOOKING DETAILS
+# =========================================================
+
+@app.route(
+    "/my_booking/<int:id>"
+)
+def customer_booking_details(id):
+
+    # -----------------------------------------------------
+    # CUSTOMER MOBILE SESSION
+    # -----------------------------------------------------
+
+    customer_mobile = session.get(
+        "customer_mobile"
+    )
+
+
+    # -----------------------------------------------------
+    # CUSTOMER NOT VERIFIED
+    # -----------------------------------------------------
+
+    if not customer_mobile:
+
+        return redirect(
+            url_for("my_bookings")
+        )
+
+
+    # -----------------------------------------------------
+    # FIND BOOKING
+    # -----------------------------------------------------
+
+    connection = get_db_connection()
+
+    try:
+
+        cursor = connection.cursor()
+
+        cursor.execute(
+            """
+            SELECT *
+            FROM bookings
+            WHERE id = %s
+              AND mobile = %s
+            """,
+            (
+                id,
+                customer_mobile
+            )
+        )
+
+        booking = cursor.fetchone()
+
+    finally:
+
+        connection.close()
+
+
+    # -----------------------------------------------------
+    # BOOKING NOT FOUND
+    # -----------------------------------------------------
+
+    if not booking:
+
+        return (
+            "Booking not found or access denied.",
+            404
+        )
+
+
+    # -----------------------------------------------------
+    # SHOW CUSTOMER BOOKING STATUS
+    # -----------------------------------------------------
+
+    return render_template(
+        "customer_booking_status.html",
+        booking=booking
+    )
+
+
+# =========================================================
+# CUSTOMER MY BOOKINGS LOGOUT
+# =========================================================
+
+@app.route(
+    "/my_bookings/clear"
+)
+def clear_customer_bookings():
+
+    session.pop(
+        "customer_mobile",
+        None
+    )
+
+    session.pop(
+    "my_bookings_searched",
+    None
+    )
+    
+    return redirect(
+        url_for("my_bookings")
+    )
 
 # =========================================================
 # CUSTOMER TRACK BOOKING
