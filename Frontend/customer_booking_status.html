@@ -27,6 +27,10 @@
             min-height: 100vh;
         }
 
+        /* =========================
+           NAVBAR
+        ========================= */
+
         nav {
             background: #111;
             color: white;
@@ -58,6 +62,11 @@
             color: #f5c518;
         }
 
+
+        /* =========================
+           MAIN CONTAINER
+        ========================= */
+
         .container {
             max-width: 650px;
             margin: 50px auto;
@@ -74,6 +83,11 @@
             box-shadow:
                 0 4px 18px rgba(0,0,0,0.12);
         }
+
+
+        /* =========================
+           TITLE
+        ========================= */
 
         .title {
             text-align: center;
@@ -100,6 +114,11 @@
             color: #222;
         }
 
+
+        /* =========================
+           BOOKING DETAILS
+        ========================= */
+
         .details {
             margin-top: 25px;
         }
@@ -125,6 +144,11 @@
             font-weight: bold;
             text-align: right;
         }
+
+
+        /* =========================
+           CURRENT STATUS
+        ========================= */
 
         .status-section {
             text-align: center;
@@ -184,6 +208,168 @@
 
             line-height: 1.6;
         }
+
+
+        /* =========================
+           STATUS TIMELINE
+        ========================= */
+
+        .timeline-section {
+            margin-top: 35px;
+
+            padding: 25px 20px;
+
+            background: #fafafa;
+
+            border-radius: 14px;
+
+            border: 1px solid #eee;
+        }
+
+        .timeline-title {
+            text-align: center;
+
+            font-size: 20px;
+
+            margin-bottom: 28px;
+        }
+
+        .timeline {
+            position: relative;
+
+            max-width: 430px;
+
+            margin: 0 auto;
+        }
+
+        .timeline-item {
+            position: relative;
+
+            display: flex;
+
+            align-items: center;
+
+            min-height: 70px;
+
+            padding-left: 55px;
+        }
+
+        /* Vertical line */
+
+        .timeline-item:not(:last-child)::before {
+            content: "";
+
+            position: absolute;
+
+            left: 16px;
+
+            top: 32px;
+
+            width: 3px;
+
+            height: 55px;
+
+            background: #ddd;
+        }
+
+        /* Completed line */
+
+        .timeline-item.completed-line:not(:last-child)::before {
+            background: #198754;
+        }
+
+        /* Timeline circle */
+
+        .timeline-circle {
+            position: absolute;
+
+            left: 0;
+
+            top: 15px;
+
+            width: 34px;
+
+            height: 34px;
+
+            border-radius: 50%;
+
+            background: #ddd;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 15px;
+
+            z-index: 2;
+        }
+
+        /* Completed */
+
+        .timeline-item.completed-step .timeline-circle {
+            background: #198754;
+
+            color: white;
+        }
+
+        /* Current */
+
+        .timeline-item.current-step .timeline-circle {
+            background: #0d6efd;
+
+            color: white;
+
+            box-shadow:
+                0 0 0 5px rgba(13,110,253,0.12);
+        }
+
+        /* Cancelled */
+
+        .timeline-item.cancelled-step .timeline-circle {
+            background: #dc3545;
+
+            color: white;
+        }
+
+        .timeline-content {
+            padding-bottom: 12px;
+        }
+
+        .timeline-content h4 {
+            font-size: 16px;
+
+            margin-bottom: 5px;
+        }
+
+        .timeline-content p {
+            color: #777;
+
+            font-size: 13px;
+
+            line-height: 1.4;
+        }
+
+        .timeline-item.current-step
+        .timeline-content h4 {
+            color: #0d6efd;
+        }
+
+        .timeline-item.completed-step
+        .timeline-content h4 {
+            color: #198754;
+        }
+
+        .timeline-item.cancelled-step
+        .timeline-content h4 {
+            color: #dc3545;
+        }
+
+
+        /* =========================
+           BUTTONS
+        ========================= */
 
         .buttons {
             display: flex;
@@ -356,6 +542,30 @@
                 margin-top: 18px;
             }
 
+            .timeline-section {
+                margin-top: 30px;
+
+                padding: 22px 15px;
+            }
+
+            .timeline-title {
+                font-size: 19px;
+
+                margin-bottom: 25px;
+            }
+
+            .timeline-item {
+                padding-left: 50px;
+            }
+
+            .timeline-content h4 {
+                font-size: 15px;
+            }
+
+            .timeline-content p {
+                font-size: 13px;
+            }
+
             .buttons {
                 margin-top: 30px;
 
@@ -378,7 +588,9 @@
         }
 
 
-        /* Extra small phones */
+        /* =========================
+           EXTRA SMALL PHONES
+        ========================= */
 
         @media (max-width: 380px) {
 
@@ -405,6 +617,10 @@
             .message {
                 font-size: 15px;
             }
+
+            .timeline-section {
+                padding: 20px 12px;
+            }
         }
 
     </style>
@@ -414,6 +630,10 @@
 
 <body>
 
+
+    <!-- =========================
+         NAVBAR
+    ========================= -->
 
     <nav>
 
@@ -442,6 +662,10 @@
         <div class="status-box">
 
 
+            <!-- =========================
+                 TITLE
+            ========================= -->
+
             <div class="title">
 
                 <h1>
@@ -455,6 +679,10 @@
             </div>
 
 
+
+            <!-- =========================
+                 BOOKING DETAILS
+            ========================= -->
 
             <div class="details">
 
@@ -516,6 +744,10 @@
             </div>
 
 
+
+            <!-- =========================
+                 CURRENT STATUS
+            ========================= -->
 
             <div class="status-section">
 
@@ -582,6 +814,193 @@
             </div>
 
 
+
+            <!-- =========================
+                 STATUS TIMELINE
+            ========================= -->
+
+            <div class="timeline-section">
+
+                <h3 class="timeline-title">
+                    Booking Progress
+                </h3>
+
+
+                <div class="timeline">
+
+
+                    <!-- BOOKING PLACED -->
+
+                    <div class="timeline-item completed-step completed-line">
+
+                        <div class="timeline-circle">
+                            ✓
+                        </div>
+
+                        <div class="timeline-content">
+
+                            <h4>
+                                Booking Placed
+                            </h4>
+
+                            <p>
+                                Your service booking has been received.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    {% if booking["status"] == "Cancelled" %}
+
+
+                        <!-- CANCELLED -->
+
+                        <div class="timeline-item cancelled-step">
+
+                            <div class="timeline-circle">
+                                ✕
+                            </div>
+
+                            <div class="timeline-content">
+
+                                <h4>
+                                    Booking Cancelled
+                                </h4>
+
+                                <p>
+                                    This booking has been cancelled.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                    {% else %}
+
+
+                        <!-- PENDING -->
+
+                        <div class="timeline-item
+                            {% if booking["status"] == "Pending" %}
+                                current-step
+                            {% else %}
+                                completed-step completed-line
+                            {% endif %}
+                        ">
+
+                            <div class="timeline-circle">
+
+                                {% if booking["status"] == "Pending" %}
+                                    ⏳
+                                {% else %}
+                                    ✓
+                                {% endif %}
+
+                            </div>
+
+                            <div class="timeline-content">
+
+                                <h4>
+                                    Booking Pending
+                                </h4>
+
+                                <p>
+                                    Your booking is waiting for service processing.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- IN PROGRESS -->
+
+                        <div class="timeline-item
+                            {% if booking["status"] == "In Progress" %}
+                                current-step
+                            {% elif booking["status"] == "Completed" %}
+                                completed-step completed-line
+                            {% endif %}
+                        ">
+
+                            <div class="timeline-circle">
+
+                                {% if booking["status"] == "In Progress" %}
+                                    🔧
+                                {% elif booking["status"] == "Completed" %}
+                                    ✓
+                                {% else %}
+                                    🔧
+                                {% endif %}
+
+                            </div>
+
+                            <div class="timeline-content">
+
+                                <h4>
+                                    In Progress
+                                </h4>
+
+                                <p>
+                                    Our team is working on your service.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- COMPLETED -->
+
+                        <div class="timeline-item
+                            {% if booking["status"] == "Completed" %}
+                                current-step
+                            {% endif %}
+                        ">
+
+                            <div class="timeline-circle">
+
+                                {% if booking["status"] == "Completed" %}
+                                    ✓
+                                {% else %}
+                                    ✓
+                                {% endif %}
+
+                            </div>
+
+                            <div class="timeline-content">
+
+                                <h4>
+                                    Completed
+                                </h4>
+
+                                <p>
+                                    Your car glass service has been completed.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                    {% endif %}
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =========================
+                 BUTTONS
+            ========================= -->
 
             <div class="buttons">
 

@@ -294,47 +294,52 @@
 
 
         <!-- SEARCH FORM -->
-        <div class="search-box">
+{% if not bookings and not searched %}
 
-            {% if error %}
-                <div class="error">
-                    {{ error }}
-                </div>
-            {% endif %}
+<div class="search-box">
 
-            <form
-                method="POST"
-                action="{{ url_for('my_bookings') }}"
-            >
-
-                <input
-                    type="hidden"
-                    name="csrf_token"
-                    value="{{ csrf_token() }}"
-                >
-
-                <label for="mobile">
-                    Enter your mobile number
-                </label>
-
-                <input
-                    type="tel"
-                    id="mobile"
-                    name="mobile"
-                    placeholder="Enter 10-digit mobile number"
-                    maxlength="10"
-                    pattern="[0-9]{10}"
-                    inputmode="numeric"
-                    required
-                >
-
-                <button type="submit">
-                    View My Bookings
-                </button>
-
-            </form>
-
+    {% if error %}
+        <div class="error">
+            {{ error }}
         </div>
+    {% endif %}
+
+    <form
+        method="POST"
+        action="{{ url_for('my_bookings') }}"
+    >
+
+        <input
+            type="hidden"
+            name="csrf_token"
+            value="{{ csrf_token() }}"
+        >
+
+        <label for="mobile">
+            Enter your mobile number
+        </label>
+
+        <input
+            type="tel"
+            id="mobile"
+            name="mobile"
+            placeholder="Enter 10-digit mobile number"
+            maxlength="10"
+            inputmode="numeric"
+            autocomplete="tel"
+            required
+            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+        >
+
+        <button type="submit">
+            View My Bookings
+        </button>
+
+    </form>
+
+</div>
+
+{% endif %}
 
 
         {% if searched and not bookings %}
