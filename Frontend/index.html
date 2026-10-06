@@ -1,59 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <!-- PWA / APP ICON -->
 
-<link rel="manifest" href="/manifest.json">
+    <!-- =========================
+         PWA / APP ICON
+    ========================== -->
 
-<link
-    rel="icon"
-    type="image/png"
-    sizes="192x192"
-    href="/icons/icon-192.png"
->
+    <link rel="manifest" href="/manifest.json">
 
-<link
-    rel="icon"
-    type="image/png"
-    sizes="512x512"
-    href="/icons/icon-512.png"
->
+    <link
+        rel="icon"
+        type="image/png"
+        sizes="192x192"
+        href="/icons/icon-192.png"
+    >
 
-<link
-    rel="apple-touch-icon"
-    href="/icons/icon-192.png"
->
+    <link
+        rel="icon"
+        type="image/png"
+        sizes="512x512"
+        href="/icons/icon-512.png"
+    >
 
-<meta
-    name="theme-color"
-    content="#111111"
->
+    <link
+        rel="apple-touch-icon"
+        href="/icons/icon-192.png"
+    >
 
-<meta
-    name="mobile-web-app-capable"
-    content="yes"
->
+    <meta
+        name="theme-color"
+        content="#111111"
+    >
 
-<meta
-    name="apple-mobile-web-app-capable"
-    content="yes"
->
+    <meta
+        name="mobile-web-app-capable"
+        content="yes"
+    >
 
-<meta
-    name="apple-mobile-web-app-status-bar-style"
-    content="black"
->
+    <meta
+        name="apple-mobile-web-app-capable"
+        content="yes"
+    >
 
-<meta
-    name="apple-mobile-web-app-title"
-    content="Golden Car Glass"
->
+    <meta
+        name="apple-mobile-web-app-status-bar-style"
+        content="black"
+    >
+
+    <meta
+        name="apple-mobile-web-app-title"
+        content="Golden Car Glass"
+    >
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Golden Car Glass</title>
 
+
     <style>
+
+        /* =========================
+           RESET
+        ========================== */
+
         * {
             margin: 0;
             padding: 0;
@@ -78,6 +93,7 @@
         nav {
             background: #111;
             color: white;
+
             padding: 20px 50px;
 
             display: flex;
@@ -89,7 +105,9 @@
 
         nav h2 {
             color: #f5c518;
+
             white-space: nowrap;
+
             font-size: 24px;
         }
 
@@ -99,14 +117,20 @@
             justify-content: flex-end;
 
             flex-wrap: wrap;
+
             gap: 18px;
         }
 
         nav a {
             color: white;
+
             text-decoration: none;
+
             font-size: 15px;
+
             font-weight: normal;
+
+            transition: color 0.2s ease;
         }
 
         nav a:hover {
@@ -134,6 +158,7 @@
 
         .hero h1 {
             font-size: 50px;
+
             margin-bottom: 15px;
         }
 
@@ -143,8 +168,11 @@
 
         .hero p {
             font-size: 20px;
+
             color: #555;
+
             margin-bottom: 30px;
+
             font-weight: normal;
         }
 
@@ -152,6 +180,7 @@
             display: inline-block;
 
             background: #f5c518;
+
             color: #111;
 
             padding: 15px 30px;
@@ -161,11 +190,18 @@
             text-decoration: none;
 
             font-size: 16px;
+
             font-weight: bold;
+
+            transition:
+                background 0.2s ease,
+                transform 0.2s ease;
         }
 
         .btn:hover {
             background: #d4a900;
+
+            transform: translateY(-1px);
         }
 
 
@@ -183,6 +219,7 @@
 
         .services h2 {
             font-size: 36px;
+
             margin-bottom: 10px;
         }
 
@@ -190,6 +227,7 @@
             color: #666;
 
             font-size: 16px;
+
             font-weight: normal;
 
             margin-bottom: 40px;
@@ -217,12 +255,24 @@
 
             box-shadow:
                 0 4px 12px rgba(0, 0, 0, 0.1);
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 7px 18px rgba(0, 0, 0, 0.12);
         }
 
         .service-card h3 {
             margin-bottom: 15px;
 
             font-size: 18px;
+
             font-weight: bold;
         }
 
@@ -230,6 +280,7 @@
             color: #666;
 
             font-size: 16px;
+
             font-weight: normal;
 
             line-height: 1.6;
@@ -250,6 +301,7 @@
 
         .booking h2 {
             font-size: 36px;
+
             margin-bottom: 10px;
         }
 
@@ -257,6 +309,7 @@
             color: #666;
 
             font-size: 16px;
+
             font-weight: normal;
 
             margin-bottom: 35px;
@@ -268,6 +321,7 @@
             margin: auto;
 
             display: flex;
+
             flex-direction: column;
 
             gap: 15px;
@@ -301,6 +355,10 @@
             background: white;
 
             outline: none;
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
         }
 
         .booking input:focus,
@@ -308,10 +366,13 @@
         .booking textarea:focus {
 
             border-color: #c99a00;
+
+            box-shadow:
+                0 0 0 3px rgba(245, 197, 24, 0.12);
         }
 
 
-        /* Placeholder text */
+        /* Placeholder */
 
         .booking input::placeholder,
         .booking textarea::placeholder {
@@ -335,7 +396,6 @@
             cursor: pointer;
         }
 
-
         .booking select option {
 
             font-family: Arial, sans-serif;
@@ -353,6 +413,7 @@
         ========================== */
 
         .date-wrapper {
+
             position: relative;
 
             width: 100%;
@@ -374,9 +435,6 @@
 
             cursor: pointer;
         }
-
-
-        /* Date placeholder */
 
         .date-placeholder {
 
@@ -404,9 +462,6 @@
 
             z-index: 1;
         }
-
-
-        /* Hide placeholder after date selected */
 
         .date-wrapper.has-date
         .date-placeholder {
@@ -450,10 +505,345 @@
 
 
         /* =========================
+           PHOTO UPLOAD CARD
+        ========================== */
+
+        .photo-upload-card {
+
+            width: 100%;
+
+            background: #fafafa;
+
+            border: 1px solid #e1e1e1;
+
+            border-radius: 12px;
+
+            padding: 20px;
+
+            text-align: left;
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .photo-upload-card:hover {
+
+            border-color: #d6ad12;
+
+            box-shadow:
+                0 4px 14px rgba(0, 0, 0, 0.06);
+        }
+
+
+        /* Photo Header */
+
+        .photo-upload-header {
+
+            display: flex;
+
+            align-items: flex-start;
+
+            gap: 12px;
+
+            margin-bottom: 15px;
+        }
+
+        .photo-upload-icon {
+
+            width: 42px;
+
+            height: 42px;
+
+            flex-shrink: 0;
+
+            border-radius: 10px;
+
+            background: #fff4c7;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 21px;
+        }
+
+        .photo-upload-title {
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            color: #222;
+
+            margin-bottom: 4px;
+        }
+
+        .photo-upload-description {
+
+            color: #666;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+        }
+
+        .optional-text {
+
+            color: #888;
+
+            font-size: 12px;
+
+            font-weight: normal;
+        }
+
+
+        /* Photo Buttons */
+
+        .photo-buttons {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 10px;
+        }
+
+        .photo-action {
+
+            min-height: 52px;
+
+            border-radius: 9px;
+
+            border: 1px solid #ddd;
+
+            background: white;
+
+            color: #222;
+
+            cursor: pointer;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 8px;
+
+            font-family: Arial, sans-serif;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            transition:
+                background 0.2s ease,
+                border-color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .photo-action:hover {
+
+            border-color: #c99a00;
+
+            background: #fffdf3;
+
+            transform: translateY(-1px);
+        }
+
+        .photo-action.camera {
+
+            background: #111;
+
+            border-color: #111;
+
+            color: white;
+        }
+
+        .photo-action.camera:hover {
+
+            background: #252525;
+
+            border-color: #252525;
+        }
+
+        .photo-action span {
+
+            font-size: 19px;
+
+            line-height: 1;
+        }
+
+
+        /* Hidden File Inputs */
+
+        .hidden-photo-input {
+
+            display: none;
+        }
+
+
+        /* Photo Preview */
+
+        .photo-preview-container {
+
+            display: none;
+
+            margin-top: 15px;
+
+            padding-top: 15px;
+
+            border-top: 1px solid #e5e5e5;
+        }
+
+        .photo-preview-container.show {
+
+            display: block;
+        }
+
+        .photo-preview-label {
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            color: #444;
+
+            margin-bottom: 9px;
+        }
+
+        .photo-preview-box {
+
+            position: relative;
+
+            width: 100%;
+
+            border-radius: 10px;
+
+            overflow: hidden;
+
+            background: #eee;
+
+            border: 1px solid #ddd;
+        }
+
+        .photo-preview {
+
+            display: block;
+
+            width: 100%;
+
+            max-height: 260px;
+
+            object-fit: contain;
+
+            background: #f1f1f1;
+        }
+
+
+        /* Photo Actions Below Preview */
+
+        .photo-preview-actions {
+
+            display: flex;
+
+            gap: 8px;
+
+            margin-top: 10px;
+        }
+
+        .preview-action {
+
+            flex: 1;
+
+            padding: 10px;
+
+            border-radius: 8px;
+
+            border: 1px solid #ddd;
+
+            background: white;
+
+            color: #333;
+
+            cursor: pointer;
+
+            font-family: Arial, sans-serif;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            transition: background 0.2s ease;
+        }
+
+        .preview-action:hover {
+
+            background: #f7f7f7;
+        }
+
+        .preview-action.remove {
+
+            color: #b00020;
+
+            border-color: #f0c7cc;
+        }
+
+        .preview-action.remove:hover {
+
+            background: #fff5f6;
+        }
+
+
+        /* Photo Note */
+
+        .photo-upload-note {
+
+            margin-top: 11px;
+
+            color: #888;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+
+            text-align: center;
+        }
+
+
+        /* Photo Error */
+
+        #photoError {
+
+            display: none;
+
+            color: #b00020;
+
+            background: #fff4f5;
+
+            border: 1px solid #f2c5ca;
+
+            border-radius: 8px;
+
+            padding: 9px 10px;
+
+            margin-top: 10px;
+
+            font-size: 12px;
+
+            line-height: 1.4;
+        }
+
+
+        /* =========================
            SUBMIT BUTTON
         ========================== */
 
-        .booking button {
+        .booking button[type="submit"] {
 
             padding: 15px;
 
@@ -472,11 +862,17 @@
             color: #111;
 
             cursor: pointer;
+
+            transition:
+                background 0.2s ease,
+                transform 0.2s ease;
         }
 
-        .booking button:hover {
+        .booking button[type="submit"]:hover {
 
             background: #d4a900;
+
+            transform: translateY(-1px);
         }
 
 
@@ -485,7 +881,6 @@
         ========================== */
 
         @media (max-width: 768px) {
-
 
             /* Navbar */
 
@@ -568,9 +963,6 @@
                 margin-bottom: 25px;
             }
 
-
-            /* 2 columns */
-
             .service-container {
 
                 grid-template-columns:
@@ -603,7 +995,7 @@
             }
 
 
-            /* Third card center */
+            /* Third card */
 
             .service-card:last-child {
 
@@ -642,7 +1034,7 @@
             }
 
 
-            /* Mobile form text same */
+            /* Form */
 
             .booking input,
             .booking select,
@@ -666,8 +1058,6 @@
             .booking select option {
 
                 font-size: 15px;
-
-                font-weight: normal;
             }
 
 
@@ -686,9 +1076,47 @@
             }
 
 
+            /* Photo Card */
+
+            .photo-upload-card {
+
+                padding: 16px;
+
+                border-radius: 11px;
+            }
+
+            .photo-upload-title {
+
+                font-size: 15px;
+            }
+
+            .photo-upload-description {
+
+                font-size: 12px;
+            }
+
+            .photo-buttons {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+            .photo-action {
+
+                min-height: 50px;
+
+                font-size: 14px;
+            }
+
+            .photo-preview {
+
+                max-height: 240px;
+            }
+
+
             /* Submit */
 
-            .booking button {
+            .booking button[type="submit"] {
 
                 padding: 14px;
 
@@ -738,6 +1166,7 @@
             .services {
 
                 padding-left: 10px;
+
                 padding-right: 10px;
             }
 
@@ -762,7 +1191,7 @@
             }
 
 
-            /* Third card centered */
+            /* Third card */
 
             .service-card:last-child {
 
@@ -770,9 +1199,12 @@
             }
 
 
+            /* Booking */
+
             .booking {
 
                 padding-left: 12px;
+
                 padding-right: 12px;
             }
 
@@ -803,9 +1235,62 @@
 
                 font-size: 14px;
             }
+
+
+            /* Photo */
+
+            .photo-upload-card {
+
+                padding: 14px;
+            }
+
+            .photo-upload-header {
+
+                gap: 9px;
+            }
+
+            .photo-upload-icon {
+
+                width: 38px;
+
+                height: 38px;
+
+                font-size: 18px;
+            }
+
+            .photo-upload-title {
+
+                font-size: 14px;
+            }
+
+            .photo-upload-description {
+
+                font-size: 11px;
+            }
+
+            .photo-action {
+
+                min-height: 48px;
+
+                font-size: 13px;
+            }
+
+            .photo-action span {
+
+                font-size: 18px;
+            }
+
+            .preview-action {
+
+                font-size: 12px;
+
+                padding: 9px 6px;
+            }
+
         }
 
     </style>
+
 </head>
 
 
@@ -836,7 +1321,9 @@
                 Book a Service
             </a>
 
-            <a href="/my_bookings">My Bookings</a>
+            <a href="/my_bookings">
+                My Bookings
+            </a>
 
             <a href="/login">
                 Admin Login
@@ -968,9 +1455,13 @@
         <form
             action="/book"
             method="POST"
+            enctype="multipart/form-data"
         >
 
-            <!-- CSRF -->
+
+            <!-- =========================
+                 CSRF
+            ========================== -->
 
             <input
                 type="hidden"
@@ -979,7 +1470,9 @@
             >
 
 
-            <!-- Name -->
+            <!-- =========================
+                 NAME
+            ========================== -->
 
             <input
                 type="text"
@@ -989,7 +1482,9 @@
             >
 
 
-            <!-- Mobile -->
+            <!-- =========================
+                 MOBILE
+            ========================== -->
 
             <input
                 type="tel"
@@ -998,15 +1493,18 @@
                 pattern="[0-9]{10}"
                 maxlength="10"
                 minlength="10"
+                inputmode="numeric"
+                autocomplete="tel"
                 required
                 oninput="validateMobile(this)"
             >
 
-
             <p id="mobileError"></p>
 
 
-            <!-- Car Model -->
+            <!-- =========================
+                 CAR MODEL
+            ========================== -->
 
             <input
                 type="text"
@@ -1016,7 +1514,9 @@
             >
 
 
-            <!-- Glass Type -->
+            <!-- =========================
+                 GLASS TYPE
+            ========================== -->
 
             <select
                 name="glass_type"
@@ -1046,7 +1546,9 @@
             </select>
 
 
-            <!-- Service Date -->
+            <!-- =========================
+                 SERVICE DATE
+            ========================== -->
 
             <div
                 class="date-wrapper"
@@ -1070,7 +1572,9 @@
             </div>
 
 
-            <!-- Additional Message -->
+            <!-- =========================
+                 ADDITIONAL MESSAGE
+            ========================== -->
 
             <textarea
                 name="message"
@@ -1078,13 +1582,184 @@
             ></textarea>
 
 
-            <!-- Submit -->
+            <!-- =========================
+                 PROFESSIONAL PHOTO UPLOAD
+            ========================== -->
+
+            <div class="photo-upload-card">
+
+
+                <!-- Header -->
+
+                <div class="photo-upload-header">
+
+                    <div class="photo-upload-icon">
+                        📷
+                    </div>
+
+                    <div>
+
+                        <div class="photo-upload-title">
+
+                            Vehicle / Glass Photo
+
+                            <span class="optional-text">
+                                (Optional)
+                            </span>
+
+                        </div>
+
+                        <div class="photo-upload-description">
+
+                            Upload a photo of the damaged glass
+                            or vehicle to help us understand the issue.
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Hidden Camera Input -->
+
+                <input
+                    type="file"
+                    id="cameraInput"
+                    name="photo"
+                    accept="image/jpeg,image/png,image/webp"
+                    capture="environment"
+                    class="hidden-photo-input"
+                >
+
+
+                <!-- Hidden Gallery Input -->
+
+                <input
+                    type="file"
+                    id="galleryInput"
+                    accept="image/jpeg,image/png,image/webp"
+                    class="hidden-photo-input"
+                >
+
+
+                <!-- Photo Buttons -->
+
+                <div class="photo-buttons">
+
+
+                    <button
+                        type="button"
+                        class="photo-action camera"
+                        id="cameraButton"
+                    >
+
+                        <span>📷</span>
+
+                        Take Photo
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="photo-action"
+                        id="galleryButton"
+                    >
+
+                        <span>🖼️</span>
+
+                        Choose from Gallery
+
+                    </button>
+
+
+                </div>
+
+
+                <!-- Photo Error -->
+
+                <div id="photoError"></div>
+
+
+                <!-- Photo Preview -->
+
+                <div
+                    class="photo-preview-container"
+                    id="photoPreviewContainer"
+                >
+
+                    <div class="photo-preview-label">
+
+                        Selected Photo
+
+                    </div>
+
+
+                    <div class="photo-preview-box">
+
+                        <img
+                            src=""
+                            alt="Selected vehicle or glass photo"
+                            class="photo-preview"
+                            id="photoPreview"
+                        >
+
+                    </div>
+
+
+                    <div class="photo-preview-actions">
+
+
+                        <button
+                            type="button"
+                            class="preview-action"
+                            id="changePhotoButton"
+                        >
+
+                            🔄 Change Photo
+
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="preview-action remove"
+                            id="removePhotoButton"
+                        >
+
+                            ✕ Remove
+
+                        </button>
+
+
+                    </div>
+
+                </div>
+
+
+                <!-- Photo Note -->
+
+                <div class="photo-upload-note">
+
+                    JPG, PNG or WebP • Maximum 5 MB
+
+                </div>
+
+
+            </div>
+
+
+            <!-- =========================
+                 SUBMIT
+            ========================== -->
 
             <button
                 type="submit"
             >
                 Submit Booking
             </button>
+
 
         </form>
 
@@ -1202,8 +1877,385 @@
             }
         );
 
+
+        /* =========================
+           PHOTO UPLOAD SYSTEM
+        ========================== */
+
+        const cameraInput =
+            document.getElementById("cameraInput");
+
+        const galleryInput =
+            document.getElementById("galleryInput");
+
+        const cameraButton =
+            document.getElementById("cameraButton");
+
+        const galleryButton =
+            document.getElementById("galleryButton");
+
+        const changePhotoButton =
+            document.getElementById("changePhotoButton");
+
+        const removePhotoButton =
+            document.getElementById("removePhotoButton");
+
+        const photoPreviewContainer =
+            document.getElementById("photoPreviewContainer");
+
+        const photoPreview =
+            document.getElementById("photoPreview");
+
+        const photoError =
+            document.getElementById("photoError");
+
+
+        /* Maximum 5 MB */
+
+        const MAX_PHOTO_SIZE =
+            5 * 1024 * 1024;
+
+
+        /* Allowed image types */
+
+        const ALLOWED_PHOTO_TYPES = [
+            "image/jpeg",
+            "image/png",
+            "image/webp"
+        ];
+
+
+        /* =========================
+           OPEN CAMERA
+        ========================== */
+
+        cameraButton.addEventListener(
+            "click",
+            function () {
+
+                clearPhotoError();
+
+                cameraInput.click();
+
+            }
+        );
+
+
+        /* =========================
+           OPEN GALLERY
+        ========================== */
+
+        galleryButton.addEventListener(
+            "click",
+            function () {
+
+                clearPhotoError();
+
+                galleryInput.click();
+
+            }
+        );
+
+
+        /* =========================
+           CHANGE PHOTO
+        ========================== */
+
+        changePhotoButton.addEventListener(
+            "click",
+            function () {
+
+                clearPhotoError();
+
+                galleryInput.click();
+
+            }
+        );
+
+
+        /* =========================
+           CAMERA PHOTO SELECTED
+        ========================== */
+
+        cameraInput.addEventListener(
+            "change",
+            function () {
+
+                if (cameraInput.files.length > 0) {
+
+                    handlePhoto(
+                        cameraInput.files[0],
+                        "camera"
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* =========================
+           GALLERY PHOTO SELECTED
+        ========================== */
+
+        galleryInput.addEventListener(
+            "change",
+            function () {
+
+                if (galleryInput.files.length > 0) {
+
+                    handlePhoto(
+                        galleryInput.files[0],
+                        "gallery"
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* =========================
+           HANDLE PHOTO
+        ========================== */
+
+        function handlePhoto(file, source) {
+
+            clearPhotoError();
+
+
+            if (!file) {
+
+                return;
+
+            }
+
+
+            /* Check file type */
+
+            if (
+                !ALLOWED_PHOTO_TYPES.includes(
+                    file.type
+                )
+            ) {
+
+                showPhotoError(
+                    "Please select a JPG, PNG or WebP image."
+                );
+
+                clearSelectedPhoto();
+
+                return;
+
+            }
+
+
+            /* Check file size */
+
+            if (
+                file.size > MAX_PHOTO_SIZE
+            ) {
+
+                showPhotoError(
+                    "Photo size must be 5 MB or less."
+                );
+
+                clearSelectedPhoto();
+
+                return;
+
+            }
+
+
+            /* Keep the selected file
+               inside the real booking input */
+
+            if (source === "gallery") {
+
+                try {
+
+                    const dataTransfer =
+                        new DataTransfer();
+
+                    dataTransfer.items.add(file);
+
+                    cameraInput.files =
+                        dataTransfer.files;
+
+                }
+
+                catch (error) {
+
+                    /*
+                     * Some older browsers may not
+                     * allow assigning FileList.
+                     *
+                     * In that case, keep the gallery
+                     * file in the gallery input.
+                     */
+
+                }
+
+            }
+
+
+            /* Create preview */
+
+            const reader =
+                new FileReader();
+
+
+            reader.onload =
+                function (event) {
+
+                    photoPreview.src =
+                        event.target.result;
+
+                    photoPreviewContainer.classList.add(
+                        "show"
+                    );
+
+                };
+
+
+            reader.readAsDataURL(file);
+
+        }
+
+
+        /* =========================
+           REMOVE PHOTO
+        ========================== */
+
+        removePhotoButton.addEventListener(
+            "click",
+            function () {
+
+                clearSelectedPhoto();
+
+                clearPhotoError();
+
+            }
+        );
+
+
+        /* =========================
+           CLEAR SELECTED PHOTO
+        ========================== */
+
+        function clearSelectedPhoto() {
+
+            cameraInput.value = "";
+
+            galleryInput.value = "";
+
+            photoPreview.src = "";
+
+            photoPreviewContainer.classList.remove(
+                "show"
+            );
+
+        }
+
+
+        /* =========================
+           PHOTO ERROR
+        ========================== */
+
+        function showPhotoError(message) {
+
+            photoError.innerText =
+                message;
+
+            photoError.style.display =
+                "block";
+
+        }
+
+
+        function clearPhotoError() {
+
+            photoError.innerText =
+                "";
+
+            photoError.style.display =
+                "none";
+
+        }
+
+
+        /* =========================
+           FORM SUBMIT PROTECTION
+        ========================== */
+
+        const bookingForm =
+            document.querySelector(".booking form");
+
+
+        bookingForm.addEventListener(
+            "submit",
+            function (event) {
+
+                /*
+                 * The backend accepts the photo
+                 * using name="photo".
+                 *
+                 * If a gallery photo was selected
+                 * and browser allowed FileList
+                 * assignment, cameraInput contains it.
+                 *
+                 * If not, move the gallery file into
+                 * cameraInput before submitting.
+                 */
+
+                if (
+                    galleryInput.files.length > 0 &&
+                    cameraInput.files.length === 0
+                ) {
+
+                    try {
+
+                        const dataTransfer =
+                            new DataTransfer();
+
+                        dataTransfer.items.add(
+                            galleryInput.files[0]
+                        );
+
+                        cameraInput.files =
+                            dataTransfer.files;
+
+                    }
+
+                    catch (error) {
+
+                        /*
+                         * Browser does not allow
+                         * FileList assignment.
+                         *
+                         * In that rare case, the
+                         * gallery input is renamed
+                         * temporarily so the backend
+                         * still receives name="photo".
+                         */
+
+                        galleryInput.name =
+                            "photo";
+
+                        cameraInput.removeAttribute(
+                            "name"
+                        );
+
+                    }
+
+                }
+
+            }
+        );
+
     </script>
 
 
 </body>
+
 </html>

@@ -8,6 +8,11 @@
         content="width=device-width, initial-scale=1.0"
     >
 
+    <meta
+        name="theme-color"
+        content="#111111"
+    >
+
     <title>My Bookings - Golden Car Glass</title>
 
     <style>
@@ -17,14 +22,18 @@
 
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
             background: #f5f5f5;
             color: #222;
+            line-height: 1.5;
         }
 
-        /* NAVBAR */
+        /* =========================
+           NAVBAR
+        ========================= */
+
         .navbar {
-            background: #111;
+            background: #111111;
             color: white;
             padding: 15px 20px;
             display: flex;
@@ -36,12 +45,13 @@
 
         .logo {
             font-size: 20px;
-            font-weight: bold;
+            font-weight: 800;
+            color: #f5c518;
         }
 
         .nav-links {
             display: flex;
-            gap: 15px;
+            gap: 16px;
             flex-wrap: wrap;
         }
 
@@ -49,119 +59,158 @@
             color: white;
             text-decoration: none;
             font-size: 14px;
+            font-weight: 600;
         }
 
         .nav-links a:hover {
-            text-decoration: underline;
+            color: #f5c518;
         }
 
-        /* MAIN */
+
+        /* =========================
+           MAIN
+        ========================= */
+
         .container {
             width: 92%;
             max-width: 700px;
-            margin: 30px auto;
+            margin: 30px auto 55px;
         }
 
         h1 {
             text-align: center;
-            margin-bottom: 25px;
+            margin: 0 0 25px;
+            color: #111111;
+            font-size: 30px;
         }
 
-        /* SEARCH BOX */
+
+        /* =========================
+           SEARCH BOX
+        ========================= */
+
         .search-box {
             background: white;
-            padding: 22px;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
             margin-bottom: 25px;
+            border: 1px solid #eeeeee;
         }
 
         .search-box label {
             display: block;
-            font-weight: bold;
+            font-weight: 700;
             margin-bottom: 8px;
+            color: #222;
         }
 
         .search-box input {
             width: 100%;
             padding: 13px;
-            border: 1px solid #ccc;
-            border-radius: 7px;
+            border: 1px solid #cccccc;
+            border-radius: 9px;
             font-size: 16px;
             margin-bottom: 12px;
+            outline: none;
+        }
+
+        .search-box input:focus {
+            border-color: #f5c518;
+            box-shadow: 0 0 0 3px rgba(245, 197, 24, 0.12);
         }
 
         .search-box button {
             width: 100%;
             padding: 13px;
-            background: #111;
+            background: #111111;
             color: white;
             border: none;
-            border-radius: 7px;
+            border-radius: 9px;
             font-size: 16px;
+            font-weight: 700;
             cursor: pointer;
+            transition: 0.2s;
         }
 
         .search-box button:hover {
-            background: #333;
+            background: #333333;
         }
 
-        /* ERROR */
+
+        /* =========================
+           ERROR
+        ========================= */
+
         .error {
             background: #ffe5e5;
             color: #b00020;
             padding: 12px;
-            border-radius: 7px;
+            border-radius: 9px;
             margin-bottom: 15px;
             text-align: center;
+            font-size: 14px;
         }
 
-        /* NO BOOKINGS */
+
+        /* =========================
+           NO BOOKINGS
+        ========================= */
+
         .no-bookings {
             background: white;
-            padding: 25px;
-            border-radius: 12px;
+            padding: 28px 22px;
+            border-radius: 16px;
             text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
             margin-bottom: 20px;
+            border: 1px solid #eeeeee;
         }
 
         .no-bookings h3 {
             margin-top: 0;
+            margin-bottom: 8px;
+            font-size: 20px;
         }
 
         .no-bookings p {
-            color: #666;
+            color: #666666;
             margin-bottom: 20px;
+            font-size: 14px;
         }
 
-        /* BOOKING CARD */
+
+        /* =========================
+           BOOKING CARD
+        ========================= */
+
         .booking-card {
             background: white;
-            border-radius: 12px;
+            border-radius: 16px;
             padding: 20px;
             margin-bottom: 18px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+            border: 1px solid #eeeeee;
         }
 
         .booking-header {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-end;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 15px;
+            margin-bottom: 17px;
         }
 
-        .booking-id {
-            font-size: 18px;
-            font-weight: bold;
-        }
+
+        /* =========================
+           STATUS
+        ========================= */
 
         .status {
-            padding: 6px 10px;
+            display: inline-block;
+            padding: 7px 12px;
             border-radius: 20px;
             font-size: 13px;
-            font-weight: bold;
+            font-weight: 800;
         }
 
         .pending {
@@ -184,74 +233,149 @@
             color: #842029;
         }
 
+
+        /* =========================
+           BOOKING INFO
+        ========================= */
+
         .booking-info {
-            line-height: 1.8;
+            line-height: 1.9;
             font-size: 15px;
+        }
+
+        .booking-info div {
+            padding: 7px 0;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        .booking-info div:last-child {
+            border-bottom: none;
         }
 
         .booking-info strong {
             display: inline-block;
-            min-width: 115px;
+            min-width: 125px;
+            color: #555555;
         }
+
+
+        /* =========================
+           VIEW DETAILS
+        ========================= */
 
         .view-details {
             display: block;
             text-align: center;
             margin-top: 18px;
             padding: 12px;
-            background: #111;
+            background: #111111;
             color: white;
             text-decoration: none;
-            border-radius: 7px;
-            font-weight: bold;
+            border-radius: 9px;
+            font-weight: 700;
+            transition: 0.2s;
         }
 
         .view-details:hover {
-            background: #333;
+            background: #333333;
         }
 
-        /* CHANGE MOBILE */
+
+        /* =========================
+           CHANGE MOBILE
+        ========================= */
+
         .change-mobile {
             display: block;
             text-align: center;
-            margin-top: 20px;
-            color: #111;
+            margin-top: 22px;
+            color: #111111;
             text-decoration: none;
-            font-weight: bold;
+            font-weight: 700;
+            font-size: 14px;
         }
 
         .change-mobile:hover {
+            color: #b18a00;
             text-decoration: underline;
         }
 
-        /* MOBILE */
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .footer {
+            background: #111111;
+            color: #aaaaaa;
+            text-align: center;
+            padding: 22px 15px;
+            font-size: 12px;
+        }
+
+        .footer strong {
+            color: #f5c518;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
         @media (max-width: 600px) {
 
             .navbar {
                 flex-direction: column;
                 text-align: center;
+                padding: 14px 16px;
+            }
+
+            .logo {
+                font-size: 19px;
             }
 
             .nav-links {
                 justify-content: center;
+                gap: 12px;
+            }
+
+            .nav-links a {
+                font-size: 12px;
             }
 
             .container {
                 width: 94%;
-                margin-top: 20px;
+                margin-top: 22px;
             }
 
             h1 {
                 font-size: 26px;
+                margin-bottom: 22px;
+            }
+
+            .search-box {
+                padding: 20px;
+            }
+
+            .booking-card {
+                padding: 17px;
+                border-radius: 14px;
             }
 
             .booking-header {
-                align-items: flex-start;
-                flex-direction: column;
+                justify-content: flex-start;
+            }
+
+            .booking-info {
+                font-size: 14px;
             }
 
             .booking-info strong {
-                min-width: 100px;
+                min-width: 105px;
+            }
+
+            .view-details {
+                margin-top: 15px;
             }
         }
     </style>
@@ -259,7 +383,11 @@
 
 <body>
 
-    <!-- NAVBAR -->
+
+    <!-- =========================
+         NAVBAR
+    ========================= -->
+
     <nav class="navbar">
 
         <div class="logo">
@@ -285,7 +413,10 @@
     </nav>
 
 
-    <!-- MAIN CONTENT -->
+    <!-- =========================
+         MAIN CONTENT
+    ========================= -->
+
     <div class="container">
 
         <h1>
@@ -293,160 +424,183 @@
         </h1>
 
 
-        <!-- SEARCH FORM -->
-{% if not bookings and not searched %}
+        <!-- =========================
+             SEARCH FORM
+        ========================= -->
 
-<div class="search-box">
+        {% if not bookings and not searched %}
 
-    {% if error %}
-        <div class="error">
-            {{ error }}
-        </div>
-    {% endif %}
+        <div class="search-box">
 
-    <form
-        method="POST"
-        action="{{ url_for('my_bookings') }}"
-    >
+            {% if error %}
 
-        <input
-            type="hidden"
-            name="csrf_token"
-            value="{{ csrf_token() }}"
-        >
-
-        <label for="mobile">
-            Enter your mobile number
-        </label>
-
-        <input
-            type="tel"
-            id="mobile"
-            name="mobile"
-            placeholder="Enter 10-digit mobile number"
-            maxlength="10"
-            inputmode="numeric"
-            autocomplete="tel"
-            required
-            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-        >
-
-        <button type="submit">
-            View My Bookings
-        </button>
-
-    </form>
-
-</div>
-
-{% endif %}
-
-
-        {% if searched and not bookings %}
-
-            <!-- NO BOOKINGS MESSAGE -->
-            <div class="no-bookings">
-
-                <h3>
-                    🔍 No bookings found
-                </h3>
-
-                <p>
-                    We couldn't find any booking associated
-                    with this mobile number.
-                </p>
-
-                <a
-                    href="{{ url_for('clear_customer_bookings') }}"
-                    class="view-details"
-                >
-                    Search Again
-                </a>
-
+            <div class="error">
+                {{ error }}
             </div>
+
+            {% endif %}
+
+
+            <form
+                method="POST"
+                action="{{ url_for('my_bookings') }}"
+            >
+
+                <input
+                    type="hidden"
+                    name="csrf_token"
+                    value="{{ csrf_token() }}"
+                >
+
+
+                <label for="mobile">
+                    Enter your mobile number
+                </label>
+
+
+                <input
+                    type="tel"
+                    id="mobile"
+                    name="mobile"
+                    placeholder="Enter 10-digit mobile number"
+                    maxlength="10"
+                    inputmode="numeric"
+                    autocomplete="tel"
+                    required
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                >
+
+
+                <button type="submit">
+                    View My Bookings
+                </button>
+
+            </form>
+
+        </div>
 
         {% endif %}
 
+
+        <!-- =========================
+             NO BOOKINGS
+        ========================= -->
+
+        {% if searched and not bookings %}
+
+        <div class="no-bookings">
+
+            <h3>
+                🔍 No bookings found
+            </h3>
+
+            <p>
+                We couldn't find any booking associated
+                with this mobile number.
+            </p>
+
+
+            <a
+                href="{{ url_for('clear_customer_bookings') }}"
+                class="view-details"
+            >
+                Search Again
+            </a>
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- =========================
+             BOOKINGS
+        ========================= -->
 
         {% if bookings %}
 
             {% for booking in bookings %}
 
-                <div class="booking-card">
-
-                    <div class="booking-header">
-
-                        <div class="booking-id">
-                            Booking #{{ booking.id }}
-                        </div>
+            <div class="booking-card">
 
 
-                        {% if booking.status == "Pending" %}
+                <!-- STATUS -->
 
-                            <span class="status pending">
-                                Pending
-                            </span>
+                <div class="booking-header">
 
-                        {% elif booking.status == "In Progress" %}
+                    {% if booking.status == "Pending" %}
 
-                            <span class="status in-progress">
-                                In Progress
-                            </span>
+                    <span class="status pending">
+                        Pending
+                    </span>
 
-                        {% elif booking.status == "Completed" %}
+                    {% elif booking.status == "In Progress" %}
 
-                            <span class="status completed">
-                                Completed
-                            </span>
+                    <span class="status in-progress">
+                        In Progress
+                    </span>
 
-                        {% elif booking.status == "Cancelled" %}
+                    {% elif booking.status == "Completed" %}
 
-                            <span class="status cancelled">
-                                Cancelled
-                            </span>
+                    <span class="status completed">
+                        Completed
+                    </span>
 
-                        {% else %}
+                    {% elif booking.status == "Cancelled" %}
 
-                            <span class="status">
-                                {{ booking.status }}
-                            </span>
+                    <span class="status cancelled">
+                        Cancelled
+                    </span>
 
-                        {% endif %}
+                    {% else %}
 
-                    </div>
+                    <span class="status">
+                        {{ booking.status }}
+                    </span>
 
-
-                    <div class="booking-info">
-
-                        <div>
-                            <strong>Car Model:</strong>
-                            {{ booking.car_model }}
-                        </div>
-
-                        <div>
-                            <strong>Glass Type:</strong>
-                            {{ booking.glass_type }}
-                        </div>
-
-                        <div>
-                            <strong>Service Date:</strong>
-                            {{ booking.date }}
-                        </div>
-
-                    </div>
-
-
-                    <a
-                        href="{{ url_for('customer_booking_details', id=booking.id) }}"
-                        class="view-details"
-                    >
-                        View Details
-                    </a>
+                    {% endif %}
 
                 </div>
 
+
+                <!-- BOOKING INFORMATION -->
+
+                <div class="booking-info">
+
+                    <div>
+                        <strong>Car Model:</strong>
+                        {{ booking.car_model }}
+                    </div>
+
+
+                    <div>
+                        <strong>Glass Type:</strong>
+                        {{ booking.glass_type }}
+                    </div>
+
+
+                    <div>
+                        <strong>Service Date:</strong>
+                        {{ booking.date }}
+                    </div>
+
+                </div>
+
+
+                <!-- VIEW DETAILS -->
+
+                <a
+                    href="{{ url_for('customer_booking_details', id=booking.id) }}"
+                    class="view-details"
+                >
+                    View Details
+                </a>
+
+            </div>
+
             {% endfor %}
 
+
+            <!-- SEARCH ANOTHER NUMBER -->
 
             <a
                 href="{{ url_for('clear_customer_bookings') }}"
@@ -458,6 +612,23 @@
         {% endif %}
 
     </div>
+
+
+    <!-- =========================
+         FOOTER
+    ========================= -->
+
+    <footer class="footer">
+
+        <div>
+            <strong>Golden Car Glass</strong>
+        </div>
+
+        <div>
+            Professional Car Glass Replacement & Repair
+        </div>
+
+    </footer>
 
 </body>
 </html>

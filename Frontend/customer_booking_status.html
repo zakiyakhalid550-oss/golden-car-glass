@@ -1,1041 +1,1435 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="theme-color" content="#111111">
+    <meta name="description" content="Golden Car Glass - Your booking details and service status">
 
-    <title>Booking Status - Golden Car Glass</title>
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+
+    <title>My Booking | Golden Car Glass</title>
 
     <style>
-
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
             background: #f5f5f5;
             color: #222;
-            min-height: 100vh;
+            line-height: 1.5;
         }
 
         /* =========================
            NAVBAR
         ========================= */
 
-        nav {
-            background: #111;
-            color: white;
-            padding: 20px 50px;
-
+        .navbar {
+            background: #111111;
+            min-height: 64px;
+            padding: 0 6%;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
+            gap: 20px;
         }
 
-        nav h2 {
+        .brand {
             color: #f5c518;
-            font-size: 24px;
+            text-decoration: none;
+            font-size: 21px;
+            font-weight: 800;
+            letter-spacing: 0.3px;
         }
 
         .nav-links {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 18px;
         }
 
-        nav a {
-            color: white;
+        .nav-links a {
+            color: #ffffff;
             text-decoration: none;
-            font-size: 15px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.2s;
         }
 
-        nav a:hover {
+        .nav-links a:hover {
             color: #f5c518;
         }
 
-
         /* =========================
-           MAIN CONTAINER
+           PAGE
         ========================= */
 
-        .container {
-            max-width: 650px;
-            margin: 50px auto;
-            padding: 20px;
+        .page-container {
+            width: 100%;
+            max-width: 900px;
+            margin: 35px auto 60px;
+            padding: 0 18px;
         }
 
-        .status-box {
-            background: white;
-
-            padding: 38px 35px;
-
-            border-radius: 16px;
-
-            box-shadow:
-                0 4px 18px rgba(0,0,0,0.12);
-        }
-
-
-        /* =========================
-           TITLE
-        ========================= */
-
-        .title {
+        .page-heading {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 28px;
         }
 
-        .title h1 {
+        .page-heading h1 {
             font-size: 30px;
-            margin-bottom: 12px;
+            color: #111111;
+            margin-bottom: 7px;
         }
 
-        .booking-number {
-            display: inline-block;
-
-            background: #fff3cd;
-
-            padding: 11px 20px;
-
-            border-radius: 9px;
-
-            font-weight: bold;
-            font-size: 16px;
-
-            color: #222;
+        .page-heading p {
+            color: #777;
+            font-size: 15px;
         }
 
+        /* =========================
+           CARD
+        ========================= */
+
+        .card {
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 25px;
+            margin-bottom: 22px;
+            box-shadow: 0 7px 25px rgba(0, 0, 0, 0.07);
+            border: 1px solid #eeeeee;
+        }
+
+        .card-title {
+            font-size: 19px;
+            font-weight: 800;
+            color: #111111;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .gold-line {
+            width: 38px;
+            height: 4px;
+            background: #f5c518;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
 
         /* =========================
            BOOKING DETAILS
         ========================= */
 
-        .details {
-            margin-top: 25px;
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
         }
 
-        .detail-row {
-            display: flex;
-            justify-content: space-between;
-
-            gap: 20px;
-
-            padding: 15px 0;
-
-            border-bottom: 1px solid #eee;
-
-            font-size: 16px;
-        }
-
-        .label {
-            color: #666;
-        }
-
-        .value {
-            font-weight: bold;
-            text-align: right;
-        }
-
-
-        /* =========================
-           CURRENT STATUS
-        ========================= */
-
-        .status-section {
-            text-align: center;
-
-            margin-top: 32px;
-
-            padding: 30px 20px;
-
-            border-radius: 14px;
-
-            background: #f8f8f8;
-        }
-
-        .status-section h3 {
-            font-size: 18px;
-            margin-bottom: 15px;
-        }
-
-        .status {
-            display: inline-block;
-
-            padding: 12px 26px;
-
-            border-radius: 30px;
-
-            font-size: 19px;
-
-            font-weight: bold;
-        }
-
-        .pending {
-            background: #fff3cd;
-            color: #856404;
-        }
-
-        .progress {
-            background: #cfe2ff;
-            color: #084298;
-        }
-
-        .completed {
-            background: #d1e7dd;
-            color: #0f5132;
-        }
-
-        .cancelled {
-            background: #f8d7da;
-            color: #842029;
-        }
-
-        .message {
-            margin-top: 18px;
-
-            color: #555;
-
-            font-size: 16px;
-
-            line-height: 1.6;
-        }
-
-
-        /* =========================
-           STATUS TIMELINE
-        ========================= */
-
-        .timeline-section {
-            margin-top: 35px;
-
-            padding: 25px 20px;
-
+        .detail-box {
             background: #fafafa;
-
-            border-radius: 14px;
-
-            border: 1px solid #eee;
+            border: 1px solid #eeeeee;
+            border-radius: 12px;
+            padding: 14px 15px;
         }
 
-        .timeline-title {
+        .detail-label {
+            display: block;
+            color: #777;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            letter-spacing: 0.4px;
+        }
+
+        .detail-value {
+            color: #222;
+            font-size: 15px;
+            font-weight: 600;
+            word-break: break-word;
+        }
+
+        .message-box {
+            margin-top: 15px;
+            background: #fafafa;
+            border: 1px solid #eeeeee;
+            border-radius: 12px;
+            padding: 15px;
+        }
+
+        .message-text {
+            color: #444;
+            font-size: 14px;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        /* =========================
+           STATUS
+        ========================= */
+
+        .current-status {
             text-align: center;
-
-            font-size: 20px;
-
-            margin-bottom: 28px;
+            background: #111111;
+            color: #ffffff;
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 25px;
         }
+
+        .current-status-label {
+            font-size: 12px;
+            color: #cccccc;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 5px;
+        }
+
+        .current-status-value {
+            font-size: 24px;
+            font-weight: 800;
+            color: #f5c518;
+        }
+
+        /* =========================
+           TIMELINE
+        ========================= */
 
         .timeline {
             position: relative;
-
-            max-width: 430px;
-
-            margin: 0 auto;
+            margin: 10px 5px 5px;
         }
 
         .timeline-item {
             position: relative;
-
             display: flex;
+            gap: 15px;
+            min-height: 82px;
+        }
 
+        .timeline-left {
+            width: 32px;
+            display: flex;
+            flex-direction: column;
             align-items: center;
-
-            min-height: 70px;
-
-            padding-left: 55px;
+            flex-shrink: 0;
         }
 
-        /* Vertical line */
-
-        .timeline-item:not(:last-child)::before {
-            content: "";
-
-            position: absolute;
-
-            left: 16px;
-
-            top: 32px;
-
-            width: 3px;
-
-            height: 55px;
-
-            background: #ddd;
-        }
-
-        /* Completed line */
-
-        .timeline-item.completed-line:not(:last-child)::before {
-            background: #198754;
-        }
-
-        /* Timeline circle */
-
-        .timeline-circle {
-            position: absolute;
-
-            left: 0;
-
-            top: 15px;
-
-            width: 34px;
-
-            height: 34px;
-
+        .timeline-dot {
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
-
-            background: #ddd;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            font-size: 15px;
-
+            border: 3px solid #d8d8d8;
+            background: #ffffff;
+            position: relative;
             z-index: 2;
         }
 
-        /* Completed */
-
-        .timeline-item.completed-step .timeline-circle {
-            background: #198754;
-
-            color: white;
+        .timeline-line {
+            width: 3px;
+            flex: 1;
+            background: #dddddd;
+            margin-top: -1px;
         }
 
-        /* Current */
+        .timeline-item:last-child {
+            min-height: auto;
+        }
 
-        .timeline-item.current-step .timeline-circle {
-            background: #0d6efd;
+        .timeline-item:last-child .timeline-line {
+            display: none;
+        }
 
-            color: white;
+        .timeline-content {
+            padding-bottom: 24px;
+        }
 
-            box-shadow:
-                0 0 0 5px rgba(13,110,253,0.12);
+        .timeline-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: #555;
+            margin-top: 1px;
+        }
+
+        .timeline-description {
+            font-size: 13px;
+            color: #888;
+            margin-top: 3px;
+        }
+
+        /* Active states */
+
+        .timeline-item.completed .timeline-dot {
+            background: #28a745;
+            border-color: #28a745;
+        }
+
+        .timeline-item.completed .timeline-line {
+            background: #28a745;
+        }
+
+        .timeline-item.completed .timeline-title {
+            color: #222;
+        }
+
+        .timeline-item.active .timeline-dot {
+            background: #f5c518;
+            border-color: #f5c518;
+            box-shadow: 0 0 0 5px rgba(245, 197, 24, 0.15);
+        }
+
+        .timeline-item.active .timeline-title {
+            color: #111111;
         }
 
         /* Cancelled */
 
-        .timeline-item.cancelled-step .timeline-circle {
-            background: #dc3545;
-
-            color: white;
+        .cancelled-status {
+            background: #fff4f4;
+            border: 1px solid #ffd7d7;
+            border-radius: 14px;
+            padding: 18px;
+            text-align: center;
         }
 
-        .timeline-content {
-            padding-bottom: 12px;
-        }
-
-        .timeline-content h4 {
-            font-size: 16px;
-
+        .cancelled-status .cancelled-title {
+            color: #c62828;
+            font-size: 18px;
+            font-weight: 800;
             margin-bottom: 5px;
         }
 
-        .timeline-content p {
+        .cancelled-status p {
             color: #777;
-
-            font-size: 13px;
-
-            line-height: 1.4;
+            font-size: 14px;
         }
-
-        .timeline-item.current-step
-        .timeline-content h4 {
-            color: #0d6efd;
-        }
-
-        .timeline-item.completed-step
-        .timeline-content h4 {
-            color: #198754;
-        }
-
-        .timeline-item.cancelled-step
-        .timeline-content h4 {
-            color: #dc3545;
-        }
-
 
         /* =========================
-           BUTTONS
+           PHOTO UPLOAD
         ========================= */
 
-        .buttons {
+        .photo-upload-card {
+            background: #ffffff;
+        }
+
+        .photo-intro {
+            color: #777;
+            font-size: 14px;
+            margin-top: -10px;
+            margin-bottom: 18px;
+        }
+
+        .photo-upload-area {
+            border: 2px dashed #dddddd;
+            border-radius: 16px;
+            background: #fafafa;
+            padding: 22px;
+            text-align: center;
+        }
+
+        .photo-icon {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: #111111;
+            color: #f5c518;
             display: flex;
-
+            align-items: center;
             justify-content: center;
+            margin: 0 auto 12px;
+            font-size: 26px;
+        }
 
-            gap: 14px;
+        .photo-upload-title {
+            font-size: 17px;
+            font-weight: 800;
+            color: #222;
+            margin-bottom: 5px;
+        }
 
-            margin-top: 30px;
+        .photo-upload-subtitle {
+            color: #888;
+            font-size: 13px;
+            margin-bottom: 18px;
+        }
 
+        .photo-actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
             flex-wrap: wrap;
         }
 
-        .btn {
-            display: inline-block;
-
-            padding: 14px 22px;
-
-            border-radius: 9px;
-
-            text-decoration: none;
-
-            font-size: 15px;
-
-            font-weight: bold;
+        .photo-btn {
+            border: none;
+            border-radius: 10px;
+            padding: 12px 17px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
         }
 
-        .home-btn {
-            background: #222;
-            color: white;
+        .camera-btn {
+            background: #111111;
+            color: #ffffff;
         }
 
-        .call-btn {
+        .camera-btn:hover {
+            background: #292929;
+        }
+
+        .gallery-btn {
             background: #f5c518;
-            color: #111;
+            color: #111111;
         }
 
-        .bookings-btn {
-            background: #111;
-            color: white;
+        .gallery-btn:hover {
+            background: #e2b400;
         }
 
-        .home-btn:hover {
-            background: #444;
+        .photo-note {
+            font-size: 12px;
+            color: #999;
+            margin-top: 14px;
         }
 
-        .call-btn:hover {
-            background: #d4a900;
+        /* Preview */
+
+        .photo-preview {
+            display: none;
+            margin-top: 18px;
+            background: #ffffff;
+            border: 1px solid #e5e5e5;
+            border-radius: 14px;
+            padding: 12px;
         }
 
-        .bookings-btn:hover {
-            background: #333;
+        .photo-preview.show {
+            display: block;
         }
 
+        .preview-image-wrapper {
+            position: relative;
+            width: 100%;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #f1f1f1;
+        }
+
+        .preview-image {
+            width: 100%;
+            max-height: 320px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .preview-info {
+            padding: 10px 2px 3px;
+            text-align: left;
+        }
+
+        .preview-file-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: #333;
+            word-break: break-word;
+        }
+
+        .preview-file-size {
+            color: #888;
+            font-size: 12px;
+            margin-top: 2px;
+        }
+
+        .preview-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .remove-photo-btn {
+            width: 100%;
+            border: 1px solid #dddddd;
+            background: #ffffff;
+            color: #c62828;
+            border-radius: 9px;
+            padding: 9px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .remove-photo-btn:hover {
+            background: #fff4f4;
+        }
+
+        .upload-submit-btn {
+            width: 100%;
+            margin-top: 15px;
+            border: none;
+            background: #111111;
+            color: #ffffff;
+            border-radius: 11px;
+            padding: 13px;
+            font-size: 14px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .upload-submit-btn:hover {
+            background: #292929;
+        }
+
+        .upload-submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .photo-error {
+            display: none;
+            color: #c62828;
+            background: #fff4f4;
+            border: 1px solid #ffd7d7;
+            border-radius: 9px;
+            padding: 10px;
+            margin-top: 12px;
+            font-size: 13px;
+            text-align: left;
+        }
+
+        .photo-error.show {
+            display: block;
+        }
 
         /* =========================
-           MOBILE DESIGN
+           EXISTING PHOTOS
         ========================= */
 
-        @media (max-width: 600px) {
-
-            nav {
-                padding: 16px 18px;
-
-                flex-direction: column;
-
-                gap: 12px;
-            }
-
-            nav h2 {
-                font-size: 20px;
-            }
-
-            .nav-links {
-                width: 100%;
-
-                justify-content: center;
-
-                gap: 15px;
-            }
-
-            nav a {
-                font-size: 14px;
-            }
-
-            .container {
-                width: 100%;
-
-                margin: 22px auto;
-
-                padding: 12px;
-            }
-
-            .status-box {
-                width: 100%;
-
-                padding: 30px 20px;
-
-                border-radius: 16px;
-
-                box-shadow:
-                    0 4px 18px rgba(0,0,0,0.12);
-            }
-
-            .title {
-                margin-bottom: 28px;
-            }
-
-            .title h1 {
-                font-size: 29px;
-
-                line-height: 1.25;
-
-                margin-bottom: 14px;
-            }
-
-            .booking-number {
-                font-size: 17px;
-
-                padding: 12px 20px;
-            }
-
-            .details {
-                margin-top: 28px;
-            }
-
-            .detail-row {
-                font-size: 16px;
-
-                padding: 16px 0;
-
-                gap: 15px;
-            }
-
-            .label {
-                flex: 1;
-            }
-
-            .value {
-                flex: 1.4;
-
-                word-break: break-word;
-            }
-
-            .status-section {
-                margin-top: 30px;
-
-                padding: 30px 15px;
-
-                border-radius: 14px;
-            }
-
-            .status-section h3 {
-                font-size: 19px;
-
-                margin-bottom: 16px;
-            }
-
-            .status {
-                font-size: 19px;
-
-                padding: 13px 28px;
-            }
-
-            .message {
-                font-size: 16px;
-
-                line-height: 1.6;
-
-                margin-top: 18px;
-            }
-
-            .timeline-section {
-                margin-top: 30px;
-
-                padding: 22px 15px;
-            }
-
-            .timeline-title {
-                font-size: 19px;
-
-                margin-bottom: 25px;
-            }
-
-            .timeline-item {
-                padding-left: 50px;
-            }
-
-            .timeline-content h4 {
-                font-size: 15px;
-            }
-
-            .timeline-content p {
-                font-size: 13px;
-            }
-
-            .buttons {
-                margin-top: 30px;
-
-                flex-direction: column;
-
-                gap: 12px;
-            }
-
-            .btn {
-                width: 100%;
-
-                text-align: center;
-
-                padding: 15px 18px;
-
-                font-size: 16px;
-
-                border-radius: 9px;
-            }
+        .uploaded-photos {
+            margin-top: 25px;
         }
 
+        .uploaded-photos-title {
+            font-size: 16px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: #222;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .photo-item {
+            background: #fafafa;
+            border: 1px solid #eeeeee;
+            border-radius: 12px;
+            padding: 6px;
+            overflow: hidden;
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 170px;
+            object-fit: cover;
+            border-radius: 8px;
+            display: block;
+        }
+
+        .photo-date {
+            color: #888;
+            font-size: 11px;
+            padding: 7px 3px 2px;
+        }
 
         /* =========================
-           EXTRA SMALL PHONES
+           BACK BUTTON
         ========================= */
 
-        @media (max-width: 380px) {
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            background: #ffffff;
+            color: #111111;
+            border: 1px solid #dddddd;
+            border-radius: 10px;
+            padding: 11px 18px;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            transition: 0.2s;
+        }
 
-            .status-box {
-                padding: 26px 16px;
+        .back-link:hover {
+            background: #111111;
+            color: #ffffff;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .footer {
+            background: #111111;
+            color: #aaaaaa;
+            text-align: center;
+            padding: 22px 15px;
+            font-size: 12px;
+        }
+
+        .footer strong {
+            color: #f5c518;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 650px) {
+
+            .navbar {
+                min-height: 60px;
+                padding: 0 16px;
             }
 
-            .title h1 {
-                font-size: 26px;
-            }
-
-            .booking-number {
-                font-size: 16px;
-            }
-
-            .detail-row {
-                font-size: 15px;
-            }
-
-            .status {
+            .brand {
                 font-size: 18px;
             }
 
-            .message {
-                font-size: 15px;
+            .nav-links {
+                gap: 11px;
             }
 
-            .timeline-section {
-                padding: 20px 12px;
+            .nav-links a {
+                font-size: 12px;
+            }
+
+            .page-container {
+                margin-top: 25px;
+                padding: 0 12px;
+            }
+
+            .page-heading {
+                margin-bottom: 22px;
+            }
+
+            .page-heading h1 {
+                font-size: 25px;
+            }
+
+            .page-heading p {
+                font-size: 13px;
+            }
+
+            .card {
+                padding: 18px;
+                border-radius: 15px;
+                margin-bottom: 16px;
+            }
+
+            .details-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .current-status {
+                padding: 17px;
+            }
+
+            .current-status-value {
+                font-size: 21px;
+            }
+
+            .photo-upload-area {
+                padding: 18px 12px;
+            }
+
+            .photo-actions {
+                flex-direction: column;
+            }
+
+            .photo-btn {
+                width: 100%;
+            }
+
+            .photo-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 9px;
+            }
+
+            .photo-item img {
+                height: 130px;
             }
         }
-
     </style>
-
 </head>
 
-
 <body>
-
 
     <!-- =========================
          NAVBAR
     ========================= -->
 
-    <nav>
+    <nav class="navbar">
 
-        <h2>
+        <a href="/" class="brand">
             Golden Car Glass
-        </h2>
+        </a>
 
         <div class="nav-links">
-
-            <a href="/">
-                Home
-            </a>
-
-            <a href="/my_bookings">
-                My Bookings
-            </a>
-
+            <a href="/">Home</a>
+            <a href="/my_bookings">My Bookings</a>
         </div>
 
     </nav>
 
 
+    <!-- =========================
+         MAIN
+    ========================= -->
 
-    <div class="container">
+    <main class="page-container">
 
-        <div class="status-box">
+        <a href="/my_bookings" class="back-link">
+            ← Back to My Bookings
+        </a>
 
 
-            <!-- =========================
-                 TITLE
-            ========================= -->
+        <!-- PAGE HEADING -->
 
-            <div class="title">
+        <div class="page-heading">
+            <h1>My Booking</h1>
+            <p>View your service details and current booking status.</p>
+        </div>
 
-                <h1>
-                    Booking Status
-                </h1>
 
-                <span class="booking-number">
-                    Booking #{{ booking["id"] }}
+        <!-- =========================
+             BOOKING DETAILS
+        ========================= -->
+
+        <section class="card">
+
+            <div class="card-title">
+                📋 Service Details
+            </div>
+
+            <div class="gold-line"></div>
+
+            <div class="details-grid">
+
+                <div class="detail-box">
+                    <span class="detail-label">Customer Name</span>
+                    <span class="detail-value">
+                        {{ booking['name'] }}
+                    </span>
+                </div>
+
+                <div class="detail-box">
+                    <span class="detail-label">Mobile Number</span>
+                    <span class="detail-value">
+                        {{ booking['mobile'] }}
+                    </span>
+                </div>
+
+                <div class="detail-box">
+                    <span class="detail-label">Car Model</span>
+                    <span class="detail-value">
+                        {{ booking['car_model'] }}
+                    </span>
+                </div>
+
+                <div class="detail-box">
+                    <span class="detail-label">Glass / Service</span>
+                    <span class="detail-value">
+                        {{ booking['glass_type'] }}
+                    </span>
+                </div>
+
+                <div class="detail-box">
+                    <span class="detail-label">Service Date</span>
+                    <span class="detail-value">
+                        {{ booking['date'] }}
+                    </span>
+                </div>
+
+            </div>
+
+
+            {% if booking['message'] %}
+
+            <div class="message-box">
+
+                <span class="detail-label">
+                    Additional Message
                 </span>
 
-            </div>
-
-
-
-            <!-- =========================
-                 BOOKING DETAILS
-            ========================= -->
-
-            <div class="details">
-
-
-                <div class="detail-row">
-
-                    <span class="label">
-                        Name
-                    </span>
-
-                    <span class="value">
-                        {{ booking["name"] }}
-                    </span>
-
-                </div>
-
-
-
-                <div class="detail-row">
-
-                    <span class="label">
-                        Car Model
-                    </span>
-
-                    <span class="value">
-                        {{ booking["car_model"] }}
-                    </span>
-
-                </div>
-
-
-
-                <div class="detail-row">
-
-                    <span class="label">
-                        Glass Type
-                    </span>
-
-                    <span class="value">
-                        {{ booking["glass_type"] }}
-                    </span>
-
-                </div>
-
-
-
-                <div class="detail-row">
-
-                    <span class="label">
-                        Service Date
-                    </span>
-
-                    <span class="value">
-                        {{ booking["date"] }}
-                    </span>
-
+                <div class="message-text">
+                    {{ booking['message'] }}
                 </div>
 
             </div>
 
+            {% endif %}
+
+        </section>
 
 
-            <!-- =========================
-                 CURRENT STATUS
-            ========================= -->
+        <!-- =========================
+             STATUS
+        ========================= -->
 
-            <div class="status-section">
+        <section class="card">
 
-                <h3>
+            <div class="card-title">
+                📍 Service Status
+            </div>
+
+            <div class="gold-line"></div>
+
+
+            <div class="current-status">
+
+                <div class="current-status-label">
                     Current Status
-                </h3>
+                </div>
 
-
-                {% if booking["status"] == "Pending" %}
-
-                    <span class="status pending">
-                        🟡 Pending
-                    </span>
-
-                    <p class="message">
-                        Your booking has been received.
-                        Our team will contact you soon.
-                    </p>
-
-
-                {% elif booking["status"] == "In Progress" %}
-
-                    <span class="status progress">
-                        🔵 In Progress
-                    </span>
-
-                    <p class="message">
-                        Your service is currently in progress.
-                    </p>
-
-
-                {% elif booking["status"] == "Completed" %}
-
-                    <span class="status completed">
-                        🟢 Completed
-                    </span>
-
-                    <p class="message">
-                        Your service has been completed successfully.
-                    </p>
-
-
-                {% elif booking["status"] == "Cancelled" %}
-
-                    <span class="status cancelled">
-                        🔴 Cancelled
-                    </span>
-
-                    <p class="message">
-                        This booking has been cancelled.
-                        Please contact Golden Car Glass
-                        if you need assistance.
-                    </p>
-
-
-                {% else %}
-
-                    <span class="status pending">
-                        {{ booking["status"] }}
-                    </span>
-
-                {% endif %}
+                <div class="current-status-value">
+                    {{ booking['status'] }}
+                </div>
 
             </div>
 
 
+            {% if booking['status'] == 'Cancelled' %}
 
-            <!-- =========================
-                 STATUS TIMELINE
-            ========================= -->
+                <div class="cancelled-status">
 
-            <div class="timeline-section">
+                    <div class="cancelled-title">
+                        ❌ Booking Cancelled
+                    </div>
 
-                <h3 class="timeline-title">
-                    Booking Progress
-                </h3>
+                    <p>
+                        This booking has been cancelled.
+                        Please contact Golden Car Glass if you need further assistance.
+                    </p>
 
+                </div>
+
+            {% else %}
 
                 <div class="timeline">
 
+                    <!-- Pending -->
 
-                    <!-- BOOKING PLACED -->
+                    <div class="timeline-item
+                        {% if booking['status'] == 'Pending' %}
+                            active
+                        {% elif booking['status'] == 'In Progress' or booking['status'] == 'Completed' %}
+                            completed
+                        {% endif %}
+                    ">
 
-                    <div class="timeline-item completed-step completed-line">
+                        <div class="timeline-left">
 
-                        <div class="timeline-circle">
-                            ✓
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-line"></div>
+
                         </div>
 
                         <div class="timeline-content">
 
-                            <h4>
-                                Booking Placed
-                            </h4>
+                            <div class="timeline-title">
+                                Booking Received
+                            </div>
 
-                            <p>
-                                Your service booking has been received.
-                            </p>
+                            <div class="timeline-description">
+                                Your service request has been received.
+                            </div>
 
                         </div>
 
                     </div>
 
 
+                    <!-- In Progress -->
 
-                    {% if booking["status"] == "Cancelled" %}
+                    <div class="timeline-item
+                        {% if booking['status'] == 'In Progress' %}
+                            active
+                        {% elif booking['status'] == 'Completed' %}
+                            completed
+                        {% endif %}
+                    ">
 
+                        <div class="timeline-left">
 
-                        <!-- CANCELLED -->
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-line"></div>
 
-                        <div class="timeline-item cancelled-step">
+                        </div>
 
-                            <div class="timeline-circle">
-                                ✕
+                        <div class="timeline-content">
+
+                            <div class="timeline-title">
+                                Service In Progress
                             </div>
 
-                            <div class="timeline-content">
-
-                                <h4>
-                                    Booking Cancelled
-                                </h4>
-
-                                <p>
-                                    This booking has been cancelled.
-                                </p>
-
+                            <div class="timeline-description">
+                                Your service work is currently in progress.
                             </div>
 
                         </div>
 
+                    </div>
 
-                    {% else %}
 
+                    <!-- Completed -->
 
-                        <!-- PENDING -->
+                    <div class="timeline-item
+                        {% if booking['status'] == 'Completed' %}
+                            active
+                        {% endif %}
+                    ">
 
-                        <div class="timeline-item
-                            {% if booking["status"] == "Pending" %}
-                                current-step
-                            {% else %}
-                                completed-step completed-line
-                            {% endif %}
-                        ">
+                        <div class="timeline-left">
 
-                            <div class="timeline-circle">
+                            <div class="timeline-dot"></div>
 
-                                {% if booking["status"] == "Pending" %}
-                                    ⏳
-                                {% else %}
-                                    ✓
-                                {% endif %}
+                        </div>
 
+                        <div class="timeline-content">
+
+                            <div class="timeline-title">
+                                Service Completed
                             </div>
 
-                            <div class="timeline-content">
-
-                                <h4>
-                                    Booking Pending
-                                </h4>
-
-                                <p>
-                                    Your booking is waiting for service processing.
-                                </p>
-
+                            <div class="timeline-description">
+                                Your car glass service has been completed.
                             </div>
 
                         </div>
 
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+        </section>
 
 
-                        <!-- IN PROGRESS -->
+        <!-- =========================
+             PHOTO UPLOAD
+        ========================= -->
 
-                        <div class="timeline-item
-                            {% if booking["status"] == "In Progress" %}
-                                current-step
-                            {% elif booking["status"] == "Completed" %}
-                                completed-step completed-line
-                            {% endif %}
-                        ">
+        <section class="card photo-upload-card">
 
-                            <div class="timeline-circle">
+            <div class="card-title">
+                📷 Car / Glass Photo
+            </div>
 
-                                {% if booking["status"] == "In Progress" %}
-                                    🔧
-                                {% elif booking["status"] == "Completed" %}
-                                    ✓
-                                {% else %}
-                                    🔧
-                                {% endif %}
+            <div class="gold-line"></div>
 
-                            </div>
+            <p class="photo-intro">
+                You can upload a clear photo of your car or damaged glass.
+                This is optional.
+            </p>
 
-                            <div class="timeline-content">
 
-                                <h4>
-                                    In Progress
-                                </h4>
+            <form
+                action="{{ url_for('upload_booking_photo', id=booking['id']) }}"
+                method="POST"
+                enctype="multipart/form-data"
+                id="photoForm"
+            >
 
-                                <p>
-                                    Our team is working on your service.
-                                </p>
+                <input
+                    type="hidden"
+                    name="csrf_token"
+                    value="{{ csrf_token() }}"
+                >
 
-                            </div>
+
+                <!-- Hidden file input -->
+
+                <input
+                    type="file"
+                    name="photo"
+                    id="photoInput"
+                    accept="image/jpeg,image/png,image/webp"
+                    hidden
+                >
+
+
+                <div class="photo-upload-area" id="photoUploadArea">
+
+                    <div class="photo-icon">
+                        📷
+                    </div>
+
+                    <div class="photo-upload-title">
+                        Add a Photo
+                    </div>
+
+                    <div class="photo-upload-subtitle">
+                        Take a new photo or choose one from your phone.
+                    </div>
+
+
+                    <div class="photo-actions">
+
+                        <button
+                            type="button"
+                            class="photo-btn camera-btn"
+                            id="cameraButton"
+                        >
+                            📷 Take Photo
+                        </button>
+
+                        <button
+                            type="button"
+                            class="photo-btn gallery-btn"
+                            id="galleryButton"
+                        >
+                            🖼️ Choose from Gallery
+                        </button>
+
+                    </div>
+
+
+                    <div class="photo-note">
+                        JPG, PNG or WebP • Maximum 5 MB
+                    </div>
+
+
+                    <!-- Preview -->
+
+                    <div class="photo-preview" id="photoPreview">
+
+                        <div class="preview-image-wrapper">
+
+                            <img
+                                src=""
+                                alt="Selected photo preview"
+                                class="preview-image"
+                                id="previewImage"
+                            >
+
+                        </div>
+
+                        <div class="preview-info">
+
+                            <div
+                                class="preview-file-name"
+                                id="previewFileName"
+                            ></div>
+
+                            <div
+                                class="preview-file-size"
+                                id="previewFileSize"
+                            ></div>
 
                         </div>
 
 
+                        <div class="preview-actions">
 
-                        <!-- COMPLETED -->
-
-                        <div class="timeline-item
-                            {% if booking["status"] == "Completed" %}
-                                current-step
-                            {% endif %}
-                        ">
-
-                            <div class="timeline-circle">
-
-                                {% if booking["status"] == "Completed" %}
-                                    ✓
-                                {% else %}
-                                    ✓
-                                {% endif %}
-
-                            </div>
-
-                            <div class="timeline-content">
-
-                                <h4>
-                                    Completed
-                                </h4>
-
-                                <p>
-                                    Your car glass service has been completed.
-                                </p>
-
-                            </div>
+                            <button
+                                type="button"
+                                class="remove-photo-btn"
+                                id="removePhotoButton"
+                            >
+                                ✕ Remove Photo
+                            </button>
 
                         </div>
 
+                    </div>
 
-                    {% endif %}
 
+                    <!-- Error -->
+
+                    <div
+                        class="photo-error"
+                        id="photoError"
+                    ></div>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="upload-submit-btn"
+                    id="uploadSubmitButton"
+                    disabled
+                >
+                    Upload Photo
+                </button>
+
+            </form>
+
+
+            <!-- =========================
+                 EXISTING PHOTOS
+            ========================= -->
+
+            {% if photos %}
+
+            <div class="uploaded-photos">
+
+                <div class="uploaded-photos-title">
+                    Uploaded Photos
+                </div>
+
+                <div class="photo-grid">
+
+                    {% for photo in photos %}
+
+                    <div class="photo-item">
+
+                        <a
+                            href="{{ photo['filename'] }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+
+                            <img
+                                src="{{ photo['filename'] }}"
+                                alt="Uploaded car glass photo"
+                                loading="lazy"
+                            >
+
+                        </a>
+
+                        {% if photo['uploaded_at'] %}
+
+                        <div class="photo-date">
+                            Uploaded:
+                            {{ photo['uploaded_at'] }}
+                        </div>
+
+                        {% endif %}
+
+                    </div>
+
+                    {% endfor %}
 
                 </div>
 
             </div>
 
+            {% endif %}
+
+        </section>
+
+    </main>
 
 
-            <!-- =========================
-                 BUTTONS
-            ========================= -->
+    <!-- =========================
+         FOOTER
+    ========================= -->
 
-            <div class="buttons">
+    <footer class="footer">
 
-
-                <a
-                    href="/my_bookings"
-                    class="btn bookings-btn"
-                >
-                    📋 My Bookings
-                </a>
-
-
-                <a
-                    href="tel:+919326337979"
-                    class="btn call-btn"
-                >
-                    📞 Call Golden Car Glass
-                </a>
-
-
-                <a
-                    href="/"
-                    class="btn home-btn"
-                >
-                    🏠 Back to Home
-                </a>
-
-            </div>
-
-
+        <div>
+            <strong>Golden Car Glass</strong>
         </div>
 
-    </div>
+        <div>
+            Professional Car Glass Replacement & Repair
+        </div>
 
+    </footer>
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================= -->
+
+    <script>
+
+        const photoInput = document.getElementById("photoInput");
+        const cameraButton = document.getElementById("cameraButton");
+        const galleryButton = document.getElementById("galleryButton");
+
+        const photoPreview = document.getElementById("photoPreview");
+        const previewImage = document.getElementById("previewImage");
+        const previewFileName = document.getElementById("previewFileName");
+        const previewFileSize = document.getElementById("previewFileSize");
+
+        const removePhotoButton = document.getElementById("removePhotoButton");
+        const uploadSubmitButton = document.getElementById("uploadSubmitButton");
+        const photoError = document.getElementById("photoError");
+
+
+        const MAX_FILE_SIZE = 5 * 1024 * 1024;
+
+        const ALLOWED_TYPES = [
+            "image/jpeg",
+            "image/png",
+            "image/webp"
+        ];
+
+
+        /* =========================
+           OPEN CAMERA
+        ========================= */
+
+        cameraButton.addEventListener("click", function () {
+
+            photoInput.setAttribute("capture", "environment");
+
+            photoInput.click();
+
+        });
+
+
+        /* =========================
+           OPEN GALLERY
+        ========================= */
+
+        galleryButton.addEventListener("click", function () {
+
+            photoInput.removeAttribute("capture");
+
+            photoInput.click();
+
+        });
+
+
+        /* =========================
+           FILE SELECTED
+        ========================= */
+
+        photoInput.addEventListener("change", function () {
+
+            clearPhotoError();
+
+            const file = photoInput.files[0];
+
+            if (!file) {
+
+                resetPhotoPreview();
+
+                return;
+            }
+
+
+            /* Check file type */
+
+            if (!ALLOWED_TYPES.includes(file.type)) {
+
+                showPhotoError(
+                    "Only JPG, PNG and WebP images are allowed."
+                );
+
+                resetPhotoInput();
+
+                return;
+            }
+
+
+            /* Check file size */
+
+            if (file.size > MAX_FILE_SIZE) {
+
+                showPhotoError(
+                    "Photo size must be 5 MB or less."
+                );
+
+                resetPhotoInput();
+
+                return;
+            }
+
+
+            /* Preview */
+
+            const reader = new FileReader();
+
+            reader.onload = function (event) {
+
+                previewImage.src = event.target.result;
+
+                previewFileName.textContent = file.name;
+
+                previewFileSize.textContent =
+                    formatFileSize(file.size);
+
+                photoPreview.classList.add("show");
+
+                uploadSubmitButton.disabled = false;
+
+            };
+
+            reader.readAsDataURL(file);
+
+        });
+
+
+        /* =========================
+           REMOVE PHOTO
+        ========================= */
+
+        removePhotoButton.addEventListener("click", function () {
+
+            resetPhotoInput();
+
+            clearPhotoError();
+
+        });
+
+
+        /* =========================
+           RESET INPUT
+        ========================= */
+
+        function resetPhotoInput() {
+
+            photoInput.value = "";
+
+            resetPhotoPreview();
+
+        }
+
+
+        /* =========================
+           RESET PREVIEW
+        ========================= */
+
+        function resetPhotoPreview() {
+
+            photoPreview.classList.remove("show");
+
+            previewImage.src = "";
+
+            previewFileName.textContent = "";
+
+            previewFileSize.textContent = "";
+
+            uploadSubmitButton.disabled = true;
+
+        }
+
+
+        /* =========================
+           ERROR
+        ========================= */
+
+        function showPhotoError(message) {
+
+            photoError.textContent = message;
+
+            photoError.classList.add("show");
+
+        }
+
+
+        function clearPhotoError() {
+
+            photoError.textContent = "";
+
+            photoError.classList.remove("show");
+
+        }
+
+
+        /* =========================
+           FILE SIZE
+        ========================= */
+
+        function formatFileSize(bytes) {
+
+            if (bytes < 1024) {
+
+                return bytes + " B";
+
+            }
+
+            if (bytes < 1024 * 1024) {
+
+                return (bytes / 1024).toFixed(1) + " KB";
+
+            }
+
+            return (bytes / (1024 * 1024)).toFixed(2) + " MB";
+
+        }
+
+
+        /* =========================
+           FORM SUBMIT PROTECTION
+        ========================= */
+
+        document.getElementById("photoForm").addEventListener(
+            "submit",
+            function (event) {
+
+                const file = photoInput.files[0];
+
+                if (!file) {
+
+                    event.preventDefault();
+
+                    showPhotoError(
+                        "Please select a photo before uploading."
+                    );
+
+                    return;
+                }
+
+
+                if (!ALLOWED_TYPES.includes(file.type)) {
+
+                    event.preventDefault();
+
+                    showPhotoError(
+                        "Only JPG, PNG and WebP images are allowed."
+                    );
+
+                    return;
+                }
+
+
+                if (file.size > MAX_FILE_SIZE) {
+
+                    event.preventDefault();
+
+                    showPhotoError(
+                        "Photo size must be 5 MB or less."
+                    );
+
+                    return;
+                }
+
+
+                uploadSubmitButton.disabled = true;
+
+                uploadSubmitButton.textContent =
+                    "Uploading Photo...";
+
+            }
+        );
+
+    </script>
 
 </body>
-
 </html>
