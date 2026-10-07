@@ -303,6 +303,111 @@ def home():
         "index.html"
     )
 
+# =========================================================
+# CUSTOMER PROFILE
+# =========================================================
+
+@app.route("/profile")
+def profile():
+
+    # -----------------------------------------------------
+    # CUSTOMER MOBILE FROM SESSION
+    # -----------------------------------------------------
+
+    customer_mobile = session.get(
+        "customer_mobile"
+    )
+
+    # -----------------------------------------------------
+    # CUSTOMER NOT VERIFIED
+    # -----------------------------------------------------
+
+    if not customer_mobile:
+
+        return render_template(
+            "profile.html",
+            customer=None,
+            total_bookings=0,
+            completed_services=0
+        )
+
+    # -----------------------------------------------------
+    # DATABASE CONNECTION
+    # -----------------------------------------------------
+
+    connection = get_db_connection()
+
+    try:
+
+        cursor = connection.cursor()
+
+        # -------------------------------------------------
+        # CUSTOMER INFORMATION
+        # -------------------------------------------------
+
+        cursor.execute(
+            """
+            SELECT
+                name,
+                mobile
+            FROM bookings
+            WHERE mobile = %s
+            ORDER BY id DESC
+            LIMIT 1
+            """,
+            (customer_mobile,)
+        )
+
+        customer = cursor.fetchone()
+
+        # -------------------------------------------------
+        # TOTAL BOOKINGS
+        # -------------------------------------------------
+
+        cursor.execute(
+            """
+            SELECT COUNT(*)
+            FROM bookings
+            WHERE mobile = %s
+            """,
+            (customer_mobile,)
+        )
+
+        total_bookings = cursor.fetchone()["count"]
+
+        # -------------------------------------------------
+        # COMPLETED SERVICES
+        # -------------------------------------------------
+
+        cursor.execute(
+            """
+            SELECT COUNT(*)
+            FROM bookings
+            WHERE mobile = %s
+              AND status = %s
+            """,
+            (
+                customer_mobile,
+                "Completed"
+            )
+        )
+
+        completed_services = cursor.fetchone()["count"]
+
+    finally:
+
+        connection.close()
+
+    # -----------------------------------------------------
+    # SHOW PROFILE
+    # -----------------------------------------------------
+
+    return render_template(
+        "profile.html",
+        customer=customer,
+        total_bookings=total_bookings,
+        completed_services=completed_services
+    )
 
 # =========================================================
 # BOOK SERVICE

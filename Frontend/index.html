@@ -896,7 +896,9 @@
         left: 0 !important;
         right: 0 !important;
         width: 100% !important;
-        height: 68px !important;
+        height: 72px !important;
+        padding: 0 !important;
+        box-sizing: border-box !important;
         background: #ffffff !important;
         border-top: 1px solid #e5e5e5 !important;
         display: flex !important;
@@ -2306,27 +2308,64 @@
     </script>
 
 
-<!-- Customer Bottom Navigation -->
-<nav class="bottom-nav">
+<!-- =========================================
+     GOLDEN CAR GLASS - MOBILE BOTTOM NAV
+     PREMIUM SVG ICONS
+     ========================================= -->
 
-    <a href="{{ url_for('home') }}" class="bottom-nav-item">
-        <span class="nav-icon">⌂</span>
-        <span>Home</span>
+<!-- MOBILE BOTTOM NAV -->
+<nav class="bottom-nav" aria-label="Mobile navigation">
+
+    <a href="{{ url_for('home') }}" class="bottom-nav-item active">
+        <span class="nav-icon">
+            <svg viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.7"
+                 stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 10.5L12 3l9 7.5"></path>
+                <path d="M5.5 9.5V21h13V9.5"></path>
+                <path d="M9.5 21v-6h5v6"></path>
+            </svg>
+        </span>
+        <span class="nav-label">Home</span>
     </a>
 
     <a href="#booking" class="bottom-nav-item">
-        <span class="nav-icon">＋</span>
-        <span>Book Service</span>
+        <span class="nav-icon">
+            <svg viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.7"
+                 stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 5v14"></path>
+                <path d="M5 12h14"></path>
+            </svg>
+        </span>
+        <span class="nav-label">Book Service</span>
     </a>
 
     <a href="{{ url_for('my_bookings') }}" class="bottom-nav-item">
-        <span class="nav-icon">▣</span>
-        <span>My Bookings</span>
+        <span class="nav-icon">
+            <svg viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.7"
+                 stroke-linecap="round" stroke-linejoin="round">
+                <rect x="5" y="3" width="14" height="18" rx="2"></rect>
+                <path d="M9 3.5h6"></path>
+                <path d="M9 9h6"></path>
+                <path d="M9 13h6"></path>
+                <path d="M9 17h4"></path>
+            </svg>
+        </span>
+        <span class="nav-label">My Bookings</span>
     </a>
 
-    <a href="#" class="bottom-nav-item">
-        <span class="nav-icon">●</span>
-        <span>Profile</span>
+    <a href="{{ url_for('profile') }}" class="bottom-nav-item">
+        <span class="nav-icon">
+            <svg viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.7"
+                 stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="8" r="3.5"></circle>
+                <path d="M5 21c.8-4 3.1-6 7-6s6.2 2 7 6"></path>
+            </svg>
+        </span>
+        <span class="nav-label">Profile</span>
     </a>
 
 </nav>
@@ -2336,58 +2375,392 @@
     display: none;
 }
 
-@media screen and (max-width: 768px) {
+@media (max-width: 768px) {
 
-    header nav,
-.navbar,
-.top-nav,
-nav {
+    body > nav:not(.bottom-nav) {
         display: none !important;
     }
 
-    .bottom-nav {
-        position: fixed !important;
-        bottom: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        width: 100% !important;
-        height: 68px !important;
-        background: #ffffff !important;
-        border-top: 1px solid #dddddd !important;
-        display: flex !important;
-        flex-direction: row !important;
-        justify-content: space-around !important;
-        align-items: stretch !important;
-        z-index: 99999 !important;
-        box-shadow: 0 -2px 10px rgba(0,0,0,0.08) !important;
+    body {
+        padding-bottom: 90px !important;
     }
 
-    .bottom-nav-item {
-        flex: 1 1 25% !important;
-        width: 25% !important;
-        height: 68px !important;
+    .bottom-nav {
         display: flex !important;
-        flex-direction: column !important;
-        justify-content: center !important;
+        position: fixed !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100% !important;
+        height: 72px !important;
+        background: #111 !important;
+        border-top: 1px solid #2b2b2b !important;
+        z-index: 99999 !important;
+        justify-content: space-around !important;
         align-items: center !important;
-        gap: 4px !important;
-        text-decoration: none !important;
-        color: #555555 !important;
-        font-size: 11px !important;
-        font-weight: 500 !important;
+        padding: 0 !important;
+        margin: 0 !important;
         box-sizing: border-box !important;
     }
 
-    .nav-icon {
-        display: block !important;
-        font-size: 21px !important;
-        line-height: 1 !important;
+    .bottom-nav > .bottom-nav-item {
+        position: relative !important;
+        width: 25% !important;
+        height: 72px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 5px !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        text-decoration: none !important;
+        color: #D4AF37 !important;
+        font-size: 11px !important;
+        box-sizing: border-box !important;
     }
 
-    body {
-        padding-bottom: 80px !important;
+    .bottom-nav > .bottom-nav-item .nav-icon {
+        width: 24px !important;
+        height: 24px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        color: #D4AF37 !important;
+    }
+
+    .bottom-nav > .bottom-nav-item .nav-icon svg {
+        width: 23px !important;
+        height: 23px !important;
+        color: currentColor !important;
+        stroke: currentColor !important;
+        fill: none !important;
+    }
+
+    .bottom-nav > .bottom-nav-item .nav-label {
+        color: #D4AF37 !important;
+    }
+
+    .bottom-nav > .bottom-nav-item.active {
+        color: #F5C542 !important;
+    }
+
+    .bottom-nav > .bottom-nav-item.active .nav-icon {
+        color: #F5C542 !important;
+        transform: scale(1.08) !important;
+        filter:
+            drop-shadow(0 0 5px rgba(212,175,55,0.85))
+            drop-shadow(0 0 10px rgba(212,175,55,0.35)) !important;
+    }
+
+    .bottom-nav > .bottom-nav-item.active .nav-label {
+        color: #F5C542 !important;
+    }
+
+    .bottom-nav > .bottom-nav-item.active::before {
+        content: "" !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 25% !important;
+        right: 25% !important;
+        height: 2px !important;
+        background: #D4AF37 !important;
+    }
+
+    .bottom-nav > .bottom-nav-item:active .nav-icon {
+        transform: none !important;
     }
 }
+
+@media (min-width: 769px) {
+    .bottom-nav {
+        display: none !important;
+    }
+}
+</style>
+
+
+<style>
+
+/* =========================================
+   MOBILE BOTTOM NAVIGATION
+   CLEAN VERSION
+   ========================================= */
+
+.bottom-nav {
+    display: none;
+}
+
+
+@media screen and (max-width: 768px) {
+
+    /* Hide original top navigation */
+    body > nav:not(.bottom-nav) {
+        display: none !important;
+    }
+
+
+    /* Bottom navigation */
+    .bottom-nav {
+        position: fixed !important;
+
+        left: 10px !important;
+        right: 10px !important;
+        bottom: 10px !important;
+
+        width: auto !important;
+        height: 68px !important;
+
+        display: flex !important;
+
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: stretch !important;
+
+        background: #111111 !important;
+
+        border: 1px solid rgba(212, 175, 55, 0.55) !important;
+
+        border-radius: 18px !important;
+
+        box-shadow:
+            0 8px 30px rgba(0, 0, 0, 0.35),
+            0 0 18px rgba(212, 175, 55, 0.10) !important;
+
+        z-index: 99999 !important;
+
+        overflow: visible !important;
+    }
+
+
+    /* Each navigation item */
+    .bottom-nav > .bottom-nav-item {
+
+        position: relative !important;
+
+        flex: 1 1 25% !important;
+
+        width: 25% !important;
+        min-width: 0 !important;
+
+        height: 68px !important;
+
+        display: flex !important;
+
+        flex-direction: column !important;
+
+        justify-content: center !important;
+        align-items: center !important;
+
+        gap: 4px !important;
+
+        padding: 0 !important;
+        margin: 0 !important;
+
+        box-sizing: border-box !important;
+
+        color: #D4AF37 !important;
+
+        text-decoration: none !important;
+
+        font-size: 10px !important;
+        font-weight: 600 !important;
+
+        line-height: 1 !important;
+
+        overflow: visible !important;
+
+        transform: none !important;
+    }
+
+
+    /* Icon container */
+    .bottom-nav > .bottom-nav-item .nav-icon {
+
+        width: 30px !important;
+        height: 28px !important;
+
+        display: flex !important;
+
+        align-items: center !important;
+        justify-content: center !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        color: #D4AF37 !important;
+
+        transform: none !important;
+    }
+
+
+    /* SVG icon */
+    .bottom-nav > .bottom-nav-item .nav-icon svg {
+
+        width: 23px !important;
+        height: 23px !important;
+
+        display: block !important;
+
+        color: #D4AF37 !important;
+
+        stroke: currentColor !important;
+
+        transform: none !important;
+
+        transition: filter 0.2s ease !important;
+    }
+
+
+    /* SVG paths */
+    .bottom-nav > .bottom-nav-item .nav-icon svg * {
+
+        stroke: currentColor !important;
+    }
+
+
+    /* Navigation labels */
+    .bottom-nav > .bottom-nav-item > span:not(.nav-icon) {
+
+        display: block !important;
+
+        width: 100% !important;
+        height: 16px !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+
+        text-align: center !important;
+
+        font-size: 10px !important;
+
+        line-height: 16px !important;
+
+        white-space: nowrap !important;
+
+        color: #D4AF37 !important;
+
+        transform: none !important;
+    }
+
+
+    /* =========================================
+       HOVER
+       ========================================= */
+
+    .bottom-nav > .bottom-nav-item:hover .nav-icon svg {
+
+        filter:
+            drop-shadow(
+                0 0 5px rgba(212, 175, 55, 0.65)
+            );
+
+        transform: none !important;
+    }
+
+
+    /* =========================================
+       ACTIVE ITEM
+       ONLY GLOW — NO SIZE CHANGE
+       ========================================= */
+
+    .bottom-nav > .bottom-nav-item.active {
+
+        color: #F5C542 !important;
+
+        transform: none !important;
+    }
+
+
+    .bottom-nav > .bottom-nav-item.active .nav-icon {
+
+        color: #F5C542 !important;
+
+        transform: none !important;
+    }
+
+
+    .bottom-nav > .bottom-nav-item.active .nav-icon svg {
+
+        color: #F5C542 !important;
+
+        stroke: #F5C542 !important;
+
+        filter:
+            drop-shadow(
+                0 0 5px rgba(212, 175, 55, 0.85)
+            )
+            drop-shadow(
+                0 0 10px rgba(212, 175, 55, 0.35)
+            );
+
+        transform: none !important;
+    }
+
+
+    .bottom-nav > .bottom-nav-item.active > span:not(.nav-icon) {
+
+        color: #F5C542 !important;
+
+        transform: none !important;
+    }
+
+
+    /* =========================================
+       ACTIVE GOLD LINE
+       ========================================= */
+
+    .bottom-nav > .bottom-nav-item.active::before {
+
+        content: "";
+
+        position: absolute;
+
+        top: 0;
+
+        left: 25%;
+        right: 25%;
+
+        height: 2px;
+
+        background: #D4AF37;
+
+        border-radius: 0 0 4px 4px;
+    }
+
+
+    /* =========================================
+       NO SIZE CHANGE ON CLICK / FOCUS
+       ========================================= */
+
+    .bottom-nav > .bottom-nav-item:focus,
+    .bottom-nav > .bottom-nav-item:active {
+
+        transform: none !important;
+    }
+
+
+    .bottom-nav > .bottom-nav-item:focus .nav-icon,
+    .bottom-nav > .bottom-nav-item:active .nav-icon {
+
+        transform: none !important;
+    }
+
+
+    .bottom-nav > .bottom-nav-item:focus .nav-icon svg,
+    .bottom-nav > .bottom-nav-item:active .nav-icon svg {
+
+        transform: none !important;
+    }
+
+
+    /* Page space for bottom navigation */
+    body {
+        padding-bottom: 95px !important;
+    }
+
+}
+
 </style>
 
 </body>
