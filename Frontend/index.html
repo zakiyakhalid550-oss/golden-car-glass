@@ -882,6 +882,56 @@
 
         @media (max-width: 768px) {
 
+    /* Mobile par existing top navigation hide */
+    header nav,
+    .navbar,
+    .top-nav {
+        display: none !important;
+    }
+
+    /* Bottom navigation show */
+    .bottom-nav {
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 68px !important;
+        background: #ffffff !important;
+        border-top: 1px solid #e5e5e5 !important;
+        display: flex !important;
+        justify-content: space-around !important;
+        align-items: stretch !important;
+        z-index: 99999 !important;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08) !important;
+    }
+
+    .bottom-nav-item {
+        flex: 1 !important;
+        height: 68px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 4px !important;
+        text-decoration: none !important;
+        color: #555 !important;
+        font-size: 11px !important;
+        font-weight: 500 !important;
+    }
+
+    .nav-icon {
+        font-size: 21px !important;
+        line-height: 1 !important;
+    }
+
+    body {
+        padding-bottom: 80px !important;
+    }
+}
+
+        @media (max-width: 768px) {
+
             /* Navbar */
 
             nav {
@@ -2255,6 +2305,90 @@
 
     </script>
 
+
+<!-- Customer Bottom Navigation -->
+<nav class="bottom-nav">
+
+    <a href="{{ url_for('home') }}" class="bottom-nav-item">
+        <span class="nav-icon">⌂</span>
+        <span>Home</span>
+    </a>
+
+    <a href="#booking" class="bottom-nav-item">
+        <span class="nav-icon">＋</span>
+        <span>Book Service</span>
+    </a>
+
+    <a href="{{ url_for('my_bookings') }}" class="bottom-nav-item">
+        <span class="nav-icon">▣</span>
+        <span>My Bookings</span>
+    </a>
+
+    <a href="#" class="bottom-nav-item">
+        <span class="nav-icon">●</span>
+        <span>Profile</span>
+    </a>
+
+</nav>
+
+<style>
+.bottom-nav {
+    display: none;
+}
+
+@media screen and (max-width: 768px) {
+
+    header nav,
+.navbar,
+.top-nav,
+nav {
+        display: none !important;
+    }
+
+    .bottom-nav {
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 68px !important;
+        background: #ffffff !important;
+        border-top: 1px solid #dddddd !important;
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-around !important;
+        align-items: stretch !important;
+        z-index: 99999 !important;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.08) !important;
+    }
+
+    .bottom-nav-item {
+        flex: 1 1 25% !important;
+        width: 25% !important;
+        height: 68px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 4px !important;
+        text-decoration: none !important;
+        color: #555555 !important;
+        font-size: 11px !important;
+        font-weight: 500 !important;
+        box-sizing: border-box !important;
+    }
+
+    .nav-icon {
+        display: block !important;
+        font-size: 21px !important;
+        line-height: 1 !important;
+    }
+
+    body {
+        padding-bottom: 80px !important;
+    }
+}
+</style>
 
 </body>
 

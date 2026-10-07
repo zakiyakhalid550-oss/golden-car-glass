@@ -308,8 +308,15 @@ def home():
 # BOOK SERVICE
 # =========================================================
 
-@app.route("/book", methods=["POST"])
+@app.route("/book", methods=["GET", "POST"])
 def book():
+
+    # -----------------------------------------
+    # OPEN BOOKING FORM
+    # -----------------------------------------
+    if request.method == "GET":
+        return render_template("index.html")
+
     name = request.form.get("name", "").strip()
     mobile = request.form.get("mobile", "").strip()
     car_model = request.form.get("car_model", "").strip()
