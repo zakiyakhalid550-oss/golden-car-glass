@@ -21,6 +21,10 @@ def create_database():
 
     cursor = connection.cursor()
 
+    # =========================================
+    # BOOKINGS TABLE
+    # =========================================
+
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS bookings (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -31,6 +35,20 @@ def create_database():
             date TEXT NOT NULL,
             message TEXT,
             status TEXT DEFAULT 'Pending'
+        )
+    """)
+
+    # =========================================
+    # CUSTOMERS TABLE
+    # =========================================
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS customers (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            mobile TEXT NOT NULL UNIQUE,
+            created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+            updated_at TEXT DEFAULT CURRENT_TIMESTAMP
         )
     """)
 

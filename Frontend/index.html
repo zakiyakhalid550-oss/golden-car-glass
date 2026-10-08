@@ -2,57 +2,6 @@
 <html lang="en">
 
 <head>
-
-    <!-- =========================
-         PWA / APP ICON
-    ========================== -->
-
-    <link rel="manifest" href="/manifest.json">
-
-    <link
-        rel="icon"
-        type="image/png"
-        sizes="192x192"
-        href="/icons/icon-192.png"
-    >
-
-    <link
-        rel="icon"
-        type="image/png"
-        sizes="512x512"
-        href="/icons/icon-512.png"
-    >
-
-    <link
-        rel="apple-touch-icon"
-        href="/icons/icon-192.png"
-    >
-
-    <meta
-        name="theme-color"
-        content="#111111"
-    >
-
-    <meta
-        name="mobile-web-app-capable"
-        content="yes"
-    >
-
-    <meta
-        name="apple-mobile-web-app-capable"
-        content="yes"
-    >
-
-    <meta
-        name="apple-mobile-web-app-status-bar-style"
-        content="black"
-    >
-
-    <meta
-        name="apple-mobile-web-app-title"
-        content="Golden Car Glass"
-    >
-
     <meta charset="UTF-8">
 
     <meta
@@ -60,18 +9,18 @@
         content="width=device-width, initial-scale=1.0"
     >
 
+    <meta name="theme-color" content="#111111">
+
     <title>Golden Car Glass</title>
 
+    <link
+        rel="manifest"
+        href="{{ url_for('static', filename='manifest.json') }}"
+    >
 
     <style>
 
-        /* =========================
-           RESET
-        ========================== */
-
         * {
-            margin: 0;
-            padding: 0;
             box-sizing: border-box;
         }
 
@@ -80,21 +29,22 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
             background: #f5f5f5;
             color: #222;
+            line-height: 1.5;
         }
 
-
         /* =========================
-           NAVBAR
-        ========================== */
+           DESKTOP HEADER
+        ========================= */
 
-        nav {
-            background: #111;
+        header {
+            background: #111111;
             color: white;
-
-            padding: 20px 50px;
+            padding: 16px 25px;
 
             display: flex;
             justify-content: space-between;
@@ -103,1242 +53,532 @@
             gap: 20px;
         }
 
-        nav h2 {
-            color: #f5c518;
-
-            white-space: nowrap;
-
-            font-size: 24px;
+        .logo {
+            color: #D4AF37;
+            font-size: 21px;
+            font-weight: 800;
         }
 
-        nav div {
+        header nav {
             display: flex;
+            flex-direction: row;
             align-items: center;
-            justify-content: flex-end;
-
-            flex-wrap: wrap;
-
-            gap: 18px;
+            gap: 20px;
         }
 
-        nav a {
+        header nav a {
             color: white;
-
             text-decoration: none;
-
-            font-size: 15px;
-
-            font-weight: normal;
-
-            transition: color 0.2s ease;
+            font-size: 14px;
+            font-weight: 600;
         }
 
-        nav a:hover {
-            color: #f5c518;
+        header nav a:hover {
+            color: #D4AF37;
         }
-
 
         /* =========================
-           HERO SECTION
-        ========================== */
+           HERO
+        ========================= */
 
         .hero {
-            min-height: 500px;
-
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
+            background: #111111;
+            color: white;
             text-align: center;
-
-            padding: 40px 20px;
-
-            background: white;
+            padding: 70px 20px 80px;
         }
 
         .hero h1 {
-            font-size: 50px;
-
-            margin-bottom: 15px;
-        }
-
-        .hero h1 span {
-            color: #d4a900;
+            margin: 0 0 12px;
+            font-size: 38px;
         }
 
         .hero p {
-            font-size: 20px;
-
-            color: #555;
-
-            margin-bottom: 30px;
-
-            font-weight: normal;
-        }
-
-        .btn {
-            display: inline-block;
-
-            background: #f5c518;
-
-            color: #111;
-
-            padding: 15px 30px;
-
-            border-radius: 8px;
-
-            text-decoration: none;
-
+            margin: 0 auto 25px;
+            max-width: 650px;
+            color: #dddddd;
             font-size: 16px;
-
-            font-weight: bold;
-
-            transition:
-                background 0.2s ease,
-                transform 0.2s ease;
         }
 
-        .btn:hover {
-            background: #d4a900;
-
-            transform: translateY(-1px);
+        .hero-button {
+            display: inline-block;
+            background: #D4AF37;
+            color: #111111;
+            text-decoration: none;
+            padding: 13px 24px;
+            border-radius: 8px;
+            font-weight: 700;
         }
-
 
         /* =========================
-           SERVICES SECTION
-        ========================== */
+           SERVICES
+        ========================= */
 
         .services {
-            padding: 70px 40px;
+            padding: 55px 20px;
+            max-width: 1000px;
+            margin: auto;
+        }
 
+        .section-title {
             text-align: center;
-
-            background: #f5f5f5;
+            font-size: 28px;
+            margin: 0 0 30px;
+            color: #111111;
         }
 
-        .services h2 {
-            font-size: 36px;
-
-            margin-bottom: 10px;
-        }
-
-        .services-subtitle {
-            color: #666;
-
-            font-size: 16px;
-
-            font-weight: normal;
-
-            margin-bottom: 40px;
-        }
-
-        .service-container {
+        .service-grid {
             display: grid;
-
-            grid-template-columns:
-                repeat(3, 280px);
-
-            justify-content: center;
-
-            gap: 25px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
         }
 
         .service-card {
             background: white;
-
-            width: 100%;
-
-            padding: 30px 20px;
-
-            border-radius: 12px;
+            border-radius: 14px;
+            padding: 25px 18px;
+            text-align: center;
 
             box-shadow:
-                0 4px 12px rgba(0, 0, 0, 0.1);
+                0 4px 15px rgba(0, 0, 0, 0.06);
 
-            transition:
-                transform 0.2s ease,
-                box-shadow 0.2s ease;
-        }
-
-        .service-card:hover {
-            transform: translateY(-3px);
-
-            box-shadow:
-                0 7px 18px rgba(0, 0, 0, 0.12);
+            border: 1px solid #eeeeee;
         }
 
         .service-card h3 {
-            margin-bottom: 15px;
-
+            margin: 0 0 8px;
             font-size: 18px;
-
-            font-weight: bold;
         }
 
         .service-card p {
-            color: #666;
-
-            font-size: 16px;
-
-            font-weight: normal;
-
-            line-height: 1.6;
+            margin: 0;
+            color: #666666;
+            font-size: 13px;
         }
-
 
         /* =========================
-           BOOKING SECTION
-        ========================== */
+           BOOKING
+        ========================= */
 
-        .booking {
-            padding: 70px 20px;
+        .booking-section {
+            padding: 20px 20px 60px;
+        }
 
-            text-align: center;
-
+        .booking-box {
             background: white;
-        }
-
-        .booking h2 {
-            font-size: 36px;
-
-            margin-bottom: 10px;
-        }
-
-        .booking-subtitle {
-            color: #666;
-
-            font-size: 16px;
-
-            font-weight: normal;
-
-            margin-bottom: 35px;
-        }
-
-        .booking form {
-            max-width: 600px;
-
+            max-width: 650px;
             margin: auto;
-
-            display: flex;
-
-            flex-direction: column;
-
-            gap: 15px;
-        }
-
-
-        /* =========================
-           ALL FORM FIELDS
-        ========================== */
-
-        .booking input,
-        .booking select,
-        .booking textarea {
-
-            width: 100%;
-
-            padding: 14px;
-
-            border: 1px solid #ddd;
-
-            border-radius: 8px;
-
-            font-family: Arial, sans-serif;
-
-            font-size: 16px;
-
-            font-weight: normal;
-
-            color: #222;
-
-            background: white;
-
-            outline: none;
-
-            transition:
-                border-color 0.2s ease,
-                box-shadow 0.2s ease;
-        }
-
-        .booking input:focus,
-        .booking select:focus,
-        .booking textarea:focus {
-
-            border-color: #c99a00;
+            padding: 28px;
+            border-radius: 16px;
 
             box-shadow:
-                0 0 0 3px rgba(245, 197, 24, 0.12);
+                0 5px 20px rgba(0, 0, 0, 0.07);
+
+            border: 1px solid #eeeeee;
         }
 
-
-        /* Placeholder */
-
-        .booking input::placeholder,
-        .booking textarea::placeholder {
-
-            font-family: Arial, sans-serif;
-
-            font-size: 16px;
-
-            font-weight: normal;
-
-            color: #777;
+        .form-group {
+            margin-bottom: 17px;
         }
 
-
-        /* Select */
-
-        .booking select {
-
-            appearance: auto;
-
-            cursor: pointer;
+        .form-group label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: 700;
+            font-size: 14px;
         }
 
-        .booking select option {
-
-            font-family: Arial, sans-serif;
-
-            font-size: 16px;
-
-            font-weight: normal;
-
-            color: #222;
-        }
-
-
-        /* =========================
-           DATE FIELD
-        ========================== */
-
-        .date-wrapper {
-
-            position: relative;
-
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
             width: 100%;
+            padding: 12px;
+
+            border: 1px solid #cccccc;
+            border-radius: 8px;
+
+            font-size: 15px;
+            font-family: Arial, Helvetica, sans-serif;
+
+            outline: none;
         }
 
-        .date-wrapper input {
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #D4AF37;
 
-            width: 100%;
-
-            height: 49px;
-
-            font-family: Arial, sans-serif;
-
-            font-size: 16px;
-
-            font-weight: normal;
-
-            color: #777;
-
-            cursor: pointer;
+            box-shadow:
+                0 0 0 3px rgba(212, 175, 55, 0.12);
         }
 
-        .date-placeholder {
-
-            position: absolute;
-
-            left: 14px;
-
-            top: 50%;
-
-            transform: translateY(-50%);
-
-            color: #777;
-
-            font-family: Arial, sans-serif;
-
-            font-size: 16px;
-
-            font-weight: normal;
-
-            pointer-events: none;
-
-            background: white;
-
-            padding-right: 5px;
-
-            z-index: 1;
-        }
-
-        .date-wrapper.has-date
-        .date-placeholder {
-
-            display: none;
-        }
-
-
-        /* =========================
-           TEXTAREA
-        ========================== */
-
-        .booking textarea {
-
-            min-height: 120px;
-
+        .form-group textarea {
+            min-height: 100px;
             resize: vertical;
         }
 
+        .submit-button {
+            width: 100%;
+            padding: 13px;
 
-        /* =========================
-           MOBILE ERROR
-        ========================== */
+            border: none;
+            border-radius: 8px;
 
-        #mobileError {
+            background: #111111;
+            color: white;
 
-            display: none;
+            font-size: 16px;
+            font-weight: 700;
 
-            color: red;
-
-            margin: 0;
-
-            font-family: Arial, sans-serif;
-
-            font-size: 14px;
-
-            font-weight: normal;
-
-            text-align: left;
+            cursor: pointer;
         }
 
+        .submit-button:hover {
+            background: #333333;
+        }
 
         /* =========================
-           PHOTO UPLOAD CARD
-        ========================== */
+           PHOTO UPLOAD
+        ========================= */
 
-        .photo-upload-card {
-
-            width: 100%;
+        .photo-section {
+            margin-top: 20px;
+            padding: 18px;
 
             background: #fafafa;
 
-            border: 1px solid #e1e1e1;
-
+            border: 1px solid #eeeeee;
             border-radius: 12px;
-
-            padding: 20px;
-
-            text-align: left;
-
-            transition:
-                border-color 0.2s ease,
-                box-shadow 0.2s ease;
         }
 
-        .photo-upload-card:hover {
-
-            border-color: #d6ad12;
-
-            box-shadow:
-                0 4px 14px rgba(0, 0, 0, 0.06);
+        .photo-section label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 8px;
         }
 
-
-        /* Photo Header */
-
-        .photo-upload-header {
-
-            display: flex;
-
-            align-items: flex-start;
-
-            gap: 12px;
-
-            margin-bottom: 15px;
+        .photo-section small {
+            display: block;
+            color: #777777;
+            margin-bottom: 12px;
         }
-
-        .photo-upload-icon {
-
-            width: 42px;
-
-            height: 42px;
-
-            flex-shrink: 0;
-
-            border-radius: 10px;
-
-            background: #fff4c7;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            font-size: 21px;
-        }
-
-        .photo-upload-title {
-
-            font-size: 16px;
-
-            font-weight: bold;
-
-            color: #222;
-
-            margin-bottom: 4px;
-        }
-
-        .photo-upload-description {
-
-            color: #666;
-
-            font-size: 13px;
-
-            line-height: 1.5;
-        }
-
-        .optional-text {
-
-            color: #888;
-
-            font-size: 12px;
-
-            font-weight: normal;
-        }
-
-
-        /* Photo Buttons */
 
         .photo-buttons {
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(2, 1fr);
-
+            display: flex;
             gap: 10px;
+            flex-wrap: wrap;
         }
 
-        .photo-action {
+        .photo-button {
+            display: inline-block;
+            padding: 11px 15px;
 
-            min-height: 52px;
+            background: #111111;
+            color: white;
 
-            border-radius: 9px;
-
-            border: 1px solid #ddd;
-
-            background: white;
-
-            color: #222;
-
+            border-radius: 8px;
             cursor: pointer;
 
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            gap: 8px;
-
-            font-family: Arial, sans-serif;
-
             font-size: 14px;
-
-            font-weight: bold;
-
-            transition:
-                background 0.2s ease,
-                border-color 0.2s ease,
-                transform 0.2s ease;
-        }
-
-        .photo-action:hover {
-
-            border-color: #c99a00;
-
-            background: #fffdf3;
-
-            transform: translateY(-1px);
-        }
-
-        .photo-action.camera {
-
-            background: #111;
-
-            border-color: #111;
-
-            color: white;
-        }
-
-        .photo-action.camera:hover {
-
-            background: #252525;
-
-            border-color: #252525;
-        }
-
-        .photo-action span {
-
-            font-size: 19px;
-
-            line-height: 1;
-        }
-
-
-        /* Hidden File Inputs */
-
-        .hidden-photo-input {
-
-            display: none;
-        }
-
-
-        /* Photo Preview */
-
-        .photo-preview-container {
-
-            display: none;
-
-            margin-top: 15px;
-
-            padding-top: 15px;
-
-            border-top: 1px solid #e5e5e5;
-        }
-
-        .photo-preview-container.show {
-
-            display: block;
-        }
-
-        .photo-preview-label {
-
-            font-size: 13px;
-
-            font-weight: bold;
-
-            color: #444;
-
-            margin-bottom: 9px;
-        }
-
-        .photo-preview-box {
-
-            position: relative;
-
-            width: 100%;
-
-            border-radius: 10px;
-
-            overflow: hidden;
-
-            background: #eee;
-
-            border: 1px solid #ddd;
+            font-weight: 600;
         }
 
         .photo-preview {
+            display: none;
+            margin-top: 15px;
+        }
 
-            display: block;
-
+        .photo-preview img {
             width: 100%;
-
-            max-height: 260px;
-
+            max-height: 250px;
             object-fit: contain;
 
-            background: #f1f1f1;
+            border-radius: 10px;
+            border: 1px solid #dddddd;
         }
 
-
-        /* Photo Actions Below Preview */
-
-        .photo-preview-actions {
-
-            display: flex;
-
-            gap: 8px;
-
+        .remove-photo {
+            display: none;
             margin-top: 10px;
-        }
 
-        .preview-action {
+            border: none;
+            background: #b00020;
+            color: white;
 
-            flex: 1;
-
-            padding: 10px;
-
-            border-radius: 8px;
-
-            border: 1px solid #ddd;
-
-            background: white;
-
-            color: #333;
+            padding: 9px 14px;
+            border-radius: 7px;
 
             cursor: pointer;
-
-            font-family: Arial, sans-serif;
-
-            font-size: 13px;
-
-            font-weight: bold;
-
-            transition: background 0.2s ease;
         }
 
-        .preview-action:hover {
+        /* =========================
+           CONTACT
+        ========================= */
 
-            background: #f7f7f7;
-        }
-
-        .preview-action.remove {
-
-            color: #b00020;
-
-            border-color: #f0c7cc;
-        }
-
-        .preview-action.remove:hover {
-
-            background: #fff5f6;
-        }
-
-
-        /* Photo Note */
-
-        .photo-upload-note {
-
-            margin-top: 11px;
-
-            color: #888;
-
-            font-size: 12px;
-
-            line-height: 1.5;
-
+        #contact {
+            background: #111111;
+            color: white;
+            padding: 45px 20px;
             text-align: center;
         }
 
+        #contact h2 {
+            margin-top: 0;
+            color: #D4AF37;
+        }
 
-        /* Photo Error */
+        #contact p {
+            color: #dddddd;
+        }
 
-        #photoError {
+        /* =========================
+           FOOTER
+        ========================= */
 
-            display: none;
-
-            color: #b00020;
-
-            background: #fff4f5;
-
-            border: 1px solid #f2c5ca;
-
-            border-radius: 8px;
-
-            padding: 9px 10px;
-
-            margin-top: 10px;
-
+        footer {
+            background: #111111;
+            color: #999999;
+            text-align: center;
+            padding: 22px 15px;
             font-size: 12px;
-
-            line-height: 1.4;
         }
 
-
-        /* =========================
-           SUBMIT BUTTON
-        ========================== */
-
-        .booking button[type="submit"] {
-
-            padding: 15px;
-
-            background: #f5c518;
-
-            border: none;
-
-            border-radius: 8px;
-
-            font-family: Arial, sans-serif;
-
-            font-size: 16px;
-
-            font-weight: bold;
-
-            color: #111;
-
-            cursor: pointer;
-
-            transition:
-                background 0.2s ease,
-                transform 0.2s ease;
+        footer strong {
+            color: #D4AF37;
         }
 
-        .booking button[type="submit"]:hover {
+        /* =========================================================
+           MOBILE
+        ========================================================= */
 
-            background: #d4a900;
+        @media screen and (max-width: 768px) {
 
-            transform: translateY(-1px);
-        }
-
-
-        /* =========================
-           MOBILE RESPONSIVE
-        ========================== */
-
-        @media (max-width: 768px) {
-
-    /* Mobile par existing top navigation hide */
-    header nav,
-    .navbar,
-    .top-nav {
-        display: none !important;
-    }
-
-    /* Bottom navigation show */
-    .bottom-nav {
-        position: fixed !important;
-        bottom: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        width: 100% !important;
-        height: 72px !important;
-        padding: 0 !important;
-        box-sizing: border-box !important;
-        background: #ffffff !important;
-        border-top: 1px solid #e5e5e5 !important;
-        display: flex !important;
-        justify-content: space-around !important;
-        align-items: stretch !important;
-        z-index: 99999 !important;
-        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08) !important;
-    }
-
-    .bottom-nav-item {
-        flex: 1 !important;
-        height: 68px !important;
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: center !important;
-        align-items: center !important;
-        gap: 4px !important;
-        text-decoration: none !important;
-        color: #555 !important;
-        font-size: 11px !important;
-        font-weight: 500 !important;
-    }
-
-    .nav-icon {
-        font-size: 21px !important;
-        line-height: 1 !important;
-    }
-
-    body {
-        padding-bottom: 80px !important;
-    }
-}
-
-        @media (max-width: 768px) {
-
-            /* Navbar */
-
-            nav {
-
-                padding: 15px 18px;
-
-                flex-direction: column;
-
-                text-align: center;
-
-                gap: 12px;
+            body {
+                padding-bottom: 72px !important;
             }
 
-            nav h2 {
-
-                font-size: 21px;
+            header {
+                display: none;
             }
-
-            nav div {
-
-                width: 100%;
-
-                justify-content: center;
-
-                gap: 8px 14px;
-            }
-
-            nav a {
-
-                font-size: 13px;
-            }
-
-
-            /* Hero */
 
             .hero {
-
-                min-height: 400px;
-
-                padding: 35px 18px;
+                padding: 45px 18px 55px;
             }
 
             .hero h1 {
-
-                font-size: 38px;
+                font-size: 29px;
             }
 
             .hero p {
-
-                font-size: 17px;
-
-                line-height: 1.5;
+                font-size: 14px;
             }
-
-            .btn {
-
-                padding: 13px 22px;
-
-                font-size: 15px;
-            }
-
-
-            /* Services */
 
             .services {
-
-                padding: 50px 15px;
+                padding: 40px 15px;
             }
 
-            .services h2 {
-
-                font-size: 30px;
+            .section-title {
+                font-size: 24px;
             }
 
-            .services-subtitle {
-
-                font-size: 15px;
-
-                margin-bottom: 25px;
-            }
-
-            .service-container {
-
-                grid-template-columns:
-                    repeat(2, minmax(0, 1fr));
-
+            .service-grid {
+                grid-template-columns: repeat(2, 1fr);
                 gap: 12px;
             }
 
             .service-card {
-
                 padding: 20px 12px;
-
-                border-radius: 10px;
             }
 
-            .service-card h3 {
-
-                font-size: 15px;
-
-                line-height: 1.35;
-
-                margin-bottom: 10px;
+            .booking-section {
+                padding: 10px 15px 40px;
             }
 
-            .service-card p {
-
-                font-size: 13px;
-
-                line-height: 1.45;
+            .booking-box {
+                padding: 20px;
             }
 
+            /* =====================================================
+               COMMON BOTTOM NAV
+            ===================================================== */
 
-            /* Third card */
+            .bottom-nav {
+                position: fixed !important;
 
-            .service-card:last-child {
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
 
-                grid-column: 1 / -1;
+                width: 100% !important;
+                height: 72px !important;
 
-                width: calc(50% - 6px);
+                display: flex !important;
+                flex-direction: row !important;
 
-                justify-self: center;
+                align-items: stretch !important;
+                justify-content: space-around !important;
+
+                padding: 0 !important;
+                margin: 0 !important;
+
+                background: #ffffff !important;
+
+                border-top: 1px solid #e5e5e5 !important;
+
+                box-shadow:
+                    0 -2px 10px rgba(0, 0, 0, 0.06) !important;
+
+                z-index: 99999 !important;
+
+                box-sizing: border-box !important;
             }
 
+            .bottom-nav .bottom-nav-item {
+                width: 25% !important;
+                height: 72px !important;
 
-            /* Booking */
+                flex: 1 1 25% !important;
 
-            .booking {
+                min-width: 0 !important;
 
-                padding: 50px 15px;
+                display: flex !important;
+                flex-direction: column !important;
+
+                align-items: center !important;
+                justify-content: center !important;
+
+                gap: 5px !important;
+
+                padding: 0 !important;
+                margin: 0 !important;
+
+                color: #555555 !important;
+
+                font-family: Arial, Helvetica, sans-serif !important;
+
+                font-size: 11px !important;
+                font-weight: 500 !important;
+
+                line-height: 16px !important;
+
+                text-decoration: none !important;
+
+                transform: none !important;
+                transition: none !important;
+
+                outline: none !important;
+
+                -webkit-tap-highlight-color: transparent !important;
+
+                box-sizing: border-box !important;
             }
 
-            .booking h2 {
+            .bottom-nav .nav-icon {
+                width: 23px !important;
+                height: 23px !important;
 
-                font-size: 30px;
+                flex: 0 0 23px !important;
+
+                display: flex !important;
+
+                align-items: center !important;
+                justify-content: center !important;
+
+                color: #C49A00 !important;
+
+                transform: none !important;
+                transition: none !important;
+                filter: none !important;
             }
 
-            .booking-subtitle {
+            .bottom-nav .nav-icon svg {
+                width: 23px !important;
+                height: 23px !important;
 
-                font-size: 15px;
+                display: block !important;
 
-                margin-bottom: 25px;
+                color: currentColor !important;
+                stroke: currentColor !important;
+                fill: none !important;
+
+                transform: none !important;
+                transition: none !important;
+                filter: none !important;
             }
 
-            .booking form {
-
-                width: 100%;
-
-                gap: 13px;
+            .bottom-nav .nav-icon svg * {
+                stroke: currentColor !important;
+                fill: none !important;
             }
 
+            .bottom-nav .nav-label {
+                display: block !important;
 
-            /* Form */
+                width: auto !important;
+                height: 16px !important;
 
-            .booking input,
-            .booking select,
-            .booking textarea {
+                margin: 0 !important;
+                padding: 0 !important;
 
-                font-size: 15px;
+                color: #333333 !important;
 
-                padding: 13px;
+                font-family: Arial, Helvetica, sans-serif !important;
 
-                font-weight: normal;
+                font-size: 11px !important;
+                font-weight: 500 !important;
+
+                line-height: 16px !important;
+
+                white-space: nowrap !important;
+
+                transform: none !important;
+                transition: none !important;
             }
 
-            .booking input::placeholder,
-            .booking textarea::placeholder {
+            .bottom-nav .bottom-nav-item.active {
+                color: #B89520 !important;
 
-                font-size: 15px;
+                background: transparent !important;
 
-                font-weight: normal;
+                transform: none !important;
             }
 
-            .booking select option {
-
-                font-size: 15px;
+            .bottom-nav .bottom-nav-item.active .nav-icon {
+                color: #B89520 !important;
             }
 
-
-            /* Date */
-
-            .date-wrapper input {
-
-                height: 47px;
-
-                font-size: 15px;
+            .bottom-nav .bottom-nav-item.active .nav-label {
+                color: #B89520 !important;
             }
 
-            .date-placeholder {
-
-                font-size: 15px;
+            .bottom-nav .bottom-nav-item:hover,
+            .bottom-nav .bottom-nav-item:focus,
+            .bottom-nav .bottom-nav-item:active,
+            .bottom-nav .bottom-nav-item.active:hover,
+            .bottom-nav .bottom-nav-item.active:focus,
+            .bottom-nav .bottom-nav-item.active:active {
+                background: transparent !important;
+                transform: none !important;
+                transition: none !important;
+                outline: none !important;
             }
 
-
-            /* Photo Card */
-
-            .photo-upload-card {
-
-                padding: 16px;
-
-                border-radius: 11px;
-            }
-
-            .photo-upload-title {
-
-                font-size: 15px;
-            }
-
-            .photo-upload-description {
-
-                font-size: 12px;
-            }
-
-            .photo-buttons {
-
-                grid-template-columns:
-                    1fr;
-            }
-
-            .photo-action {
-
-                min-height: 50px;
-
-                font-size: 14px;
-            }
-
-            .photo-preview {
-
-                max-height: 240px;
-            }
-
-
-            /* Submit */
-
-            .booking button[type="submit"] {
-
-                padding: 14px;
-
-                font-size: 15px;
+            .bottom-nav .bottom-nav-item:hover .nav-icon,
+            .bottom-nav .bottom-nav-item:focus .nav-icon,
+            .bottom-nav .bottom-nav-item:active .nav-icon,
+            .bottom-nav .bottom-nav-item:hover .nav-label,
+            .bottom-nav .bottom-nav-item:focus .nav-label,
+            .bottom-nav .bottom-nav-item:active .nav-label {
+                transform: none !important;
+                transition: none !important;
             }
         }
 
+        @media screen and (min-width: 769px) {
 
-        /* =========================
-           SMALL MOBILE
-        ========================== */
-
-        @media (max-width: 420px) {
-
-            nav {
-
-                padding: 14px 10px;
+            .bottom-nav {
+                display: none !important;
             }
-
-            nav h2 {
-
-                font-size: 20px;
-            }
-
-            nav div {
-
-                gap: 7px 10px;
-            }
-
-            nav a {
-
-                font-size: 12px;
-            }
-
-
-            .hero h1 {
-
-                font-size: 34px;
-            }
-
-            .hero p {
-
-                font-size: 16px;
-            }
-
-
-            .services {
-
-                padding-left: 10px;
-
-                padding-right: 10px;
-            }
-
-            .service-container {
-
-                gap: 10px;
-            }
-
-            .service-card {
-
-                padding: 17px 9px;
-            }
-
-            .service-card h3 {
-
-                font-size: 14px;
-            }
-
-            .service-card p {
-
-                font-size: 12px;
-            }
-
-
-            /* Third card */
-
-            .service-card:last-child {
-
-                width: calc(50% - 5px);
-            }
-
-
-            /* Booking */
-
-            .booking {
-
-                padding-left: 12px;
-
-                padding-right: 12px;
-            }
-
-            .booking input,
-            .booking select,
-            .booking textarea {
-
-                font-size: 14px;
-            }
-
-            .booking input::placeholder,
-            .booking textarea::placeholder {
-
-                font-size: 14px;
-            }
-
-            .booking select option {
-
-                font-size: 14px;
-            }
-
-            .date-wrapper input {
-
-                font-size: 14px;
-            }
-
-            .date-placeholder {
-
-                font-size: 14px;
-            }
-
-
-            /* Photo */
-
-            .photo-upload-card {
-
-                padding: 14px;
-            }
-
-            .photo-upload-header {
-
-                gap: 9px;
-            }
-
-            .photo-upload-icon {
-
-                width: 38px;
-
-                height: 38px;
-
-                font-size: 18px;
-            }
-
-            .photo-upload-title {
-
-                font-size: 14px;
-            }
-
-            .photo-upload-description {
-
-                font-size: 11px;
-            }
-
-            .photo-action {
-
-                min-height: 48px;
-
-                font-size: 13px;
-            }
-
-            .photo-action span {
-
-                font-size: 18px;
-            }
-
-            .preview-action {
-
-                font-size: 12px;
-
-                padding: 9px 6px;
-            }
-
         }
 
     </style>
@@ -1348,20 +588,17 @@
 
 <body>
 
+    <!-- DESKTOP HEADER -->
 
-    <!-- =========================
-         NAVBAR
-    ========================== -->
+    <header>
 
-    <nav>
-
-        <h2>
+        <div class="logo">
             Golden Car Glass
-        </h2>
+        </div>
 
-        <div>
+        <nav>
 
-            <a href="/">
+            <a href="{{ url_for('home') }}">
                 Home
             </a>
 
@@ -1369,1399 +606,716 @@
                 Services
             </a>
 
-            <a href="#booking">
-                Book a Service
+            <a href="#book">
+                Book Service
             </a>
 
-            <a href="/my_bookings">
-                My Bookings
+            <a href="#contact">
+                Contact
             </a>
 
-            <a href="/login">
-                Admin Login
-            </a>
+        </nav>
 
-        </div>
-
-    </nav>
+    </header>
 
 
-    <!-- =========================
-         HERO SECTION
-    ========================== -->
+    <!-- HERO -->
 
     <section class="hero">
 
-        <div>
+        <h1>
+            Golden Car Glass
+        </h1>
 
-            <h1>
-                Golden <span>Car Glass</span>
-            </h1>
+        <p>
+            Professional car glass replacement and repair service.
+            Easy booking, photo upload and service tracking.
+        </p>
 
-            <p>
-                Professional Car Glass Replacement & Repair Service
-            </p>
-
-            <a
-                href="#booking"
-                class="btn"
-            >
-                Book a Service
-            </a>
-
-        </div>
+        <a
+            href="#book"
+            class="hero-button"
+        >
+            Book a Service
+        </a>
 
     </section>
 
 
-    <!-- =========================
-         SERVICES SECTION
-    ========================== -->
+    <!-- SERVICES -->
 
     <section
         class="services"
         id="services"
     >
 
-        <h2>
+        <h2 class="section-title">
             Our Services
         </h2>
 
-        <p class="services-subtitle">
-            Quality car glass services you can trust
-        </p>
-
-
-        <div class="service-container">
-
-
-            <!-- Service 1 -->
+        <div class="service-grid">
 
             <div class="service-card">
-
-                <h3>
-                    🚗 Windshield Replacement
-                </h3>
-
-                <p>
-                    Fast and professional windshield replacement
-                    for your car.
-                </p>
-
+                <h3>Windshield</h3>
+                <p>Professional windshield replacement.</p>
             </div>
-
-
-            <!-- Service 2 -->
 
             <div class="service-card">
-
-                <h3>
-                    🪟 Car Window Glass
-                </h3>
-
-                <p>
-                    Replacement of damaged or broken car window glass.
-                </p>
-
+                <h3>Window Glass</h3>
+                <p>Car side window glass replacement.</p>
             </div>
-
-
-            <!-- Service 3 -->
 
             <div class="service-card">
-
-                <h3>
-                    🔧 Glass Repair
-                </h3>
-
-                <p>
-                    Repair minor cracks and glass damage quickly.
-                </p>
-
+                <h3>Rear Glass</h3>
+                <p>Rear glass replacement service.</p>
             </div>
 
+            <div class="service-card">
+                <h3>Glass Repair</h3>
+                <p>Repair for suitable glass damage.</p>
+            </div>
 
         </div>
 
     </section>
 
 
-    <!-- =========================
-         BOOKING SECTION
-    ========================== -->
+    <!-- BOOKING -->
 
     <section
-        class="booking"
-        id="booking"
+        class="booking-section"
+        id="book"
     >
 
-        <h2>
+        <h2 class="section-title">
             Book a Service
         </h2>
 
-        <p class="booking-subtitle">
-            Fill in your details and we will contact you.
-        </p>
 
+        <div class="booking-box">
 
-        <form
-            action="/book"
-            method="POST"
-            enctype="multipart/form-data"
-        >
-
-
-            <!-- =========================
-                 CSRF
-            ========================== -->
-
-            <input
-                type="hidden"
-                name="csrf_token"
-                value="{{ csrf_token() }}"
+            <form
+                method="POST"
+                action="{{ url_for('book') }}"
+                enctype="multipart/form-data"
+                id="bookingForm"
             >
-
-
-            <!-- =========================
-                 NAME
-            ========================== -->
-
-            <input
-                type="text"
-                name="name"
-                placeholder="Your Name"
-                required
-            >
-
-
-            <!-- =========================
-                 MOBILE
-            ========================== -->
-
-            <input
-                type="tel"
-                name="mobile"
-                placeholder="Mobile Number"
-                pattern="[0-9]{10}"
-                maxlength="10"
-                minlength="10"
-                inputmode="numeric"
-                autocomplete="tel"
-                required
-                oninput="validateMobile(this)"
-            >
-
-            <p id="mobileError"></p>
-
-
-            <!-- =========================
-                 CAR MODEL
-            ========================== -->
-
-            <input
-                type="text"
-                name="car_model"
-                placeholder="Car Model"
-                required
-            >
-
-
-            <!-- =========================
-                 GLASS TYPE
-            ========================== -->
-
-            <select
-                name="glass_type"
-                required
-            >
-
-                <option value="">
-                    Select Glass Type
-                </option>
-
-                <option value="Windshield">
-                    Windshield
-                </option>
-
-                <option value="Window Glass">
-                    Window Glass
-                </option>
-
-                <option value="Rear Glass">
-                    Rear Glass
-                </option>
-
-                <option value="Glass Repair">
-                    Glass Repair
-                </option>
-
-            </select>
-
-
-            <!-- =========================
-                 SERVICE DATE
-            ========================== -->
-
-            <div
-                class="date-wrapper"
-                id="dateWrapper"
-            >
-
-                <span
-                    class="date-placeholder"
-                    id="datePlaceholder"
-                >
-                    Select Service Date
-                </span>
 
                 <input
-                    type="date"
-                    name="date"
-                    id="booking-date"
-                    required
+                    type="hidden"
+                    name="csrf_token"
+                    value="{{ csrf_token() }}"
                 >
 
-            </div>
 
+                <div class="form-group">
 
-            <!-- =========================
-                 ADDITIONAL MESSAGE
-            ========================== -->
+                    <label for="name">
+                        Name
+                    </label>
 
-            <textarea
-                name="message"
-                placeholder="Additional Message"
-            ></textarea>
-
-
-            <!-- =========================
-                 PROFESSIONAL PHOTO UPLOAD
-            ========================== -->
-
-            <div class="photo-upload-card">
-
-
-                <!-- Header -->
-
-                <div class="photo-upload-header">
-
-                    <div class="photo-upload-icon">
-                        📷
-                    </div>
-
-                    <div>
-
-                        <div class="photo-upload-title">
-
-                            Vehicle / Glass Photo
-
-                            <span class="optional-text">
-                                (Optional)
-                            </span>
-
-                        </div>
-
-                        <div class="photo-upload-description">
-
-                            Upload a photo of the damaged glass
-                            or vehicle to help us understand the issue.
-
-                        </div>
-
-                    </div>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        required
+                        autocomplete="name"
+                    >
 
                 </div>
 
 
-                <!-- Hidden Camera Input -->
+                <div class="form-group">
 
-                <input
-                    type="file"
-                    id="cameraInput"
-                    name="photo"
-                    accept="image/jpeg,image/png,image/webp"
-                    capture="environment"
-                    class="hidden-photo-input"
-                >
+                    <label for="mobile">
+                        Mobile Number
+                    </label>
 
-
-                <!-- Hidden Gallery Input -->
-
-                <input
-                    type="file"
-                    id="galleryInput"
-                    accept="image/jpeg,image/png,image/webp"
-                    class="hidden-photo-input"
-                >
-
-
-                <!-- Photo Buttons -->
-
-                <div class="photo-buttons">
-
-
-                    <button
-                        type="button"
-                        class="photo-action camera"
-                        id="cameraButton"
+                    <input
+                        type="tel"
+                        id="mobile"
+                        name="mobile"
+                        maxlength="10"
+                        inputmode="numeric"
+                        autocomplete="tel"
+                        required
                     >
-
-                        <span>📷</span>
-
-                        Take Photo
-
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="photo-action"
-                        id="galleryButton"
-                    >
-
-                        <span>🖼️</span>
-
-                        Choose from Gallery
-
-                    </button>
-
 
                 </div>
 
 
-                <!-- Photo Error -->
+                <div class="form-group">
 
-                <div id="photoError"></div>
+                    <label for="car_model">
+                        Car Model
+                    </label>
+
+                    <input
+                        type="text"
+                        id="car_model"
+                        name="car_model"
+                        required
+                    >
+
+                </div>
 
 
-                <!-- Photo Preview -->
+                <div class="form-group">
 
-                <div
-                    class="photo-preview-container"
-                    id="photoPreviewContainer"
-                >
+                    <label for="glass_type">
+                        Glass Type
+                    </label>
 
-                    <div class="photo-preview-label">
+                    <select
+                        id="glass_type"
+                        name="glass_type"
+                        required
+                    >
 
-                        Selected Photo
+                        <option value="">
+                            Select Glass Type
+                        </option>
+
+                        <option value="Windshield">
+                            Windshield
+                        </option>
+
+                        <option value="Window Glass">
+                            Window Glass
+                        </option>
+
+                        <option value="Rear Glass">
+                            Rear Glass
+                        </option>
+
+                        <option value="Glass Repair">
+                            Glass Repair
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="date">
+                        Service Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="date"
+                        name="date"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="message">
+                        Message
+                    </label>
+
+                    <textarea
+                        id="message"
+                        name="message"
+                        placeholder="Describe the glass problem..."
+                    ></textarea>
+
+                </div>
+
+
+                <!-- PHOTO -->
+
+                <div class="photo-section">
+
+                    <label>
+                        Upload Glass / Damage Photo
+                    </label>
+
+                    <small>
+                        Optional. JPG, JPEG, PNG or WEBP. Maximum 5MB.
+                    </small>
+
+
+                    <div class="photo-buttons">
+
+                        <label
+                            for="cameraInput"
+                            class="photo-button"
+                        >
+                            Take Photo
+                        </label>
+
+                        <label
+                            for="galleryInput"
+                            class="photo-button"
+                        >
+                            Choose from Gallery
+                        </label>
 
                     </div>
 
 
-                    <div class="photo-preview-box">
+                    <input
+                        type="file"
+                        id="cameraInput"
+                        name="photo"
+                        accept="image/jpeg,image/png,image/webp"
+                        capture="environment"
+                        hidden
+                    >
+
+
+                    <input
+                        type="file"
+                        id="galleryInput"
+                        accept="image/jpeg,image/png,image/webp"
+                        hidden
+                    >
+
+
+                    <div
+                        class="photo-preview"
+                        id="photoPreview"
+                    >
 
                         <img
+                            id="previewImage"
                             src=""
-                            alt="Selected vehicle or glass photo"
-                            class="photo-preview"
-                            id="photoPreview"
+                            alt="Selected photo"
                         >
 
                     </div>
 
 
-                    <div class="photo-preview-actions">
-
-
-                        <button
-                            type="button"
-                            class="preview-action"
-                            id="changePhotoButton"
-                        >
-
-                            🔄 Change Photo
-
-                        </button>
-
-
-                        <button
-                            type="button"
-                            class="preview-action remove"
-                            id="removePhotoButton"
-                        >
-
-                            ✕ Remove
-
-                        </button>
-
-
-                    </div>
+                    <button
+                        type="button"
+                        class="remove-photo"
+                        id="removePhoto"
+                    >
+                        Remove Photo
+                    </button>
 
                 </div>
 
 
-                <!-- Photo Note -->
-
-                <div class="photo-upload-note">
-
-                    JPG, PNG or WebP • Maximum 5 MB
-
-                </div>
+                <br>
 
 
-            </div>
+                <button
+                    type="submit"
+                    class="submit-button"
+                >
+                    Book Service
+                </button>
 
+            </form>
 
-            <!-- =========================
-                 SUBMIT
-            ========================== -->
-
-            <button
-                type="submit"
-            >
-                Submit Booking
-            </button>
-
-
-        </form>
+        </div>
 
     </section>
 
 
-    <!-- =========================
-         JAVASCRIPT
-    ========================== -->
+    <!-- CONTACT -->
+
+    <section id="contact">
+
+        <h2>
+            Contact Golden Car Glass
+        </h2>
+
+        <p>
+            For car glass replacement and repair services,
+            contact Golden Car Glass.
+        </p>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <strong>
+            Golden Car Glass
+        </strong>
+
+        <br>
+
+        Professional Car Glass Replacement & Repair
+
+    </footer>
+
+
+    <!-- =========================================================
+         COMMON MOBILE BOTTOM NAV
+    ========================================================= -->
+
+    <nav
+        class="bottom-nav"
+        aria-label="Mobile navigation"
+    >
+
+        <!-- HOME — ACTIVE -->
+
+        <a
+            href="{{ url_for('home') }}"
+            class="bottom-nav-item active"
+        >
+
+            <span class="nav-icon">
+
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                >
+
+                    <path d="M3 11.5L12 4l9 7.5"></path>
+
+                    <path d="M5.5 10.5V20h13v-9.5"></path>
+
+                    <path d="M9.5 20v-5.5h5V20"></path>
+
+                </svg>
+
+            </span>
+
+            <span class="nav-label">
+                Home
+            </span>
+
+        </a>
+
+
+        <!-- BOOK SERVICE -->
+
+        <a
+            href="{{ url_for('home') }}#book"
+            class="bottom-nav-item"
+        >
+
+            <span class="nav-icon">
+
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                >
+
+                    <path d="M12 5v14"></path>
+
+                    <path d="M5 12h14"></path>
+
+                </svg>
+
+            </span>
+
+            <span class="nav-label">
+                Book Service
+            </span>
+
+        </a>
+
+
+        <!-- MY BOOKINGS -->
+
+        <a
+            href="{{ url_for('my_bookings') }}"
+            class="bottom-nav-item"
+        >
+
+            <span class="nav-icon">
+
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                >
+
+                    <rect
+                        x="5"
+                        y="3"
+                        width="14"
+                        height="18"
+                        rx="2"
+                    ></rect>
+
+                    <path d="M8 7h8"></path>
+
+                    <path d="M8 11h8"></path>
+
+                    <path d="M8 15h5"></path>
+
+                </svg>
+
+            </span>
+
+            <span class="nav-label">
+                My Bookings
+            </span>
+
+        </a>
+
+
+        <!-- PROFILE -->
+
+        <a
+            href="{{ url_for('profile') }}"
+            class="bottom-nav-item"
+        >
+
+            <span class="nav-icon">
+
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                >
+
+                    <circle
+                        cx="12"
+                        cy="8"
+                        r="4"
+                    ></circle>
+
+                    <path
+                        d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"
+                    ></path>
+
+                </svg>
+
+            </span>
+
+            <span class="nav-label">
+                Profile
+            </span>
+
+        </a>
+
+    </nav>
+
 
     <script>
 
+        document.addEventListener("DOMContentLoaded", function () {
 
-        /* =========================
-           MOBILE VALIDATION
-        ========================== */
+            const mobileInput =
+                document.getElementById("mobile");
 
-        function validateMobile(input) {
+            if (mobileInput) {
 
-            const errorMessage =
-                document.getElementById("mobileError");
+                mobileInput.addEventListener("input", function () {
 
+                    this.value =
+                        this.value.replace(/[^0-9]/g, "");
 
-            if (/[^0-9]/.test(input.value)) {
-
-                errorMessage.style.display =
-                    "block";
-
-                errorMessage.innerText =
-                    "Please enter numbers only 😊";
+                });
 
             }
 
-            else {
 
-                errorMessage.style.display =
-                    "none";
+            const dateInput =
+                document.getElementById("date");
 
-                errorMessage.innerText =
-                    "";
+            if (dateInput) {
+
+                const today =
+                    new Date().toISOString().split("T")[0];
+
+                dateInput.min = today;
 
             }
 
-        }
+
+            const cameraInput =
+                document.getElementById("cameraInput");
+
+            const galleryInput =
+                document.getElementById("galleryInput");
+
+            const previewBox =
+                document.getElementById("photoPreview");
+
+            const previewImage =
+                document.getElementById("previewImage");
+
+            const removeButton =
+                document.getElementById("removePhoto");
 
 
-        /* =========================
-           DATE PICKER
-        ========================== */
+            function showPreview(file) {
 
-        const dateInput =
-            document.getElementById("booking-date");
-
-        const dateWrapper =
-            document.getElementById("dateWrapper");
-
-
-        /* Today's date */
-
-        const today =
-            new Date()
-                .toISOString()
-                .split("T")[0];
-
-
-        /* Prevent past dates */
-
-        dateInput.setAttribute(
-            "min",
-            today
-        );
-
-
-        /* Show date after selection */
-
-        dateInput.addEventListener(
-            "change",
-            function () {
-
-                if (dateInput.value !== "") {
-
-                    dateWrapper.classList.add(
-                        "has-date"
-                    );
-
+                if (!file) {
+                    return;
                 }
 
-                else {
+                const reader =
+                    new FileReader();
 
-                    dateWrapper.classList.remove(
-                        "has-date"
-                    );
+                reader.onload = function (event) {
 
-                }
-
-            }
-        );
-
-
-        /* Open date picker when box is clicked */
-
-        dateInput.addEventListener(
-            "click",
-            function () {
-
-                if (
-                    typeof dateInput.showPicker ===
-                    "function"
-                ) {
-
-                    dateInput.showPicker();
-
-                }
-
-            }
-        );
-
-
-        /* =========================
-           PHOTO UPLOAD SYSTEM
-        ========================== */
-
-        const cameraInput =
-            document.getElementById("cameraInput");
-
-        const galleryInput =
-            document.getElementById("galleryInput");
-
-        const cameraButton =
-            document.getElementById("cameraButton");
-
-        const galleryButton =
-            document.getElementById("galleryButton");
-
-        const changePhotoButton =
-            document.getElementById("changePhotoButton");
-
-        const removePhotoButton =
-            document.getElementById("removePhotoButton");
-
-        const photoPreviewContainer =
-            document.getElementById("photoPreviewContainer");
-
-        const photoPreview =
-            document.getElementById("photoPreview");
-
-        const photoError =
-            document.getElementById("photoError");
-
-
-        /* Maximum 5 MB */
-
-        const MAX_PHOTO_SIZE =
-            5 * 1024 * 1024;
-
-
-        /* Allowed image types */
-
-        const ALLOWED_PHOTO_TYPES = [
-            "image/jpeg",
-            "image/png",
-            "image/webp"
-        ];
-
-
-        /* =========================
-           OPEN CAMERA
-        ========================== */
-
-        cameraButton.addEventListener(
-            "click",
-            function () {
-
-                clearPhotoError();
-
-                cameraInput.click();
-
-            }
-        );
-
-
-        /* =========================
-           OPEN GALLERY
-        ========================== */
-
-        galleryButton.addEventListener(
-            "click",
-            function () {
-
-                clearPhotoError();
-
-                galleryInput.click();
-
-            }
-        );
-
-
-        /* =========================
-           CHANGE PHOTO
-        ========================== */
-
-        changePhotoButton.addEventListener(
-            "click",
-            function () {
-
-                clearPhotoError();
-
-                galleryInput.click();
-
-            }
-        );
-
-
-        /* =========================
-           CAMERA PHOTO SELECTED
-        ========================== */
-
-        cameraInput.addEventListener(
-            "change",
-            function () {
-
-                if (cameraInput.files.length > 0) {
-
-                    handlePhoto(
-                        cameraInput.files[0],
-                        "camera"
-                    );
-
-                }
-
-            }
-        );
-
-
-        /* =========================
-           GALLERY PHOTO SELECTED
-        ========================== */
-
-        galleryInput.addEventListener(
-            "change",
-            function () {
-
-                if (galleryInput.files.length > 0) {
-
-                    handlePhoto(
-                        galleryInput.files[0],
-                        "gallery"
-                    );
-
-                }
-
-            }
-        );
-
-
-        /* =========================
-           HANDLE PHOTO
-        ========================== */
-
-        function handlePhoto(file, source) {
-
-            clearPhotoError();
-
-
-            if (!file) {
-
-                return;
-
-            }
-
-
-            /* Check file type */
-
-            if (
-                !ALLOWED_PHOTO_TYPES.includes(
-                    file.type
-                )
-            ) {
-
-                showPhotoError(
-                    "Please select a JPG, PNG or WebP image."
-                );
-
-                clearSelectedPhoto();
-
-                return;
-
-            }
-
-
-            /* Check file size */
-
-            if (
-                file.size > MAX_PHOTO_SIZE
-            ) {
-
-                showPhotoError(
-                    "Photo size must be 5 MB or less."
-                );
-
-                clearSelectedPhoto();
-
-                return;
-
-            }
-
-
-            /* Keep the selected file
-               inside the real booking input */
-
-            if (source === "gallery") {
-
-                try {
-
-                    const dataTransfer =
-                        new DataTransfer();
-
-                    dataTransfer.items.add(file);
-
-                    cameraInput.files =
-                        dataTransfer.files;
-
-                }
-
-                catch (error) {
-
-                    /*
-                     * Some older browsers may not
-                     * allow assigning FileList.
-                     *
-                     * In that case, keep the gallery
-                     * file in the gallery input.
-                     */
-
-                }
-
-            }
-
-
-            /* Create preview */
-
-            const reader =
-                new FileReader();
-
-
-            reader.onload =
-                function (event) {
-
-                    photoPreview.src =
+                    previewImage.src =
                         event.target.result;
 
-                    photoPreviewContainer.classList.add(
-                        "show"
-                    );
+                    previewBox.style.display =
+                        "block";
+
+                    removeButton.style.display =
+                        "inline-block";
 
                 };
 
-
-            reader.readAsDataURL(file);
-
-        }
-
-
-        /* =========================
-           REMOVE PHOTO
-        ========================== */
-
-        removePhotoButton.addEventListener(
-            "click",
-            function () {
-
-                clearSelectedPhoto();
-
-                clearPhotoError();
+                reader.readAsDataURL(file);
 
             }
-        );
 
 
-        /* =========================
-           CLEAR SELECTED PHOTO
-        ========================== */
+            if (cameraInput) {
 
-        function clearSelectedPhoto() {
+                cameraInput.addEventListener(
+                    "change",
+                    function () {
 
-            cameraInput.value = "";
+                        if (this.files.length > 0) {
 
-            galleryInput.value = "";
+                            showPreview(this.files[0]);
 
-            photoPreview.src = "";
-
-            photoPreviewContainer.classList.remove(
-                "show"
-            );
-
-        }
-
-
-        /* =========================
-           PHOTO ERROR
-        ========================== */
-
-        function showPhotoError(message) {
-
-            photoError.innerText =
-                message;
-
-            photoError.style.display =
-                "block";
-
-        }
-
-
-        function clearPhotoError() {
-
-            photoError.innerText =
-                "";
-
-            photoError.style.display =
-                "none";
-
-        }
-
-
-        /* =========================
-           FORM SUBMIT PROTECTION
-        ========================== */
-
-        const bookingForm =
-            document.querySelector(".booking form");
-
-
-        bookingForm.addEventListener(
-            "submit",
-            function (event) {
-
-                /*
-                 * The backend accepts the photo
-                 * using name="photo".
-                 *
-                 * If a gallery photo was selected
-                 * and browser allowed FileList
-                 * assignment, cameraInput contains it.
-                 *
-                 * If not, move the gallery file into
-                 * cameraInput before submitting.
-                 */
-
-                if (
-                    galleryInput.files.length > 0 &&
-                    cameraInput.files.length === 0
-                ) {
-
-                    try {
-
-                        const dataTransfer =
-                            new DataTransfer();
-
-                        dataTransfer.items.add(
-                            galleryInput.files[0]
-                        );
-
-                        cameraInput.files =
-                            dataTransfer.files;
+                        }
 
                     }
-
-                    catch (error) {
-
-                        /*
-                         * Browser does not allow
-                         * FileList assignment.
-                         *
-                         * In that rare case, the
-                         * gallery input is renamed
-                         * temporarily so the backend
-                         * still receives name="photo".
-                         */
-
-                        galleryInput.name =
-                            "photo";
-
-                        cameraInput.removeAttribute(
-                            "name"
-                        );
-
-                    }
-
-                }
+                );
 
             }
-        );
+
+
+            if (galleryInput) {
+
+                galleryInput.addEventListener(
+                    "change",
+                    function () {
+
+                        if (this.files.length > 0) {
+
+                            try {
+
+                                const dataTransfer =
+                                    new DataTransfer();
+
+                                dataTransfer.items.add(
+                                    this.files[0]
+                                );
+
+                                cameraInput.files =
+                                    dataTransfer.files;
+
+                            } catch (error) {
+
+                                console.log(
+                                    "File transfer not supported."
+                                );
+
+                            }
+
+                            showPreview(
+                                this.files[0]
+                            );
+
+                        }
+
+                    }
+                );
+
+            }
+
+
+            if (removeButton) {
+
+                removeButton.addEventListener(
+                    "click",
+                    function () {
+
+                        cameraInput.value = "";
+
+                        galleryInput.value = "";
+
+                        previewImage.src = "";
+
+                        previewBox.style.display =
+                            "none";
+
+                        removeButton.style.display =
+                            "none";
+
+                    }
+                );
+
+            }
+
+        });
 
     </script>
 
+<script>
+document.addEventListener("DOMContentLoaded", function () {
 
-<!-- =========================================
-     GOLDEN CAR GLASS - MOBILE BOTTOM NAV
-     PREMIUM SVG ICONS
-     ========================================= -->
+    const bottomNavItems = document.querySelectorAll(".bottom-nav-item");
 
-<!-- MOBILE BOTTOM NAV -->
-<nav class="bottom-nav" aria-label="Mobile navigation">
+    function updateBottomNav() {
 
-    <a href="{{ url_for('home') }}" class="bottom-nav-item active">
-        <span class="nav-icon">
-            <svg viewBox="0 0 24 24" fill="none"
-                 stroke="currentColor" stroke-width="1.7"
-                 stroke-linecap="round" stroke-linejoin="round">
-                <path d="M3 10.5L12 3l9 7.5"></path>
-                <path d="M5.5 9.5V21h13V9.5"></path>
-                <path d="M9.5 21v-6h5v6"></path>
-            </svg>
-        </span>
-        <span class="nav-label">Home</span>
-    </a>
+        bottomNavItems.forEach(function (item) {
+            item.classList.remove("active");
+        });
 
-    <a href="#booking" class="bottom-nav-item">
-        <span class="nav-icon">
-            <svg viewBox="0 0 24 24" fill="none"
-                 stroke="currentColor" stroke-width="1.7"
-                 stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 5v14"></path>
-                <path d="M5 12h14"></path>
-            </svg>
-        </span>
-        <span class="nav-label">Book Service</span>
-    </a>
+        const currentHash = window.location.hash;
 
-    <a href="{{ url_for('my_bookings') }}" class="bottom-nav-item">
-        <span class="nav-icon">
-            <svg viewBox="0 0 24 24" fill="none"
-                 stroke="currentColor" stroke-width="1.7"
-                 stroke-linecap="round" stroke-linejoin="round">
-                <rect x="5" y="3" width="14" height="18" rx="2"></rect>
-                <path d="M9 3.5h6"></path>
-                <path d="M9 9h6"></path>
-                <path d="M9 13h6"></path>
-                <path d="M9 17h4"></path>
-            </svg>
-        </span>
-        <span class="nav-label">My Bookings</span>
-    </a>
+        if (currentHash === "#book") {
 
-    <a href="{{ url_for('profile') }}" class="bottom-nav-item">
-        <span class="nav-icon">
-            <svg viewBox="0 0 24 24" fill="none"
-                 stroke="currentColor" stroke-width="1.7"
-                 stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="8" r="3.5"></circle>
-                <path d="M5 21c.8-4 3.1-6 7-6s6.2 2 7 6"></path>
-            </svg>
-        </span>
-        <span class="nav-label">Profile</span>
-    </a>
-
-</nav>
-
-<style>
-.bottom-nav {
-    display: none;
-}
-
-@media (max-width: 768px) {
-
-    body > nav:not(.bottom-nav) {
-        display: none !important;
-    }
-
-    body {
-        padding-bottom: 90px !important;
-    }
-
-    .bottom-nav {
-        display: flex !important;
-        position: fixed !important;
-        left: 0 !important;
-        right: 0 !important;
-        bottom: 0 !important;
-        width: 100% !important;
-        height: 72px !important;
-        background: #111 !important;
-        border-top: 1px solid #2b2b2b !important;
-        z-index: 99999 !important;
-        justify-content: space-around !important;
-        align-items: center !important;
-        padding: 0 !important;
-        margin: 0 !important;
-        box-sizing: border-box !important;
-    }
-
-    .bottom-nav > .bottom-nav-item {
-        position: relative !important;
-        width: 25% !important;
-        height: 72px !important;
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        justify-content: center !important;
-        gap: 5px !important;
-        padding: 0 !important;
-        margin: 0 !important;
-        text-decoration: none !important;
-        color: #D4AF37 !important;
-        font-size: 11px !important;
-        box-sizing: border-box !important;
-    }
-
-    .bottom-nav > .bottom-nav-item .nav-icon {
-        width: 24px !important;
-        height: 24px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        color: #D4AF37 !important;
-    }
-
-    .bottom-nav > .bottom-nav-item .nav-icon svg {
-        width: 23px !important;
-        height: 23px !important;
-        color: currentColor !important;
-        stroke: currentColor !important;
-        fill: none !important;
-    }
-
-    .bottom-nav > .bottom-nav-item .nav-label {
-        color: #D4AF37 !important;
-    }
-
-    .bottom-nav > .bottom-nav-item.active {
-        color: #F5C542 !important;
-    }
-
-    .bottom-nav > .bottom-nav-item.active .nav-icon {
-        color: #F5C542 !important;
-        transform: scale(1.08) !important;
-        filter:
-            drop-shadow(0 0 5px rgba(212,175,55,0.85))
-            drop-shadow(0 0 10px rgba(212,175,55,0.35)) !important;
-    }
-
-    .bottom-nav > .bottom-nav-item.active .nav-label {
-        color: #F5C542 !important;
-    }
-
-    .bottom-nav > .bottom-nav-item.active::before {
-        content: "" !important;
-        position: absolute !important;
-        top: 0 !important;
-        left: 25% !important;
-        right: 25% !important;
-        height: 2px !important;
-        background: #D4AF37 !important;
-    }
-
-    .bottom-nav > .bottom-nav-item:active .nav-icon {
-        transform: none !important;
-    }
-}
-
-@media (min-width: 769px) {
-    .bottom-nav {
-        display: none !important;
-    }
-}
-</style>
-
-
-<style>
-
-/* =========================================
-   MOBILE BOTTOM NAVIGATION
-   CLEAN VERSION
-   ========================================= */
-
-.bottom-nav {
-    display: none;
-}
-
-
-@media screen and (max-width: 768px) {
-
-    /* Hide original top navigation */
-    body > nav:not(.bottom-nav) {
-        display: none !important;
-    }
-
-
-    /* Bottom navigation */
-    .bottom-nav {
-        position: fixed !important;
-
-        left: 10px !important;
-        right: 10px !important;
-        bottom: 10px !important;
-
-        width: auto !important;
-        height: 68px !important;
-
-        display: flex !important;
-
-        flex-direction: row !important;
-        justify-content: space-between !important;
-        align-items: stretch !important;
-
-        background: #111111 !important;
-
-        border: 1px solid rgba(212, 175, 55, 0.55) !important;
-
-        border-radius: 18px !important;
-
-        box-shadow:
-            0 8px 30px rgba(0, 0, 0, 0.35),
-            0 0 18px rgba(212, 175, 55, 0.10) !important;
-
-        z-index: 99999 !important;
-
-        overflow: visible !important;
-    }
-
-
-    /* Each navigation item */
-    .bottom-nav > .bottom-nav-item {
-
-        position: relative !important;
-
-        flex: 1 1 25% !important;
-
-        width: 25% !important;
-        min-width: 0 !important;
-
-        height: 68px !important;
-
-        display: flex !important;
-
-        flex-direction: column !important;
-
-        justify-content: center !important;
-        align-items: center !important;
-
-        gap: 4px !important;
-
-        padding: 0 !important;
-        margin: 0 !important;
-
-        box-sizing: border-box !important;
-
-        color: #D4AF37 !important;
-
-        text-decoration: none !important;
-
-        font-size: 10px !important;
-        font-weight: 600 !important;
-
-        line-height: 1 !important;
-
-        overflow: visible !important;
-
-        transform: none !important;
-    }
-
-
-    /* Icon container */
-    .bottom-nav > .bottom-nav-item .nav-icon {
-
-        width: 30px !important;
-        height: 28px !important;
-
-        display: flex !important;
-
-        align-items: center !important;
-        justify-content: center !important;
-
-        margin: 0 !important;
-        padding: 0 !important;
-
-        color: #D4AF37 !important;
-
-        transform: none !important;
-    }
-
-
-    /* SVG icon */
-    .bottom-nav > .bottom-nav-item .nav-icon svg {
-
-        width: 23px !important;
-        height: 23px !important;
-
-        display: block !important;
-
-        color: #D4AF37 !important;
-
-        stroke: currentColor !important;
-
-        transform: none !important;
-
-        transition: filter 0.2s ease !important;
-    }
-
-
-    /* SVG paths */
-    .bottom-nav > .bottom-nav-item .nav-icon svg * {
-
-        stroke: currentColor !important;
-    }
-
-
-    /* Navigation labels */
-    .bottom-nav > .bottom-nav-item > span:not(.nav-icon) {
-
-        display: block !important;
-
-        width: 100% !important;
-        height: 16px !important;
-
-        margin: 0 !important;
-        padding: 0 !important;
-
-        text-align: center !important;
-
-        font-size: 10px !important;
-
-        line-height: 16px !important;
-
-        white-space: nowrap !important;
-
-        color: #D4AF37 !important;
-
-        transform: none !important;
-    }
-
-
-    /* =========================================
-       HOVER
-       ========================================= */
-
-    .bottom-nav > .bottom-nav-item:hover .nav-icon svg {
-
-        filter:
-            drop-shadow(
-                0 0 5px rgba(212, 175, 55, 0.65)
+            const bookButton = document.querySelector(
+                '.bottom-nav-item[href$="#book"]'
             );
 
-        transform: none !important;
-    }
+            if (bookButton) {
+                bookButton.classList.add("active");
+            }
 
+        } else {
 
-    /* =========================================
-       ACTIVE ITEM
-       ONLY GLOW — NO SIZE CHANGE
-       ========================================= */
-
-    .bottom-nav > .bottom-nav-item.active {
-
-        color: #F5C542 !important;
-
-        transform: none !important;
-    }
-
-
-    .bottom-nav > .bottom-nav-item.active .nav-icon {
-
-        color: #F5C542 !important;
-
-        transform: none !important;
-    }
-
-
-    .bottom-nav > .bottom-nav-item.active .nav-icon svg {
-
-        color: #F5C542 !important;
-
-        stroke: #F5C542 !important;
-
-        filter:
-            drop-shadow(
-                0 0 5px rgba(212, 175, 55, 0.85)
-            )
-            drop-shadow(
-                0 0 10px rgba(212, 175, 55, 0.35)
+            const homeButton = document.querySelector(
+                '.bottom-nav-item[href="{{ url_for("home") }}"]'
             );
 
-        transform: none !important;
+            if (homeButton) {
+                homeButton.classList.add("active");
+            }
+        }
     }
 
+    updateBottomNav();
 
-    .bottom-nav > .bottom-nav-item.active > span:not(.nav-icon) {
-
-        color: #F5C542 !important;
-
-        transform: none !important;
-    }
-
-
-    /* =========================================
-       ACTIVE GOLD LINE
-       ========================================= */
-
-    .bottom-nav > .bottom-nav-item.active::before {
-
-        content: "";
-
-        position: absolute;
-
-        top: 0;
-
-        left: 25%;
-        right: 25%;
-
-        height: 2px;
-
-        background: #D4AF37;
-
-        border-radius: 0 0 4px 4px;
-    }
-
-
-    /* =========================================
-       NO SIZE CHANGE ON CLICK / FOCUS
-       ========================================= */
-
-    .bottom-nav > .bottom-nav-item:focus,
-    .bottom-nav > .bottom-nav-item:active {
-
-        transform: none !important;
-    }
-
-
-    .bottom-nav > .bottom-nav-item:focus .nav-icon,
-    .bottom-nav > .bottom-nav-item:active .nav-icon {
-
-        transform: none !important;
-    }
-
-
-    .bottom-nav > .bottom-nav-item:focus .nav-icon svg,
-    .bottom-nav > .bottom-nav-item:active .nav-icon svg {
-
-        transform: none !important;
-    }
-
-
-    /* Page space for bottom navigation */
-    body {
-        padding-bottom: 95px !important;
-    }
-
-}
-
-</style>
+    window.addEventListener("hashchange", updateBottomNav);
+});
+</script>
 
 </body>
 

@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
 
     <meta
@@ -8,391 +10,840 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <meta
-        name="theme-color"
-        content="#111111"
-    >
-
     <title>My Bookings - Golden Car Glass</title>
 
     <style>
+
         * {
             box-sizing: border-box;
         }
 
         body {
             margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
             background: #f5f5f5;
+
             color: #222;
+
             line-height: 1.5;
         }
 
-        /* =========================
-           NAVBAR
-        ========================= */
+
+        /* =========================================================
+           DESKTOP NAVBAR
+        ========================================================= */
 
         .navbar {
             background: #111111;
+
             color: white;
+
             padding: 15px 20px;
+
             display: flex;
+
             justify-content: space-between;
+
             align-items: center;
+
             flex-wrap: wrap;
+
             gap: 10px;
         }
 
+
         .logo {
             font-size: 20px;
+
             font-weight: 800;
+
             color: #f5c518;
         }
 
+
         .nav-links {
             display: flex;
+
             gap: 16px;
+
             flex-wrap: wrap;
         }
 
+
         .nav-links a {
             color: white;
+
             text-decoration: none;
+
             font-size: 14px;
+
             font-weight: 600;
         }
+
 
         .nav-links a:hover {
             color: #f5c518;
         }
 
 
-        /* =========================
+        /* =========================================================
            MAIN
-        ========================= */
+        ========================================================= */
 
         .container {
             width: 92%;
+
             max-width: 700px;
+
             margin: 30px auto 55px;
         }
 
+
         h1 {
             text-align: center;
+
             margin: 0 0 25px;
+
             color: #111111;
+
             font-size: 30px;
         }
 
 
-        /* =========================
+        /* =========================================================
            SEARCH BOX
-        ========================= */
+        ========================================================= */
 
         .search-box {
             background: white;
+
             padding: 24px;
+
             border-radius: 16px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+
+            box-shadow:
+                0 5px 20px rgba(0, 0, 0, 0.07);
+
             margin-bottom: 25px;
+
             border: 1px solid #eeeeee;
         }
 
+
         .search-box label {
             display: block;
+
             font-weight: 700;
+
             margin-bottom: 8px;
+
             color: #222;
         }
 
+
         .search-box input {
             width: 100%;
+
             padding: 13px;
+
             border: 1px solid #cccccc;
+
             border-radius: 9px;
+
             font-size: 16px;
+
             margin-bottom: 12px;
+
             outline: none;
         }
 
+
         .search-box input:focus {
             border-color: #f5c518;
-            box-shadow: 0 0 0 3px rgba(245, 197, 24, 0.12);
+
+            box-shadow:
+                0 0 0 3px rgba(245, 197, 24, 0.12);
         }
+
 
         .search-box button {
             width: 100%;
+
             padding: 13px;
+
             background: #111111;
+
             color: white;
+
             border: none;
+
             border-radius: 9px;
+
             font-size: 16px;
+
             font-weight: 700;
+
             cursor: pointer;
-            transition: 0.2s;
         }
+
 
         .search-box button:hover {
             background: #333333;
         }
 
 
-        /* =========================
+        /* =========================================================
            ERROR
-        ========================= */
+        ========================================================= */
 
         .error {
             background: #ffe5e5;
+
             color: #b00020;
+
             padding: 12px;
+
             border-radius: 9px;
+
             margin-bottom: 15px;
+
             text-align: center;
+
             font-size: 14px;
         }
 
 
-        /* =========================
+        /* =========================================================
            NO BOOKINGS
-        ========================= */
+        ========================================================= */
 
         .no-bookings {
             background: white;
+
             padding: 28px 22px;
+
             border-radius: 16px;
+
             text-align: center;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+
+            box-shadow:
+                0 5px 20px rgba(0, 0, 0, 0.07);
+
             margin-bottom: 20px;
+
             border: 1px solid #eeeeee;
         }
 
+
         .no-bookings h3 {
             margin-top: 0;
+
             margin-bottom: 8px;
+
             font-size: 20px;
         }
 
+
         .no-bookings p {
             color: #666666;
+
             margin-bottom: 20px;
+
             font-size: 14px;
         }
 
 
-        /* =========================
+        /* =========================================================
            BOOKING CARD
-        ========================= */
+        ========================================================= */
 
         .booking-card {
             background: white;
+
             border-radius: 16px;
+
             padding: 20px;
+
             margin-bottom: 18px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+
+            box-shadow:
+                0 5px 20px rgba(0, 0, 0, 0.07);
+
             border: 1px solid #eeeeee;
         }
 
+
         .booking-header {
             display: flex;
+
             justify-content: flex-end;
+
             align-items: center;
+
             margin-bottom: 17px;
         }
 
 
-        /* =========================
+        /* =========================================================
            STATUS
-        ========================= */
+        ========================================================= */
 
         .status {
             display: inline-block;
+
             padding: 7px 12px;
+
             border-radius: 20px;
+
             font-size: 13px;
+
             font-weight: 800;
         }
 
+
         .pending {
             background: #fff3cd;
+
             color: #856404;
         }
 
+
         .in-progress {
             background: #cfe2ff;
+
             color: #084298;
         }
 
+
         .completed {
             background: #d1e7dd;
+
             color: #0f5132;
         }
 
+
         .cancelled {
             background: #f8d7da;
+
             color: #842029;
         }
 
 
-        /* =========================
+        /* =========================================================
            BOOKING INFO
-        ========================= */
+        ========================================================= */
 
         .booking-info {
             line-height: 1.9;
+
             font-size: 15px;
         }
 
+
         .booking-info div {
             padding: 7px 0;
+
             border-bottom: 1px solid #eeeeee;
         }
+
 
         .booking-info div:last-child {
             border-bottom: none;
         }
 
+
         .booking-info strong {
             display: inline-block;
+
             min-width: 125px;
+
             color: #555555;
         }
 
 
-        /* =========================
-           VIEW DETAILS
-        ========================= */
+        /* =========================================================
+           ACTION BUTTONS
+        ========================================================= */
+
+        .booking-actions {
+            display: flex;
+
+            gap: 10px;
+
+            margin-top: 18px;
+
+            width: 100%;
+        }
+
 
         .view-details {
+            flex: 1;
+
             display: block;
+
             text-align: center;
-            margin-top: 18px;
-            padding: 12px;
+
+            padding: 12px 10px;
+
             background: #111111;
+
             color: white;
+
             text-decoration: none;
+
             border-radius: 9px;
+
+            font-size: 14px;
+
             font-weight: 700;
-            transition: 0.2s;
+
+            border: 1px solid #111111;
         }
+
 
         .view-details:hover {
             background: #333333;
+
+            border-color: #333333;
         }
 
 
-        /* =========================
+        /* =========================================================
+           CANCEL BOOKING
+        ========================================================= */
+
+        .cancel-booking-form {
+            flex: 1;
+
+            margin: 0;
+
+            padding: 0;
+        }
+
+
+        .cancel-booking-btn {
+            width: 100%;
+
+            padding: 12px 10px;
+
+            background: #c62828;
+
+            color: white;
+
+            border: 1px solid #c62828;
+
+            border-radius: 9px;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+        }
+
+
+        .cancel-booking-btn:hover {
+            background: #b71c1c;
+
+            border-color: #b71c1c;
+        }
+
+
+        /* =========================================================
            CHANGE MOBILE
-        ========================= */
+        ========================================================= */
 
         .change-mobile {
             display: block;
+
             text-align: center;
+
             margin-top: 22px;
+
             color: #111111;
+
             text-decoration: none;
+
             font-weight: 700;
+
             font-size: 14px;
         }
 
+
         .change-mobile:hover {
             color: #b18a00;
+
             text-decoration: underline;
         }
 
 
-        /* =========================
+        /* =========================================================
            FOOTER
-        ========================= */
+        ========================================================= */
 
         .footer {
             background: #111111;
+
             color: #aaaaaa;
+
             text-align: center;
+
             padding: 22px 15px;
+
             font-size: 12px;
         }
+
 
         .footer strong {
             color: #f5c518;
         }
 
 
-        /* =========================
-           MOBILE
-        ========================= */
+        /* =========================================================
+           MOBILE PAGE
+        ========================================================= */
 
-        @media (max-width: 600px) {
+        @media screen and (max-width: 768px) {
+
+            body {
+                padding-bottom: 72px !important;
+            }
+
 
             .navbar {
-                flex-direction: column;
-                text-align: center;
-                padding: 14px 16px;
+                display: none;
             }
 
-            .logo {
-                font-size: 19px;
-            }
-
-            .nav-links {
-                justify-content: center;
-                gap: 12px;
-            }
-
-            .nav-links a {
-                font-size: 12px;
-            }
 
             .container {
                 width: 94%;
+
                 margin-top: 22px;
+
+                margin-bottom: 30px;
             }
+
 
             h1 {
                 font-size: 26px;
+
                 margin-bottom: 22px;
             }
+
 
             .search-box {
                 padding: 20px;
             }
 
+
             .booking-card {
                 padding: 17px;
+
                 border-radius: 14px;
             }
+
 
             .booking-header {
                 justify-content: flex-start;
             }
 
+
             .booking-info {
                 font-size: 14px;
             }
+
 
             .booking-info strong {
                 min-width: 105px;
             }
 
-            .view-details {
+
+            /* =====================================================
+               ACTION BUTTONS
+            ===================================================== */
+
+            .booking-actions {
+                gap: 8px;
+
                 margin-top: 15px;
             }
+
+
+            .view-details {
+                padding: 11px 8px;
+
+                font-size: 13px;
+            }
+
+
+            .cancel-booking-btn {
+                padding: 11px 8px;
+
+                font-size: 13px;
+            }
+
+
+            /* =====================================================
+               COMMON BOTTOM NAV
+            ===================================================== */
+
+            .bottom-nav {
+                position: fixed !important;
+
+                left: 0 !important;
+
+                right: 0 !important;
+
+                bottom: 0 !important;
+
+                width: 100% !important;
+
+                height: 72px !important;
+
+                display: flex !important;
+
+                flex-direction: row !important;
+
+                align-items: stretch !important;
+
+                justify-content: space-around !important;
+
+                padding: 0 !important;
+
+                margin: 0 !important;
+
+                background: #ffffff !important;
+
+                border-top: 1px solid #e5e5e5 !important;
+
+                box-shadow:
+                    0 -2px 10px rgba(0, 0, 0, 0.06) !important;
+
+                z-index: 99999 !important;
+
+                box-sizing: border-box !important;
+            }
+
+
+            .bottom-nav .bottom-nav-item {
+                width: 25% !important;
+
+                height: 72px !important;
+
+                flex: 1 1 25% !important;
+
+                min-width: 0 !important;
+
+                display: flex !important;
+
+                flex-direction: column !important;
+
+                align-items: center !important;
+
+                justify-content: center !important;
+
+                gap: 5px !important;
+
+                padding: 0 !important;
+
+                margin: 0 !important;
+
+                color: #555555 !important;
+
+                font-family:
+                    Arial,
+                    Helvetica,
+                    sans-serif !important;
+
+                font-size: 11px !important;
+
+                font-weight: 500 !important;
+
+                line-height: 16px !important;
+
+                text-decoration: none !important;
+
+                transform: none !important;
+
+                transition: none !important;
+
+                outline: none !important;
+
+                -webkit-tap-highlight-color: transparent !important;
+
+                box-sizing: border-box !important;
+            }
+
+
+            .bottom-nav .nav-icon {
+                width: 23px !important;
+
+                height: 23px !important;
+
+                flex: 0 0 23px !important;
+
+                display: flex !important;
+
+                align-items: center !important;
+
+                justify-content: center !important;
+
+                color: #C49A00 !important;
+
+                transform: none !important;
+
+                transition: none !important;
+
+                filter: none !important;
+            }
+
+
+            .bottom-nav .nav-icon svg {
+                width: 23px !important;
+
+                height: 23px !important;
+
+                display: block !important;
+
+                color: currentColor !important;
+
+                stroke: currentColor !important;
+
+                fill: none !important;
+
+                transform: none !important;
+
+                transition: none !important;
+
+                filter: none !important;
+            }
+
+
+            .bottom-nav .nav-icon svg * {
+                stroke: currentColor !important;
+
+                fill: none !important;
+            }
+
+
+            .bottom-nav .nav-label {
+                display: block !important;
+
+                width: auto !important;
+
+                height: 16px !important;
+
+                margin: 0 !important;
+
+                padding: 0 !important;
+
+                color: #333333 !important;
+
+                font-family:
+                    Arial,
+                    Helvetica,
+                    sans-serif !important;
+
+                font-size: 11px !important;
+
+                font-weight: 500 !important;
+
+                line-height: 16px !important;
+
+                white-space: nowrap !important;
+
+                transform: none !important;
+
+                transition: none !important;
+            }
+
+
+            .bottom-nav .bottom-nav-item.active {
+                color: #B89520 !important;
+
+                background: transparent !important;
+
+                transform: none !important;
+            }
+
+
+            .bottom-nav .bottom-nav-item.active .nav-icon {
+                color: #B89520 !important;
+            }
+
+
+            .bottom-nav .bottom-nav-item.active .nav-label {
+                color: #B89520 !important;
+            }
+
+
+            .bottom-nav .bottom-nav-item:hover,
+            .bottom-nav .bottom-nav-item:focus,
+            .bottom-nav .bottom-nav-item:active,
+            .bottom-nav .bottom-nav-item.active:hover,
+            .bottom-nav .bottom-nav-item.active:focus,
+            .bottom-nav .bottom-nav-item.active:active {
+
+                background: transparent !important;
+
+                transform: none !important;
+
+                transition: none !important;
+
+                outline: none !important;
+            }
+
+
+            .bottom-nav .bottom-nav-item:hover .nav-icon,
+            .bottom-nav .bottom-nav-item:focus .nav-icon,
+            .bottom-nav .bottom-nav-item:active .nav-icon,
+            .bottom-nav .bottom-nav-item:hover .nav-label,
+            .bottom-nav .bottom-nav-item:focus .nav-label,
+            .bottom-nav .bottom-nav-item:active .nav-label {
+
+                transform: none !important;
+
+                transition: none !important;
+            }
+
         }
+
+
+        /* =========================================================
+           DESKTOP - HIDE BOTTOM NAV
+        ========================================================= */
+
+        @media screen and (min-width: 769px) {
+
+            .bottom-nav {
+                display: none !important;
+            }
+
+        }
+
     </style>
+
 </head>
+
 
 <body>
 
 
-    <!-- =========================
-         NAVBAR
-    ========================= -->
+    <!-- =========================================================
+         DESKTOP NAVBAR
+    ========================================================= -->
 
     <nav class="navbar">
 
         <div class="logo">
             Golden Car Glass
         </div>
+
 
         <div class="nav-links">
 
@@ -413,9 +864,9 @@
     </nav>
 
 
-    <!-- =========================
-         MAIN CONTENT
-    ========================= -->
+    <!-- =========================================================
+         MAIN
+    ========================================================= -->
 
     <div class="container">
 
@@ -424,9 +875,9 @@
         </h1>
 
 
-        <!-- =========================
-             SEARCH FORM
-        ========================= -->
+        <!-- =====================================================
+             SEARCH BOX
+        ===================================================== -->
 
         {% if not bookings and not searched %}
 
@@ -482,9 +933,9 @@
         {% endif %}
 
 
-        <!-- =========================
+        <!-- =====================================================
              NO BOOKINGS
-        ========================= -->
+        ===================================================== -->
 
         {% if searched and not bookings %}
 
@@ -512,9 +963,9 @@
         {% endif %}
 
 
-        <!-- =========================
+        <!-- =====================================================
              BOOKINGS
-        ========================= -->
+        ===================================================== -->
 
         {% if bookings %}
 
@@ -586,21 +1037,60 @@
                 </div>
 
 
-                <!-- VIEW DETAILS -->
+                <!-- =================================================
+                     ACTION BUTTONS
+                ================================================= -->
 
-                <a
-                    href="{{ url_for('customer_booking_details', id=booking.id) }}"
-                    class="view-details"
-                >
-                    View Details
-                </a>
+                <div class="booking-actions">
+
+
+                    <!-- VIEW DETAILS -->
+
+                    <a
+                        href="{{ url_for('customer_booking_details', id=booking.id) }}"
+                        class="view-details"
+                    >
+                        View Details
+                    </a>
+
+
+                    <!-- CANCEL BOOKING -->
+
+                    {% if booking.status == "Pending" %}
+
+                    <form
+                        method="POST"
+                        action="{{ url_for('cancel_booking', id=booking.id) }}"
+                        class="cancel-booking-form"
+                        onsubmit="return confirm('Are you sure you want to cancel this booking?');"
+                    >
+
+                        <input
+                            type="hidden"
+                            name="csrf_token"
+                            value="{{ csrf_token() }}"
+                        >
+
+
+                        <button
+                            type="submit"
+                            class="cancel-booking-btn"
+                        >
+                            Cancel Booking
+                        </button>
+
+                    </form>
+
+                    {% endif %}
+
+                </div>
 
             </div>
 
             {% endfor %}
 
 
-            <!-- SEARCH ANOTHER NUMBER -->
+            <!-- CHANGE MOBILE -->
 
             <a
                 href="{{ url_for('clear_customer_bookings') }}"
@@ -614,9 +1104,9 @@
     </div>
 
 
-    <!-- =========================
+    <!-- =========================================================
          FOOTER
-    ========================= -->
+    ========================================================= -->
 
     <footer class="footer">
 
@@ -630,5 +1120,177 @@
 
     </footer>
 
+
+    <!-- =========================================================
+         COMMON MOBILE BOTTOM NAV
+    ========================================================= -->
+
+    <nav
+        class="bottom-nav"
+        aria-label="Mobile navigation"
+    >
+
+
+        <!-- HOME -->
+
+        <a
+            href="{{ url_for('home') }}"
+            class="bottom-nav-item"
+        >
+
+            <span class="nav-icon">
+
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                >
+
+                    <path d="M3 11.5L12 4l9 7.5"></path>
+
+                    <path d="M5.5 10.5V20h13v-9.5"></path>
+
+                    <path d="M9.5 20v-5.5h5V20"></path>
+
+                </svg>
+
+            </span>
+
+
+            <span class="nav-label">
+                Home
+            </span>
+
+        </a>
+
+
+        <!-- BOOK SERVICE -->
+
+        <a
+            href="{{ url_for('home') }}#book"
+            class="bottom-nav-item"
+        >
+
+            <span class="nav-icon">
+
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                >
+
+                    <path d="M12 5v14"></path>
+
+                    <path d="M5 12h14"></path>
+
+                </svg>
+
+            </span>
+
+
+            <span class="nav-label">
+                Book Service
+            </span>
+
+        </a>
+
+
+        <!-- MY BOOKINGS — ACTIVE -->
+
+        <a
+            href="{{ url_for('my_bookings') }}"
+            class="bottom-nav-item active"
+        >
+
+            <span class="nav-icon">
+
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                >
+
+                    <rect
+                        x="5"
+                        y="3"
+                        width="14"
+                        height="18"
+                        rx="2"
+                    ></rect>
+
+                    <path d="M8 7h8"></path>
+
+                    <path d="M8 11h8"></path>
+
+                    <path d="M8 15h5"></path>
+
+                </svg>
+
+            </span>
+
+
+            <span class="nav-label">
+                My Bookings
+            </span>
+
+        </a>
+
+
+        <!-- PROFILE -->
+
+        <a
+            href="{{ url_for('profile') }}"
+            class="bottom-nav-item"
+        >
+
+            <span class="nav-icon">
+
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                >
+
+                    <circle
+                        cx="12"
+                        cy="8"
+                        r="4"
+                    ></circle>
+
+                    <path
+                        d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"
+                    ></path>
+
+                </svg>
+
+            </span>
+
+
+            <span class="nav-label">
+                Profile
+            </span>
+
+        </a>
+
+    </nav>
+
+
 </body>
+
 </html>

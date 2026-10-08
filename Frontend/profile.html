@@ -1,64 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Profile - Golden Car Glass</title>
+
 
     <style>
 
         * {
             box-sizing: border-box;
+
             margin: 0;
             padding: 0;
         }
 
+
         body {
-            font-family: Arial, sans-serif;
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
             background: #f5f5f5;
+
             color: #222;
+
             min-height: 100vh;
-            padding-bottom: 100px;
+
+            padding-bottom: 72px;
         }
 
+
         /* =========================================================
-           TOP HEADER
+           DESKTOP HEADER
         ========================================================= */
 
         .top-header {
-            background: #111;
+            background: #111111;
+
             color: white;
+
             padding: 18px 30px;
+
             display: flex;
+
             justify-content: space-between;
+
             align-items: center;
         }
+
 
         .brand {
             font-size: 22px;
+
             font-weight: bold;
+
             color: #D4AF37;
         }
 
+
         .top-links {
             display: flex;
+
             gap: 25px;
+
             align-items: center;
         }
 
+
         .top-links a {
             color: white;
+
             text-decoration: none;
+
             font-size: 14px;
-            transition: 0.2s ease;
         }
+
 
         .top-links a:hover {
             color: #D4AF37;
         }
+
 
         /* =========================================================
            PROFILE CONTAINER
@@ -66,60 +96,87 @@
 
         .profile-container {
             max-width: 900px;
+
             margin: 40px auto;
+
             padding: 0 20px;
         }
 
+
         /* =========================================================
-           PROFILE HEADER CARD
+           PROFILE HEADER
         ========================================================= */
 
         .profile-header {
-            background: #111;
+            background: #111111;
+
             border-radius: 20px;
+
             padding: 35px 25px;
+
             text-align: center;
+
             color: white;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+
+            box-shadow:
+                0 8px 25px rgba(0, 0, 0, 0.12);
         }
+
 
         .profile-icon {
             width: 82px;
             height: 82px;
+
             border-radius: 50%;
+
             background: #D4AF37;
-            color: #111;
+
+            color: #111111;
+
             display: flex;
+
             justify-content: center;
+
             align-items: center;
+
             margin: 0 auto 15px;
         }
+
 
         .profile-icon svg {
             width: 42px;
             height: 42px;
         }
 
+
         .profile-header h1 {
             font-size: 25px;
+
             margin-bottom: 7px;
         }
 
+
         .profile-header p {
             color: #D4AF37;
+
             font-size: 14px;
         }
 
+
         /* =========================================================
-           SECTION
+           SECTION TITLE
         ========================================================= */
 
         .section-title {
             margin: 30px 0 15px;
+
             font-size: 19px;
+
             font-weight: bold;
-            color: #111;
+
+            color: #111111;
         }
+
 
         /* =========================================================
            INFORMATION CARD
@@ -127,64 +184,97 @@
 
         .info-card {
             background: white;
+
             border-radius: 16px;
+
             padding: 5px 20px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+
+            box-shadow:
+                0 4px 15px rgba(0, 0, 0, 0.06);
         }
+
 
         .info-row {
             display: flex;
+
             justify-content: space-between;
+
             align-items: center;
+
             padding: 18px 0;
-            border-bottom: 1px solid #eee;
+
+            border-bottom: 1px solid #eeeeee;
         }
+
 
         .info-row:last-child {
             border-bottom: none;
         }
 
+
         .info-label {
-            color: #777;
+            color: #777777;
+
             font-size: 14px;
         }
 
+
         .info-value {
             font-weight: bold;
-            color: #111;
+
+            color: #111111;
+
             font-size: 15px;
+
             text-align: right;
         }
 
+
         /* =========================================================
-           STATS
+           SERVICE STATS
         ========================================================= */
 
         .stats {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
             gap: 15px;
         }
 
+
         .stat-card {
             background: white;
+
             border-radius: 16px;
+
             padding: 22px;
+
             text-align: center;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+
+            box-shadow:
+                0 4px 15px rgba(0, 0, 0, 0.06);
         }
+
 
         .stat-number {
             font-size: 28px;
+
             font-weight: bold;
+
             color: #D4AF37;
+
             margin-bottom: 6px;
         }
 
+
         .stat-label {
             font-size: 13px;
-            color: #777;
+
+            color: #777777;
         }
+
 
         /* =========================================================
            ACCOUNT MENU
@@ -192,345 +282,460 @@
 
         .account-menu {
             background: white;
+
             border-radius: 16px;
+
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+
+            box-shadow:
+                0 4px 15px rgba(0, 0, 0, 0.06);
         }
+
 
         .account-item {
             display: flex;
+
             justify-content: space-between;
+
             align-items: center;
+
             padding: 18px 20px;
-            border-bottom: 1px solid #eee;
+
+            border-bottom: 1px solid #eeeeee;
+
             text-decoration: none;
-            color: #222;
-            transition: 0.2s ease;
+
+            color: #222222;
         }
+
 
         .account-item:last-child {
             border-bottom: none;
         }
 
+
         .account-item:hover {
-            background: #faf7ec;
+            background: #fafafa;
         }
+
 
         .account-left {
             display: flex;
+
             align-items: center;
+
             gap: 13px;
         }
+
 
         .account-icon {
             width: 38px;
             height: 38px;
+
             border-radius: 10px;
+
             background: #f5f0df;
+
             color: #B89520;
+
             display: flex;
+
             justify-content: center;
+
             align-items: center;
         }
+
 
         .account-icon svg {
             width: 20px;
             height: 20px;
         }
 
+
         .account-text {
             font-size: 15px;
+
             font-weight: 600;
         }
 
+
         .arrow {
-            color: #999;
+            color: #999999;
+
             font-size: 20px;
         }
+
 
         /* =========================================================
            ABOUT CARD
         ========================================================= */
 
         .about-card {
-            background: #111;
+            background: #111111;
+
             color: white;
+
             border-radius: 16px;
+
             padding: 22px;
+
             margin-top: 15px;
         }
 
+
         .about-card h3 {
             color: #D4AF37;
+
             margin-bottom: 10px;
+
             font-size: 18px;
         }
 
+
         .about-card p {
-            color: #ddd;
+            color: #dddddd;
+
             line-height: 1.6;
+
             font-size: 14px;
         }
 
+
         /* =========================================================
-           PREMIUM MOBILE BOTTOM NAV
+           MOBILE
         ========================================================= */
 
-        .bottom-nav {
-            display: none;
-        }
+        @media screen and (max-width: 768px) {
 
-        @media (max-width: 768px) {
+            body {
+                padding-bottom: 72px !important;
+            }
 
-            /* Hide desktop navigation */
+
             .top-header {
                 display: none;
             }
 
+
             .profile-container {
                 margin: 20px auto 0;
+
                 padding: 0 15px;
             }
 
-            body {
-                padding-bottom: 100px;
-            }
-
-            /* -----------------------------------------------------
-               BOTTOM NAV
-            ----------------------------------------------------- */
-
-            .bottom-nav {
-                position: fixed;
-                left: 10px;
-                right: 10px;
-                bottom: 10px;
-
-                height: 68px;
-
-                background: #111;
-
-                display: flex;
-                align-items: stretch;
-                justify-content: space-around;
-
-                border-radius: 18px;
-
-                box-shadow:
-                    0 8px 25px rgba(0, 0, 0, 0.30),
-                    0 0 0 1px rgba(212, 175, 55, 0.15);
-
-                z-index: 9999;
-
-                overflow: hidden;
-            }
-
-            .bottom-nav > .bottom-nav-item {
-                position: relative;
-
-                flex: 1;
-
-                min-width: 0;
-
-                text-decoration: none;
-
-                color: #D4AF37;
-
-                display: flex;
-                flex-direction: column;
-
-                align-items: center;
-                justify-content: center;
-
-                gap: 4px;
-
-                transition:
-                    color 0.2s ease,
-                    background 0.2s ease;
-            }
-
-            /* -----------------------------------------------------
-               NAV ICON
-            ----------------------------------------------------- */
-
-            .bottom-nav > .bottom-nav-item .nav-icon {
-                width: 23px;
-                height: 23px;
-
-                color: #D4AF37;
-
-                transition:
-                    color 0.2s ease,
-                    filter 0.2s ease,
-                    transform 0.2s ease;
-            }
-
-            /* -----------------------------------------------------
-               NAV TEXT
-            ----------------------------------------------------- */
-
-            .bottom-nav > .bottom-nav-item span:not(.nav-icon) {
-                font-size: 10px;
-                line-height: 1;
-
-                color: #D4AF37;
-
-                white-space: nowrap;
-
-                transition: color 0.2s ease;
-            }
-
-            /* -----------------------------------------------------
-               HOVER
-            ----------------------------------------------------- */
-
-            .bottom-nav > .bottom-nav-item:hover .nav-icon {
-                filter:
-                    drop-shadow(
-                        0 0 5px rgba(212, 175, 55, 0.65)
-                    );
-            }
-
-            /* -----------------------------------------------------
-               ONLY PROFILE IS ACTIVE ON THIS PAGE
-            ----------------------------------------------------- */
-
-            .bottom-nav > .bottom-nav-item.active {
-                color: #F5C542 !important;
-            }
-
-            .bottom-nav > .bottom-nav-item.active .nav-icon {
-                color: #F5C542 !important;
-
-                filter:
-                    drop-shadow(
-                        0 0 5px rgba(212, 175, 55, 0.85)
-                    )
-                    drop-shadow(
-                        0 0 10px rgba(212, 175, 55, 0.35)
-                    );
-
-                transform: scale(1.08);
-            }
-
-            .bottom-nav > .bottom-nav-item.active span:not(.nav-icon) {
-                color: #F5C542 !important;
-            }
-
-            /* Small gold line only under active icon */
-            .bottom-nav > .bottom-nav-item.active::before {
-                content: "";
-
-                position: absolute;
-
-                top: 0;
-
-                left: 25%;
-                right: 25%;
-
-                height: 2px;
-
-                background: #D4AF37;
-
-                border-radius: 0 0 4px 4px;
-            }
-
-            /* -----------------------------------------------------
-               MOBILE PROFILE
-            ----------------------------------------------------- */
 
             .profile-header {
                 padding: 30px 20px;
             }
 
+
             .profile-header h1 {
                 font-size: 22px;
             }
 
+
             .section-title {
                 font-size: 18px;
+
                 margin-top: 25px;
             }
+
 
             .info-card {
                 padding: 3px 16px;
             }
 
+
             .info-row {
                 padding: 16px 0;
             }
+
 
             .info-label {
                 font-size: 13px;
             }
 
+
             .info-value {
                 font-size: 14px;
+
                 max-width: 55%;
+
                 word-break: break-word;
             }
+
 
             .stats {
                 gap: 10px;
             }
 
+
             .stat-card {
                 padding: 18px 10px;
             }
+
 
             .stat-number {
                 font-size: 25px;
             }
 
+
             .stat-label {
                 font-size: 12px;
             }
+
 
             .account-item {
                 padding: 16px;
             }
 
+
             .account-text {
                 font-size: 14px;
             }
 
+
             .about-card {
                 padding: 20px;
             }
-        }
 
-        /* =========================================================
-           VERY SMALL SCREENS
-        ========================================================= */
 
-        @media (max-width: 380px) {
+            /* =====================================================
+               COMMON BOTTOM NAV
+            ===================================================== */
 
             .bottom-nav {
-                left: 6px;
-                right: 6px;
-                bottom: 6px;
-                height: 66px;
-                border-radius: 16px;
+                position: fixed !important;
+
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+
+                width: 100% !important;
+
+                height: 72px !important;
+
+                display: flex !important;
+
+                flex-direction: row !important;
+
+                align-items: stretch !important;
+
+                justify-content: space-around !important;
+
+                padding: 0 !important;
+                margin: 0 !important;
+
+                background: #ffffff !important;
+
+                border-top: 1px solid #e5e5e5 !important;
+
+                box-shadow:
+                    0 -2px 10px rgba(0, 0, 0, 0.06) !important;
+
+                z-index: 99999 !important;
+
+                box-sizing: border-box !important;
             }
 
-            .bottom-nav > .bottom-nav-item .nav-icon {
-                width: 21px;
-                height: 21px;
+
+            .bottom-nav .bottom-nav-item {
+                width: 25% !important;
+
+                height: 72px !important;
+
+                flex: 1 1 25% !important;
+
+                min-width: 0 !important;
+
+                display: flex !important;
+
+                flex-direction: column !important;
+
+                align-items: center !important;
+
+                justify-content: center !important;
+
+                gap: 5px !important;
+
+                padding: 0 !important;
+                margin: 0 !important;
+
+                color: #555555 !important;
+
+                font-family:
+                    Arial,
+                    Helvetica,
+                    sans-serif !important;
+
+                font-size: 11px !important;
+
+                font-weight: 500 !important;
+
+                line-height: 16px !important;
+
+                text-decoration: none !important;
+
+                transform: none !important;
+
+                transition: none !important;
+
+                outline: none !important;
+
+                -webkit-tap-highlight-color: transparent !important;
+
+                box-sizing: border-box !important;
             }
 
-            .bottom-nav > .bottom-nav-item span:not(.nav-icon) {
-                font-size: 9px;
+
+            .bottom-nav .nav-icon {
+                width: 23px !important;
+
+                height: 23px !important;
+
+                flex: 0 0 23px !important;
+
+                display: flex !important;
+
+                align-items: center !important;
+
+                justify-content: center !important;
+
+                color: #C49A00 !important;
+
+                transform: none !important;
+
+                transition: none !important;
+
+                filter: none !important;
             }
 
-            .profile-container {
-                padding: 0 12px;
+
+            .bottom-nav .nav-icon svg {
+                width: 23px !important;
+
+                height: 23px !important;
+
+                display: block !important;
+
+                color: currentColor !important;
+
+                stroke: currentColor !important;
+
+                fill: none !important;
+
+                transform: none !important;
+
+                transition: none !important;
+
+                filter: none !important;
             }
+
+
+            .bottom-nav .nav-icon svg * {
+                stroke: currentColor !important;
+
+                fill: none !important;
+            }
+
+
+            .bottom-nav .nav-label {
+                display: block !important;
+
+                width: auto !important;
+
+                height: 16px !important;
+
+                margin: 0 !important;
+                padding: 0 !important;
+
+                color: #333333 !important;
+
+                font-family:
+                    Arial,
+                    Helvetica,
+                    sans-serif !important;
+
+                font-size: 11px !important;
+
+                font-weight: 500 !important;
+
+                line-height: 16px !important;
+
+                white-space: nowrap !important;
+
+                transform: none !important;
+
+                transition: none !important;
+            }
+
+
+            .bottom-nav .bottom-nav-item.active {
+                color: #B89520 !important;
+
+                background: transparent !important;
+
+                transform: none !important;
+            }
+
+
+            .bottom-nav .bottom-nav-item.active .nav-icon {
+                color: #B89520 !important;
+            }
+
+
+            .bottom-nav .bottom-nav-item.active .nav-label {
+                color: #B89520 !important;
+            }
+
+
+            .bottom-nav .bottom-nav-item:hover,
+            .bottom-nav .bottom-nav-item:focus,
+            .bottom-nav .bottom-nav-item:active,
+            .bottom-nav .bottom-nav-item.active:hover,
+            .bottom-nav .bottom-nav-item.active:focus,
+            .bottom-nav .bottom-nav-item.active:active {
+
+                background: transparent !important;
+
+                transform: none !important;
+
+                transition: none !important;
+
+                outline: none !important;
+            }
+
+
+            .bottom-nav .bottom-nav-item:hover .nav-icon,
+            .bottom-nav .bottom-nav-item:focus .nav-icon,
+            .bottom-nav .bottom-nav-item:active .nav-icon,
+            .bottom-nav .bottom-nav-item:hover .nav-label,
+            .bottom-nav .bottom-nav-item:focus .nav-label,
+            .bottom-nav .bottom-nav-item:active .nav-label {
+
+                transform: none !important;
+
+                transition: none !important;
+            }
+
+        }
+
+
+        @media screen and (min-width: 769px) {
+
+            .bottom-nav {
+                display: none !important;
+            }
+
         }
 
     </style>
+
 </head>
 
+
 <body>
+
 
     <!-- =========================================================
          DESKTOP HEADER
@@ -541,6 +746,7 @@
         <div class="brand">
             Golden Car Glass
         </div>
+
 
         <nav class="top-links">
 
@@ -571,7 +777,6 @@
 
     <main class="profile-container">
 
-        <!-- PROFILE HEADER -->
 
         <section class="profile-header">
 
@@ -583,23 +788,38 @@
                     stroke="currentColor"
                     stroke-width="1.8"
                     stroke-linecap="round"
-                    stroke-linejoin="round">
+                    stroke-linejoin="round"
+                >
 
-                    <circle cx="12" cy="8" r="4"></circle>
+                    <circle
+                        cx="12"
+                        cy="8"
+                        r="4"
+                    ></circle>
 
-                    <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"></path>
+                    <path
+                        d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"
+                    ></path>
 
                 </svg>
 
             </div>
 
+
             <h1>
+
                 {% if customer %}
+
                     {{ customer["name"] }}
+
                 {% else %}
+
                     Customer
+
                 {% endif %}
+
             </h1>
+
 
             <p>
                 Customer Profile
@@ -608,13 +828,12 @@
         </section>
 
 
-        <!-- =====================================================
-             MY INFORMATION
-        ====================================================== -->
+        <!-- MY INFORMATION -->
 
         <h2 class="section-title">
             My Information
         </h2>
+
 
         <section class="info-card">
 
@@ -624,12 +843,17 @@
                     Name
                 </span>
 
+
                 <span class="info-value">
 
                     {% if customer %}
+
                         {{ customer["name"] }}
+
                     {% else %}
+
                         Not available
+
                     {% endif %}
 
                 </span>
@@ -643,12 +867,17 @@
                     Mobile Number
                 </span>
 
+
                 <span class="info-value">
 
                     {% if customer %}
+
                         {{ customer["mobile"] }}
+
                     {% else %}
+
                         Not available
+
                     {% endif %}
 
                 </span>
@@ -658,13 +887,12 @@
         </section>
 
 
-        <!-- =====================================================
-             SERVICE STATS
-        ====================================================== -->
+        <!-- SERVICE OVERVIEW -->
 
         <h2 class="section-title">
             Service Overview
         </h2>
+
 
         <section class="stats">
 
@@ -696,13 +924,12 @@
         </section>
 
 
-        <!-- =====================================================
-             ACCOUNT
-        ====================================================== -->
+        <!-- ACCOUNT -->
 
         <h2 class="section-title">
             Account
         </h2>
+
 
         <section class="account-menu">
 
@@ -711,7 +938,8 @@
 
             <a
                 href="{{ url_for('my_bookings') }}"
-                class="account-item">
+                class="account-item"
+            >
 
                 <div class="account-left">
 
@@ -723,23 +951,27 @@
                             stroke="currentColor"
                             stroke-width="1.8"
                             stroke-linecap="round"
-                            stroke-linejoin="round">
+                            stroke-linejoin="round"
+                        >
 
                             <rect
                                 x="4"
                                 y="3"
                                 width="16"
                                 height="18"
-                                rx="2">
-                            </rect>
+                                rx="2"
+                            ></rect>
 
                             <path d="M8 7h8"></path>
+
                             <path d="M8 11h8"></path>
+
                             <path d="M8 15h5"></path>
 
                         </svg>
 
                     </div>
+
 
                     <span class="account-text">
                         My Bookings
@@ -747,82 +979,6 @@
 
                 </div>
 
-                <span class="arrow">
-                    ›
-                </span>
-
-            </a>
-
-
-            <!-- TRACK SERVICE -->
-
-            <a
-                href="{{ url_for('track_booking') }}"
-                class="account-item">
-
-                <div class="account-left">
-
-                    <div class="account-icon">
-
-                        <svg
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="1.8"
-                            stroke-linecap="round"
-                            stroke-linejoin="round">
-
-                            <circle cx="12" cy="12" r="8"></circle>
-
-                            <path d="M12 8v4l3 2"></path>
-
-                        </svg>
-
-                    </div>
-
-                    <span class="account-text">
-                        Track Service
-                    </span>
-
-                </div>
-
-                <span class="arrow">
-                    ›
-                </span>
-
-            </a>
-
-
-            <!-- BOOK SERVICE -->
-
-            <a
-                href="{{ url_for('book') }}"
-                class="account-item">
-
-                <div class="account-left">
-
-                    <div class="account-icon">
-
-                        <svg
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="1.8"
-                            stroke-linecap="round"
-                            stroke-linejoin="round">
-
-                            <path d="M5 12h14"></path>
-                            <path d="M12 5v14"></path>
-
-                        </svg>
-
-                    </div>
-
-                    <span class="account-text">
-                        Book a Service
-                    </span>
-
-                </div>
 
                 <span class="arrow">
                     ›
@@ -835,7 +991,8 @@
 
             <a
                 href="{{ url_for('home') }}#contact"
-                class="account-item">
+                class="account-item"
+            >
 
                 <div class="account-left">
 
@@ -847,22 +1004,28 @@
                             stroke="currentColor"
                             stroke-width="1.8"
                             stroke-linecap="round"
-                            stroke-linejoin="round">
+                            stroke-linejoin="round"
+                        >
 
-                            <path d="M4 5h16v11H8l-4 4V5z"></path>
+                            <path
+                                d="M4 5h16v11H8l-4 4V5z"
+                            ></path>
 
                             <path d="M8 9h8"></path>
+
                             <path d="M8 12h5"></path>
 
                         </svg>
 
                     </div>
 
+
                     <span class="account-text">
                         Contact Golden Car Glass
                     </span>
 
                 </div>
+
 
                 <span class="arrow">
                     ›
@@ -873,19 +1036,19 @@
         </section>
 
 
-        <!-- =====================================================
-             ABOUT
-        ====================================================== -->
+        <!-- ABOUT -->
 
         <h2 class="section-title">
             About
         </h2>
+
 
         <section class="about-card">
 
             <h3>
                 Golden Car Glass
             </h3>
+
 
             <p>
                 Professional car glass replacement and repair service.
@@ -899,39 +1062,44 @@
 
 
     <!-- =========================================================
-         MOBILE BOTTOM NAVIGATION
-
-         IMPORTANT:
-         NO JAVASCRIPT HERE.
-         PROFILE IS PERMANENTLY ACTIVE ON PROFILE PAGE.
+         COMMON MOBILE BOTTOM NAV
     ========================================================= -->
 
-    <nav class="bottom-nav">
+    <nav
+        class="bottom-nav"
+        aria-label="Mobile navigation"
+    >
 
         <!-- HOME -->
 
         <a
-            href="{{ url_for('home') }}"
-            class="bottom-nav-item">
+            href="{{ url_for('home') }}#book"
+            class="bottom-nav-item"
+        >
 
-            <svg
-                class="nav-icon"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.7"
-                stroke-linecap="round"
-                stroke-linejoin="round">
+            <span class="nav-icon">
 
-                <path d="M3 11.5L12 4l9 7.5"></path>
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                >
 
-                <path d="M5.5 10.5V20h13v-9.5"></path>
+                    <path d="M3 11.5L12 4l9 7.5"></path>
 
-                <path d="M9.5 20v-5.5h5V20"></path>
+                    <path d="M5.5 10.5V20h13v-9.5"></path>
 
-            </svg>
+                    <path d="M9.5 20v-5.5h5V20"></path>
 
-            <span>
+                </svg>
+
+            </span>
+
+            <span class="nav-label">
                 Home
             </span>
 
@@ -942,23 +1110,30 @@
 
         <a
             href="{{ url_for('book') }}"
-            class="bottom-nav-item">
+            class="bottom-nav-item"
+        >
 
-            <svg
-                class="nav-icon"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.7"
-                stroke-linecap="round"
-                stroke-linejoin="round">
+            <span class="nav-icon">
 
-                <path d="M12 5v14"></path>
-                <path d="M5 12h14"></path>
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                >
 
-            </svg>
+                    <path d="M12 5v14"></path>
 
-            <span>
+                    <path d="M5 12h14"></path>
+
+                </svg>
+
+            </span>
+
+            <span class="nav-label">
                 Book Service
             </span>
 
@@ -969,32 +1144,40 @@
 
         <a
             href="{{ url_for('my_bookings') }}"
-            class="bottom-nav-item">
+            class="bottom-nav-item"
+        >
 
-            <svg
-                class="nav-icon"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.7"
-                stroke-linecap="round"
-                stroke-linejoin="round">
+            <span class="nav-icon">
 
-                <rect
-                    x="5"
-                    y="3"
-                    width="14"
-                    height="18"
-                    rx="2">
-                </rect>
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                >
 
-                <path d="M8 7h8"></path>
-                <path d="M8 11h8"></path>
-                <path d="M8 15h5"></path>
+                    <rect
+                        x="5"
+                        y="3"
+                        width="14"
+                        height="18"
+                        rx="2"
+                    ></rect>
 
-            </svg>
+                    <path d="M8 7h8"></path>
 
-            <span>
+                    <path d="M8 11h8"></path>
+
+                    <path d="M8 15h5"></path>
+
+                </svg>
+
+            </span>
+
+            <span class="nav-label">
                 My Bookings
             </span>
 
@@ -1005,30 +1188,36 @@
 
         <a
             href="{{ url_for('profile') }}"
-            class="bottom-nav-item active">
+            class="bottom-nav-item active"
+        >
 
-            <svg
-                class="nav-icon"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.7"
-                stroke-linecap="round"
-                stroke-linejoin="round">
+            <span class="nav-icon">
 
-                <circle
-                    cx="12"
-                    cy="8"
-                    r="4">
-                </circle>
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                >
 
-                <path
-                    d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7">
-                </path>
+                    <circle
+                        cx="12"
+                        cy="8"
+                        r="4"
+                    ></circle>
 
-            </svg>
+                    <path
+                        d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"
+                    ></path>
 
-            <span>
+                </svg>
+
+            </span>
+
+            <span class="nav-label">
                 Profile
             </span>
 
@@ -1036,5 +1225,7 @@
 
     </nav>
 
+
 </body>
+
 </html>
