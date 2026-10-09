@@ -7,7 +7,8 @@ from flask import (
     session,
     url_for,
     make_response,
-    send_from_directory
+    send_from_directory,
+    flash
 )
 from flask_bcrypt import Bcrypt
 from flask_wtf.csrf import CSRFProtect
@@ -20,6 +21,10 @@ import time
 import cloudinary
 import cloudinary.uploader
 from werkzeug.utils import secure_filename
+import secrets
+import json
+import urllib.request
+import urllib.error
 
 # =========================================================
 # ENVIRONMENT
@@ -33,6 +38,15 @@ DATABASE_URL = os.environ.get("DATABASE_URL")
 
 if not DATABASE_URL:
     raise RuntimeError("DATABASE_URL is not set in .env")
+
+# =========================================================
+# RESEND CONFIGURATION
+# =========================================================
+
+RESEND_API_KEY = os.environ.get("RESEND_API_KEY")
+
+if not RESEND_API_KEY:
+    raise RuntimeError("RESEND_API_KEY is not set in .env")
 
 # =========================================================
 # CLOUDINARY CONFIGURATION
@@ -79,6 +93,11 @@ app = Flask(
 )
 
 csrf = CSRFProtect(app)
+
+RESEND_API_KEY = os.getenv("RESEND_API_KEY")
+
+if not RESEND_API_KEY:
+    raise RuntimeError("RESEND_API_KEY is not set in .env")
 
 
 # =========================================================
@@ -218,6 +237,11 @@ def initialize_database():
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
+        """)
+
+        cursor.execute("""
+            ALTER TABLE admins
+            ADD COLUMN IF NOT EXISTS email TEXT UNIQUE
         """)
     
         connection.commit()
@@ -1034,6 +1058,293 @@ def login():
     )
 
 
+# ==========================================
+# FORGOT PASSWORD
+# ==========================================
+
+@app.route("/forgot-password", methods=["GET", "POST"])
+def forgot_password():
+
+    if request.method == "POST":
+        print("FORGOT PASSWORD POST RECEIVED")
+
+        email = request.form.get("email", "").strip().lower()
+
+        if not email:
+            flash("Please enter your email address.", "error")
+            return redirect(url_for("forgot_password"))
+
+        connection = get_db_connection()
+
+        try:
+            cursor = connection.cursor()
+
+            cursor.execute("""
+                SELECT id, username, email
+                FROM admins
+                WHERE LOWER(email) = %s
+            """, (email,))
+
+            admin = cursor.fetchone()
+
+        finally:
+            connection.close()
+
+        # Same response whether email exists or not.
+        if not admin:
+            flash(
+                "If this email is registered, an OTP has been sent.",
+                "success"
+            )
+            return redirect(url_for("forgot_password"))
+
+        # Generate 6-digit OTP
+        otp = f"{secrets.randbelow(1000000):06d}"
+
+        # OTP valid for 10 minutes
+        otp_expires = time.time() + 600
+
+        # Store reset data in session
+        session["reset_admin_id"] = admin["id"]
+        session["reset_email"] = email
+        session["reset_otp"] = otp
+        session["reset_otp_expires"] = otp_expires
+        session["reset_otp_attempts"] = 0
+
+        # Send OTP using Resend
+        try:
+            print("RESEND DEBUG: entered")
+            print("RESEND KEY LOADED:", bool(RESEND_API_KEY))
+            print("RESEND RECIPIENT:", email)
+
+            email_data = {
+                "from": "Golden Car Glass <noreply@yourdomain.com>",
+                "to": [email],
+                "subject": "Golden Car Glass - Password Reset OTP",
+                "text": f"""Golden Car Glass
+
+Your password reset OTP is:
+
+{otp}
+
+This OTP is valid for 10 minutes.
+
+If you did not request a password reset, please ignore this email.
+
+Golden Car Glass Admin Security
+"""
+            }
+
+            request_data = json.dumps(email_data).encode("utf-8")
+
+            req = urllib.request.Request(
+                "https://api.resend.com/emails",
+                data=request_data,
+                headers={
+                    "Authorization": f"Bearer {RESEND_API_KEY}",
+                    "Content-Type": "application/json"
+                },
+                method="POST"
+            )
+            print("RESEND DEBUG: calling API now")
+            with urllib.request.urlopen(req, timeout=15) as response:
+                response_data = response.read()
+                print(
+                    "RESEND RESPONSE:",
+                    response_data.decode("utf-8", errors="replace")
+                )
+
+        except urllib.error.HTTPError as e:
+
+            print(
+                "Resend HTTP error:",
+                e.code,
+                e.read().decode("utf-8", errors="replace")
+            )
+
+            session.pop("reset_admin_id", None)
+            session.pop("reset_email", None)
+            session.pop("reset_otp", None)
+            session.pop("reset_otp_expires", None)
+            session.pop("reset_otp_attempts", None)
+
+            flash(
+                "Unable to send OTP right now. Please try again later.",
+                "error"
+            )
+
+            return redirect(url_for("forgot_password"))
+
+        except Exception as e:
+
+            print("Resend email error:", repr(e))
+
+            session.pop("reset_admin_id", None)
+            session.pop("reset_email", None)
+            session.pop("reset_otp", None)
+            session.pop("reset_otp_expires", None)
+            session.pop("reset_otp_attempts", None)
+
+            flash(
+                "Unable to send OTP right now. Please try again later.",
+                "error"
+            )
+
+            return redirect(url_for("forgot_password"))
+
+        return redirect(url_for("verify_reset_otp"))
+
+    return render_template("forgot_password.html")
+
+
+# ==========================================
+# VERIFY OTP
+# ==========================================
+
+@app.route("/verify-reset-otp", methods=["GET", "POST"])
+def verify_reset_otp():
+
+    if not session.get("reset_admin_id"):
+        return redirect(url_for("forgot_password"))
+
+    if request.method == "POST":
+
+        entered_otp = request.form.get("otp", "").strip()
+
+        stored_otp = session.get("reset_otp")
+        otp_expires = session.get("reset_otp_expires")
+        attempts = session.get("reset_otp_attempts", 0)
+
+        if attempts >= 5:
+            session.pop("reset_admin_id", None)
+            session.pop("reset_email", None)
+            session.pop("reset_otp", None)
+            session.pop("reset_otp_expires", None)
+            session.pop("reset_otp_attempts", None)
+
+            flash(
+                "Too many incorrect attempts. Please request a new OTP.",
+                "error"
+            )
+
+            return redirect(url_for("forgot_password"))
+
+        if not otp_expires or time.time() > otp_expires:
+            session.pop("reset_otp", None)
+            session.pop("reset_otp_expires", None)
+            session.pop("reset_otp_attempts", None)
+
+            flash(
+                "OTP has expired. Please request a new OTP.",
+                "error"
+            )
+
+            return redirect(url_for("forgot_password"))
+
+        if not stored_otp or not secrets.compare_digest(entered_otp, stored_otp):
+            session["reset_otp_attempts"] = attempts + 1
+
+            remaining = 4 - attempts
+
+            if remaining > 0:
+                flash(
+                    f"Invalid OTP. {remaining} attempts remaining.",
+                    "error"
+                )
+            else:
+                flash(
+                    "Too many incorrect attempts. Please request a new OTP.",
+                    "error"
+                )
+
+            return redirect(url_for("verify_reset_otp"))
+
+        session["reset_verified"] = True
+
+        session.pop("reset_otp", None)
+        session.pop("reset_otp_expires", None)
+        session.pop("reset_otp_attempts", None)
+
+        return redirect(url_for("reset_password"))
+
+    return render_template("verify_reset_otp.html")
+
+
+# ==========================================
+# RESET PASSWORD
+# ==========================================
+
+@app.route("/reset-password", methods=["GET", "POST"])
+def reset_password():
+
+    if not session.get("reset_admin_id"):
+        return redirect(url_for("forgot_password"))
+
+    if not session.get("reset_verified"):
+        return redirect(url_for("verify_reset_otp"))
+
+    if request.method == "POST":
+
+        new_password = request.form.get("new_password", "")
+        confirm_password = request.form.get("confirm_password", "")
+
+        if not new_password or not confirm_password:
+            flash(
+                "Please fill in all password fields.",
+                "error"
+            )
+            return redirect(url_for("reset_password"))
+
+        if new_password != confirm_password:
+            flash(
+                "Passwords do not match.",
+                "error"
+            )
+            return redirect(url_for("reset_password"))
+
+        if len(new_password) < 8:
+            flash(
+                "Password must be at least 8 characters.",
+                "error"
+            )
+            return redirect(url_for("reset_password"))
+
+        admin_id = session.get("reset_admin_id")
+
+        hashed_password = bcrypt.generate_password_hash(
+            new_password
+        ).decode("utf-8")
+
+        connection = get_db_connection()
+
+        try:
+            cursor = connection.cursor()
+
+            cursor.execute("""
+                UPDATE admins
+                SET password = %s
+                WHERE id = %s
+            """, (hashed_password, admin_id))
+
+            connection.commit()
+
+        finally:
+            connection.close()
+
+        session.pop("reset_admin_id", None)
+        session.pop("reset_email", None)
+        session.pop("reset_verified", None)
+
+        flash(
+            "Password reset successfully. Please login.",
+            "success"
+        )
+
+        return redirect(url_for("login"))
+
+    return render_template("reset_password.html")
+
+
 # =========================================================
 # LOGOUT
 # =========================================================
@@ -1048,6 +1359,108 @@ def logout():
         url_for("login")
     )
 
+@app.route("/admin/profile", methods=["GET", "POST"])
+@login_required
+def admin_profile():
+    admin_id = session.get("admin_id")
+
+    connection = get_db_connection()
+
+    try:
+        cursor = connection.cursor()
+
+        cursor.execute("""
+            SELECT id, username
+            FROM admins
+            WHERE id = %s
+        """, (admin_id,))
+
+        admin = cursor.fetchone()
+
+    finally:
+        connection.close()
+
+    if not admin:
+        session.clear()
+        return redirect(url_for("login"))
+
+    return render_template(
+        "admin_profile.html",
+        admin=admin
+    )
+
+@app.route("/admin/change-password", methods=["GET"])
+@login_required
+def change_admin_password_page():
+    return render_template("change_password.html")
+
+
+@app.route("/admin/change-password", methods=["POST"])
+@login_required
+def change_admin_password():
+
+    admin_id = session.get("admin_id")
+
+    current_password = request.form.get("current_password", "")
+    new_password = request.form.get("new_password", "")
+    confirm_password = request.form.get("confirm_password", "")
+
+    if not current_password or not new_password or not confirm_password:
+        flash("Please fill all password fields.", "error")
+        return redirect(url_for("admin_profile"))
+
+    if new_password != confirm_password:
+        flash("New password and confirm password do not match.", "error")
+        return redirect(url_for("admin_profile"))
+
+    if len(new_password) < 8:
+        flash("New password must be at least 8 characters.", "error")
+        return redirect(url_for("admin_profile"))
+
+    connection = get_db_connection()
+
+    try:
+        cursor = connection.cursor()
+
+        cursor.execute("""
+            SELECT password
+            FROM admins
+            WHERE id = %s
+        """, (admin_id,))
+
+        admin = cursor.fetchone()
+
+        if not admin:
+            session.clear()
+            return redirect(url_for("login"))
+
+        stored_password = admin["password"]
+
+        if not bcrypt.check_password_hash(
+            stored_password,
+            current_password
+        ):
+            flash("Current password is incorrect.", "error")
+            return redirect(url_for("admin_profile"))
+
+        hashed_password = bcrypt.generate_password_hash(
+            new_password
+        ).decode("utf-8")
+
+        cursor.execute("""
+            UPDATE admins
+            SET password = %s
+            WHERE id = %s
+        """, (hashed_password, admin_id))
+
+        connection.commit()
+
+    finally:
+        connection.close()
+
+    flash("Password changed successfully.", "success")
+
+    return redirect(url_for("admin_profile"))
 
 # =========================================================
 # ADMIN BOOKINGS PAGE

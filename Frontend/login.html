@@ -7,6 +7,28 @@
     <title>Admin Login - Golden Car Glass</title>
 
     <style>
+
+        /* =========================
+   FORGOT PASSWORD
+========================= */
+
+.forgot-password {
+    text-align: center;
+    margin-top: 14px;
+}
+
+.forgot-password a {
+    color: #c99a00;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.forgot-password a:hover {
+    color: #ad8200;
+    text-decoration: underline;
+}
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -326,6 +348,11 @@
 
         </form>
 
+        <div class="forgot-password">
+            <a href="{{ url_for('forgot_password') }}">
+            Forgot Password?
+            </a>
+        </div>
 
         <div class="back-home">
             <a href="/">

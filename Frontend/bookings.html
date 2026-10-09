@@ -611,15 +611,19 @@
 
     <div class="top-buttons">
 
-        <a href="/" class="home-btn">
-            Back to Home
-        </a>
+    <a href="/" class="home-btn">
+        Back to Home
+    </a>
 
-        <a href="/logout" class="logout-btn">
-            Logout
-        </a>
+    <a href="{{ url_for('admin_profile') }}" class="home-btn">
+        Admin Profile
+    </a>
 
-    </div>
+    <a href="/logout" class="logout-btn">
+        Logout
+    </a>
+
+</div>
 
 
     <!-- =========================

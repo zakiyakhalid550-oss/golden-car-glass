@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Admin Profile - Golden Car Glass</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            color: #222;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .header {
+            background: #111;
+            color: white;
+            padding: 18px 20px;
+            text-align: center;
+        }
+
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+
+        .header p {
+            margin: 5px 0 0;
+            color: #c99a00;
+            font-size: 13px;
+        }
+
+
+        /* =========================
+           MAIN CONTAINER
+        ========================= */
+
+        .profile-container {
+            width: 100%;
+            max-width: 470px;
+            margin: 32px auto;
+            padding: 0 16px;
+        }
+
+
+        /* =========================
+           PROFILE CARD
+        ========================= */
+
+        .profile-card {
+            background: white;
+            border-radius: 14px;
+            padding: 28px 24px 22px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+        }
+
+
+        /* =========================
+           PROFILE HEADER
+        ========================= */
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+
+        .profile-avatar {
+            width: 68px;
+            height: 68px;
+
+            margin: 0 auto 12px;
+
+            border-radius: 50%;
+
+            background: #111;
+            color: #c99a00;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 24px;
+            font-weight: bold;
+
+            border: 2px solid #c99a00;
+        }
+
+
+        .profile-name {
+            margin: 0;
+
+            font-size: 21px;
+            font-weight: 700;
+
+            color: #222;
+        }
+
+
+        .profile-role {
+            margin: 5px 0 0;
+
+            font-size: 13px;
+            color: #777;
+        }
+
+
+        /* =========================
+           USERNAME
+        ========================= */
+
+        .info-box {
+            background: #f8f8f8;
+
+            border: 1px solid #e3e3e3;
+
+            border-radius: 9px;
+
+            padding: 13px 15px;
+
+            margin-bottom: 23px;
+        }
+
+
+        .info-label {
+            display: block;
+
+            font-size: 12px;
+
+            color: #777;
+
+            margin-bottom: 5px;
+        }
+
+
+        .info-value {
+            font-size: 15px;
+
+            font-weight: 600;
+
+            color: #222;
+        }
+
+
+        /* =========================
+           SECTION TITLE
+        ========================= */
+
+        .section-title {
+            font-size: 13px;
+
+            font-weight: 700;
+
+            color: #777;
+
+            margin: 0 0 9px 2px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.4px;
+        }
+
+
+        /* =========================
+           CHANGE PASSWORD ROW
+        ========================= */
+
+        .security-row {
+            width: 100%;
+
+            display: flex;
+            align-items: center;
+
+            text-decoration: none;
+
+            color: #222;
+
+            background: white;
+
+            border: 1px solid #ddd;
+
+            border-radius: 9px;
+
+            padding: 12px 13px;
+
+            transition: 0.2s;
+        }
+
+
+        .security-row:hover {
+            border-color: #c99a00;
+            background: #fffdf6;
+        }
+
+
+        .security-icon {
+            width: 38px;
+            height: 38px;
+
+            border-radius: 8px;
+
+            background: #f7f2df;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin-right: 12px;
+
+            flex-shrink: 0;
+        }
+
+
+        .security-icon svg {
+            width: 21px;
+            height: 21px;
+
+            fill: none;
+
+            stroke: #c99a00;
+
+            stroke-width: 1.8;
+
+            stroke-linecap: round;
+
+            stroke-linejoin: round;
+        }
+
+
+        .security-text {
+            flex: 1;
+        }
+
+
+        .security-title {
+            display: block;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            color: #222;
+        }
+
+
+        .security-subtitle {
+            display: block;
+
+            margin-top: 3px;
+
+            font-size: 12px;
+
+            color: #777;
+        }
+
+
+        .arrow {
+            font-size: 20px;
+
+            color: #999;
+
+            margin-left: 8px;
+        }
+
+
+        /* =========================
+           BOTTOM ACTIONS
+        ========================= */
+
+        .bottom-buttons {
+            display: flex;
+
+            gap: 10px;
+
+            margin-top: 24px;
+        }
+
+
+        .bottom-buttons a {
+            flex: 1;
+
+            height: 42px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            text-decoration: none;
+
+            border-radius: 8px;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            transition: 0.2s;
+        }
+
+
+        /* Back to Bookings */
+
+        .back-button {
+            background: #111;
+
+            color: white;
+        }
+
+
+        .back-button:hover {
+            background: #222;
+        }
+
+
+        /* Logout */
+
+        .logout-button {
+            background: white;
+
+            color: #c62828;
+
+            border: 1px solid #c62828;
+        }
+
+
+        .logout-button:hover {
+            background: #fff5f5;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 500px) {
+
+            .profile-container {
+                margin-top: 22px;
+            }
+
+
+            .profile-card {
+                padding: 24px 18px 20px;
+            }
+
+
+            .profile-name {
+                font-size: 20px;
+            }
+
+
+            .bottom-buttons a {
+                height: 40px;
+
+                font-size: 12.5px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         HEADER
+    ========================= -->
+
+    <div class="header">
+
+        <h1>
+            Golden Car Glass
+        </h1>
+
+        <p>
+            Admin Profile
+        </p>
+
+    </div>
+
+
+
+    <!-- =========================
+         PROFILE
+    ========================= -->
+
+    <div class="profile-container">
+
+        <div class="profile-card">
+
+
+            <!-- PROFILE IDENTITY -->
+
+            <div class="profile-header">
+
+                <div class="profile-avatar">
+                    {% set name_parts = admin["username"].split() %}
+                    {% if name_parts|length >= 2 %}
+                    {{ name_parts[0][0].upper() }}{{ name_parts[-1][0].upper() }}
+                    {% else %}
+                    {{ name_parts[0][0].upper() }}
+                    {% endif %}
+                </div>
+
+
+                <h2 class="profile-name">
+
+                    {{ admin["username"] }}
+
+                </h2>
+
+
+                <p class="profile-role">
+
+                    Administrator
+
+                </p>
+
+            </div>
+
+
+
+            <!-- USERNAME -->
+
+            <div class="info-box">
+
+                <span class="info-label">
+                    Username
+                </span>
+
+                <span class="info-value">
+                    {{ admin["username"] }}
+                </span>
+
+            </div>
+
+
+
+            <!-- SECURITY -->
+
+            <p class="section-title">
+                Security
+            </p>
+
+
+            <a
+                href="{{ url_for('change_admin_password_page') }}"
+                class="security-row"
+            >
+
+                <div class="security-icon">
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                    >
+
+                        <rect
+                            x="5"
+                            y="10"
+                            width="14"
+                            height="10"
+                            rx="2"
+                        ></rect>
+
+                        <path
+                            d="M8 10V7a4 4 0 0 1 8 0v3"
+                        ></path>
+
+                    </svg>
+
+                </div>
+
+
+                <div class="security-text">
+
+                    <span class="security-title">
+                        Change Password
+                    </span>
+
+                    <span class="security-subtitle">
+                        Update your admin account password
+                    </span>
+
+                </div>
+
+
+                <span class="arrow">
+                    ›
+                </span>
+
+            </a>
+
+
+
+            <!-- BOTTOM BUTTONS -->
+
+            <div class="bottom-buttons">
+
+                <a
+                    href="{{ url_for('bookings') }}"
+                    class="back-button"
+                >
+                    ← Back to Bookings
+                </a>
+
+
+                <a
+                    href="{{ url_for('logout') }}"
+                    class="logout-button"
+                >
+                    Logout
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+</body>
+
+</html>
