@@ -1606,26 +1606,16 @@ def bookings():
     return response
 
 
+
 # =========================================================
 # UPDATE BOOKING STATUS
 # =========================================================
 
-@app.route(
-    "/update_status/<int:id>",
-    methods=["POST"]
-)
+@app.route("/update_status/<int:id>", methods=["POST"])
 @login_required
 def update_status(id):
 
-    status = request.form.get(
-        "status",
-        ""
-    ).strip()
-
-
-    # -----------------------------------------------------
-    # ALLOWED STATUS
-    # -----------------------------------------------------
+    status = request.form.get("status", "").strip()
 
     allowed_statuses = [
         "Pending",
@@ -1634,51 +1624,31 @@ def update_status(id):
         "Cancelled"
     ]
 
-
-    # -----------------------------------------------------
-    # VALIDATE
-    # -----------------------------------------------------
-
     if status not in allowed_statuses:
-
-        return (
-            "Invalid booking status.",
-            400
-        )
-
-
-    # -----------------------------------------------------
-    # UPDATE DATABASE
-    # -----------------------------------------------------
+        return "Invalid booking status.", 400
 
     connection = get_db_connection()
 
     try:
-
         cursor = connection.cursor()
 
+        # Cancelled booking ka status dobara change nahi hoga.
         cursor.execute(
             """
             UPDATE bookings
             SET status = %s
             WHERE id = %s
+              AND status <> 'Cancelled'
             """,
-            (
-                status,
-                id
-            )
+            (status, id)
         )
 
         connection.commit()
 
     finally:
-
         connection.close()
 
-
-    return redirect(
-        url_for("bookings")
-    )
+    return redirect(url_for("bookings"))
 
 
 # =========================================================

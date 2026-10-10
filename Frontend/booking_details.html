@@ -102,15 +102,17 @@
             margin: 0;
         }
 
-        .status-select {
-            min-width: 190px;
-            padding: 10px 12px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 14px;
-            background: #fff;
-            cursor: pointer;
-        }
+
+.status-select {
+    width: 150px;
+    min-width: 0;
+    padding: 6px 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 12px;
+    background: #fff;
+    cursor: pointer;
+}
 
         .status-select.pending {
             background: #fff3cd;
@@ -146,31 +148,35 @@
             color: #333;
         }
 
-        .photo-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 18px;
-        }
+
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 120px);
+    gap: 8px;
+    align-items: start;
+}
 
         .photo-card {
-            background: #fafafa;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 10px;
-            text-align: center;
-        }
+    background: #fafafa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 6px;
+    text-align: center;
+}
 
         .photo-card a {
             display: block;
         }
 
-        .photo-card img {
-            width: 100%;
-            height: 240px;
-            object-fit: cover;
-            border-radius: 6px;
-            display: block;
-        }
+        
+.photo-card img {
+    width: 100%;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 6px;
+    display: block;
+    cursor: pointer;
+}
 
         .photo-date {
             margin-top: 9px;
@@ -243,17 +249,52 @@
             }
 
             .photo-grid {
-                grid-template-columns: 1fr;
-            }
+    grid-template-columns: repeat(2, minmax(0, 120px));
+    gap: 8px;
+}
 
             .photo-card img {
-                height: 250px;
-            }
+    height: 120px;
+}
 
             .back-btn {
                 width: 100%;
             }
         }
+
+        
+.photo-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.92);
+    align-items: center;
+    justify-content: center;
+    padding: 45px 12px 20px;
+}
+
+.photo-modal.open {
+    display: flex;
+}
+
+.photo-modal img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 6px;
+}
+
+.photo-modal-close {
+    position: absolute;
+    top: 10px;
+    right: 16px;
+    color: white;
+    background: transparent;
+    border: none;
+    font-size: 36px;
+    cursor: pointer;
+}
     </style>
 </head>
 
@@ -402,16 +443,14 @@
 
                             <div class="photo-card">
 
-                                <a
-                                    href="{{ photo['filename'] }}"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    <img
-                                        src="{{ photo['filename'] }}"
-                                        alt="Customer uploaded photo"
-                                    >
-                                </a>
+                                
+<img
+    src="{{ photo['filename'] }}"
+    alt="Customer uploaded photo"
+    loading="lazy"
+    onclick="openPhoto(this.src)"
+    style="cursor: pointer;"
+>
 
                                 <div class="photo-date">
                                     Uploaded: {{ photo['uploaded_at'] }}
@@ -445,6 +484,517 @@
         </div>
 
     </div>
+
+
+<div id="photoModal" class="photo-modal" onclick="closePhoto()">
+    <button type="button"
+            class="photo-modal-close"
+            onclick="closePhoto(event)"
+            aria-label="Close photo">&times;</button>
+
+    <img id="largePhoto" src="" alt="Enlarged customer photo"
+         onclick="event.stopPropagation()">
+</div>
+
+<script>
+function openPhoto(src) {
+    document.getElementById("largePhoto").src = src;
+    document.getElementById("photoModal").classList.add("open");
+    document.body.style.overflow = "hidden";
+}
+
+function closePhoto(event) {
+    if (event) event.stopPropagation();
+
+    document.getElementById("photoModal").classList.remove("open");
+    document.getElementById("largePhoto").src = "";
+    document.body.style.overflow = "";
+}
+
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape") closePhoto();
+});
+</script>
+
+<style>
+/* ========================================
+   GOLDEN CAR GLASS — ADMIN BOOKING DETAILS
+   Clean, compact and mobile-friendly design
+======================================== */
+
+:root {
+    --primary: #161616;
+    --primary-hover: #333333;
+    --page-bg: #f5f6f8;
+    --card-bg: #ffffff;
+    --text: #202124;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+    --radius: 12px;
+    --shadow: 0 3px 14px rgba(0, 0, 0, 0.05);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--page-bg);
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+img {
+    max-width: 100%;
+}
+
+/* Main page container */
+.container {
+    width: min(100% - 32px, 1100px);
+    margin: 24px auto;
+}
+
+/* Page heading */
+h1 {
+    margin: 0 0 6px;
+    font-size: 25px;
+    line-height: 1.3;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+h2 {
+    margin: 0 0 14px;
+    font-size: 18px;
+    line-height: 1.4;
+    font-weight: 700;
+    color: var(--text);
+}
+
+h3 {
+    font-size: 15px;
+    margin: 0 0 10px;
+}
+
+/* General cards and sections */
+.card,
+.booking-card,
+.details-card,
+.photos-section,
+.status-section {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow);
+}
+
+/* Booking details layout */
+.details-grid,
+.booking-details-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.detail-item {
+    min-width: 0;
+    padding: 11px 12px;
+    background: #f8f9fb;
+    border: 1px solid #edf0f3;
+    border-radius: 8px;
+    overflow-wrap: anywhere;
+}
+
+.detail-label {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.35px;
+}
+
+.detail-value {
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+/* Buttons */
+button,
+.btn,
+.button,
+a.btn {
+    font-family: inherit;
+}
+
+.btn,
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 36px;
+    padding: 8px 13px;
+    border: 1px solid transparent;
+    border-radius: 7px;
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.btn:hover,
+.button:hover {
+    background: var(--primary-hover);
+}
+
+.btn-secondary {
+    background: #fff;
+    color: var(--text);
+    border-color: var(--border);
+}
+
+.btn-secondary:hover {
+    background: #f3f4f6;
+}
+
+/* Status form */
+.status-form {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.status-form label {
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* Compact status dropdown */
+.status-select {
+    width: 135px;
+    max-width: 100%;
+    min-width: 0;
+    min-height: 34px;
+    padding: 6px 8px;
+    border: 1px solid #d1d5db;
+    border-radius: 7px;
+    background: #fff;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.status-select:focus {
+    outline: 2px solid #b9c4d0;
+    outline-offset: 1px;
+}
+
+/* Status badges, if present in the HTML */
+.status-badge {
+    display: inline-block;
+    padding: 4px 9px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.status-pending {
+    background: #fff2c6;
+    color: #795700;
+}
+
+.status-in-progress {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.status-completed {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.status-cancelled {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+/* Customer photos section */
+.photos-section {
+    margin-top: 16px;
+    padding: 16px;
+}
+
+.photos-title {
+    margin: 0 0 12px;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(78px, 90px));
+    align-items: start;
+    gap: 8px;
+}
+
+.photo-card {
+    width: 100%;
+    min-width: 0;
+    padding: 4px;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+
+.photo-card img {
+    display: block;
+    width: 100%;
+    height: 65px;
+    object-fit: cover;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.photo-card img:hover {
+    opacity: 0.82;
+}
+
+.photo-card p,
+.photo-caption {
+    margin: 5px 0 0;
+    color: var(--muted);
+    font-size: 10px;
+    overflow-wrap: anywhere;
+}
+
+/* Full-size photo modal */
+.photo-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.88);
+}
+
+.photo-modal.open {
+    display: flex;
+}
+
+.photo-modal img {
+    display: block;
+    max-width: min(900px, 92vw);
+    max-height: 85vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 8px 35px rgba(0, 0, 0, 0.3);
+}
+
+.photo-modal-close {
+    position: absolute;
+    top: 14px;
+    right: 18px;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 50%;
+    background: #fff;
+    color: #111;
+    font-size: 26px;
+    cursor: pointer;
+}
+
+/* Forms and text fields */
+input,
+select,
+textarea {
+    max-width: 100%;
+    font-family: inherit;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline-color: #9ca3af;
+}
+
+/* Tables, if used */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 10px;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+    font-size: 12px;
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+    .container {
+        width: calc(100% - 24px);
+        margin: 16px auto;
+    }
+
+    h1 {
+        font-size: 22px;
+    }
+
+    .card,
+    .booking-card,
+    .details-card,
+    .photos-section,
+    .status-section {
+        padding: 14px;
+        margin-bottom: 12px;
+    }
+
+    .details-grid,
+    .booking-details-grid {
+        gap: 8px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    body {
+        font-size: 13px;
+    }
+
+    .container {
+        width: calc(100% - 20px);
+        margin: 12px auto;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+
+    h2 {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    .card,
+    .booking-card,
+    .details-card,
+    .photos-section,
+    .status-section {
+        padding: 12px;
+        border-radius: 10px;
+        margin-bottom: 11px;
+    }
+
+    .details-grid,
+    .booking-details-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 7px;
+    }
+
+    .detail-item {
+        padding: 9px 10px;
+    }
+
+    .detail-label {
+        font-size: 10px;
+    }
+
+    .detail-value {
+        font-size: 12px;
+    }
+
+    .status-form {
+        gap: 7px;
+    }
+
+    .status-select {
+        width: 125px;
+        min-height: 32px;
+        padding: 5px 6px;
+        font-size: 11px;
+    }
+
+    .btn,
+    .button {
+        min-height: 34px;
+        padding: 7px 10px;
+        font-size: 11px;
+    }
+
+    .photos-section {
+        margin-top: 12px;
+    }
+
+    .photos-title {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    .photo-grid {
+        grid-template-columns: repeat(auto-fill, 78px);
+        gap: 6px;
+    }
+
+    .photo-card {
+        width: 78px;
+        padding: 3px;
+    }
+
+    .photo-card img {
+        height: 56px;
+    }
+
+    .photo-modal {
+        padding: 10px;
+    }
+
+    .photo-modal img {
+        max-width: 95vw;
+        max-height: 80vh;
+    }
+
+    .photo-modal-close {
+        top: 10px;
+        right: 10px;
+        width: 38px;
+        height: 38px;
+    }
+
+    th,
+    td {
+        padding: 7px 5px;
+        font-size: 11px;
+    }
+}
+</style>
+
 
 </body>
 </html>
