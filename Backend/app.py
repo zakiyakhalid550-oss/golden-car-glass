@@ -1118,7 +1118,7 @@ def forgot_password():
             print("RESEND RECIPIENT:", email)
 
             email_data = {
-                "from": "Golden Car Glass <noreply@yourdomain.com>",
+                "from": "Golden Car Glass <onboarding@resend.dev>",
                 "to": [email],
                 "subject": "Golden Car Glass - Password Reset OTP",
                 "text": f"""Golden Car Glass
