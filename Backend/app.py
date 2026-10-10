@@ -1142,7 +1142,8 @@ Golden Car Glass Admin Security
                 data=request_data,
                 headers={
                     "Authorization": f"Bearer {RESEND_API_KEY}",
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "User-Agent": "GoldenCarGlass/1.0"
                 },
                 method="POST"
             )
