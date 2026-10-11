@@ -199,6 +199,16 @@ def initialize_database():
             )
         """)
 
+        
+        # Link bookings to customer accounts.
+        # Existing bookings remain available.
+        cursor.execute("""
+            ALTER TABLE bookings
+            ADD COLUMN IF NOT EXISTS customer_id INTEGER
+            REFERENCES customers(id) ON DELETE SET NULL
+        """)
+
+
         # -------------------------------------------------
         # ADMINS TABLE
         # -------------------------------------------------
@@ -243,7 +253,23 @@ def initialize_database():
             ALTER TABLE admins
             ADD COLUMN IF NOT EXISTS email TEXT UNIQUE
         """)
-    
+        
+        # Add customer password support safely
+        # Existing customer records will remain unchanged.
+        cursor.execute("""
+            ALTER TABLE customers
+            ADD COLUMN IF NOT EXISTS password_hash TEXT
+        """)
+        
+        # Link new bookings to customer accounts.
+        # Existing bookings are preserved.
+        cursor.execute("""
+            ALTER TABLE bookings
+            ADD COLUMN IF NOT EXISTS customer_id INTEGER
+            REFERENCES customers(id) ON DELETE SET NULL
+        """)
+
+
         connection.commit()
 
     finally:
@@ -326,7 +352,6 @@ def pwa_icons(filename):
         filename
     )
 
-
 # =========================================================
 # HOME
 # =========================================================
@@ -338,12 +363,245 @@ def home():
         "index.html"
     )
 
+
+# =========================================================
+# CUSTOMER REGISTRATION, LOGIN AND LOGOUT
+# =========================================================
+
+@app.route("/customer/register", methods=["GET", "POST"])
+def customer_register():
+    if request.method == "GET":
+        return render_template(
+        "customer_register.html",
+        next_url=request.args.get("next", "")
+    )
+
+    name = request.form.get("name", "").strip()
+    mobile = request.form.get("mobile", "").strip()
+    password = request.form.get("password", "")
+    confirm_password = request.form.get("confirm_password", "")
+
+    if not name or not mobile or not password or not confirm_password:
+        return render_template(
+            "customer_register.html",
+            error="Please fill in all required fields."
+        )
+
+    if not mobile.isdigit() or len(mobile) != 10:
+        return render_template(
+            "customer_register.html",
+            error="Enter a valid 10-digit mobile number."
+        )
+
+    if len(name) > 100:
+        return render_template(
+            "customer_register.html",
+            error="Name must be 100 characters or less."
+        )
+
+    if len(password) < 8:
+        return render_template(
+            "customer_register.html",
+            error="Password must be at least 8 characters."
+        )
+
+    if password != confirm_password:
+        return render_template(
+            "customer_register.html",
+            error="Passwords do not match."
+        )
+
+    connection = get_db_connection()
+
+    try:
+        cursor = connection.cursor()
+
+        cursor.execute(
+            """
+            SELECT id, password_hash
+            FROM customers
+            WHERE mobile = %s
+            """,
+            (mobile,)
+        )
+        existing = cursor.fetchone()
+
+        if existing:
+            if existing["password_hash"]:
+                error = "An account already exists. Please log in."
+            else:
+                error = (
+                    "A customer profile already exists for this number. "
+                    "Please contact Golden Car Glass to verify it "
+                    "before setting a password."
+                )
+
+            return render_template(
+                "customer_register.html",
+                error=error
+            )
+
+        # Prevent registration from claiming an old booking number.
+        cursor.execute(
+            "SELECT id FROM bookings WHERE mobile = %s LIMIT 1",
+            (mobile,)
+        )
+
+        if cursor.fetchone():
+            return render_template(
+                "customer_register.html",
+                error=(
+                    "This number has an existing booking. "
+                    "Please contact Golden Car Glass to verify it "
+                    "before creating an account."
+                )
+            )
+
+        password_hash = bcrypt.generate_password_hash(
+            password
+        ).decode("utf-8")
+
+        cursor.execute(
+            """
+            INSERT INTO customers (name, mobile, password_hash)
+            VALUES (%s, %s, %s)
+            RETURNING id, name, mobile
+            """,
+            (name, mobile, password_hash)
+        )
+
+        customer = cursor.fetchone()
+        connection.commit()
+
+    except Exception:
+        connection.rollback()
+        app.logger.exception("Customer registration failed")
+        return render_template(
+            "customer_register.html",
+            error="Registration could not be completed. Please try again."
+        )
+
+    finally:
+        connection.close()
+
+    # Remove old customer session values without clearing admin login.
+    for key in (
+        "customer_id",
+        "customer_mobile",
+        "customer_name",
+        "customer_profile_created",
+    ):
+        session.pop(key, None)
+
+    session["customer_id"] = customer["id"]
+    session["customer_mobile"] = customer["mobile"]
+    session["customer_name"] = customer["name"]
+    session.permanent = True
+
+    
+    next_url = request.form.get("next", "").strip()
+
+    if next_url == url_for("book"):
+        return redirect(url_for("book"))
+
+    return redirect(url_for("profile"))
+
+
+
+@app.route("/customer/login", methods=["GET", "POST"])
+def customer_login():
+    
+    if request.method == "GET":
+        return render_template(
+        "customer_login.html",
+        next_url=request.args.get("next", "")
+        )
+
+
+    mobile = request.form.get("mobile", "").strip()
+    password = request.form.get("password", "")
+
+    if not mobile.isdigit() or len(mobile) != 10 or not password:
+        return render_template(
+            "customer_login.html",
+            error="Enter your registered mobile number and password."
+        )
+
+    connection = get_db_connection()
+
+    try:
+        cursor = connection.cursor()
+
+        cursor.execute(
+            """
+            SELECT id, name, mobile, password_hash
+            FROM customers
+            WHERE mobile = %s
+            """,
+            (mobile,)
+        )
+        customer = cursor.fetchone()
+
+    finally:
+        connection.close()
+
+    if (
+        not customer
+        or not customer["password_hash"]
+        or not bcrypt.check_password_hash(
+            customer["password_hash"], password
+        )
+    ):
+        return render_template(
+            "customer_login.html",
+            error="Invalid mobile number or password."
+        )
+
+    # Remove old customer session values without clearing admin login.
+    for key in (
+        "customer_id",
+        "customer_mobile",
+        "customer_name",
+        "customer_profile_created",
+    ):
+        session.pop(key, None)
+
+    session["customer_id"] = customer["id"]
+    session["customer_mobile"] = customer["mobile"]
+    session["customer_name"] = customer["name"]
+    session.permanent = True
+
+   
+    next_url = request.form.get("next", "").strip()
+
+    if next_url == url_for("book"):
+        return redirect(url_for("book"))
+
+    return redirect(url_for("profile"))
+
+
+@app.route("/customer/logout", methods=["POST"])
+def customer_logout():
+    for key in (
+        "customer_id",
+        "customer_mobile",
+        "customer_name",
+        "customer_profile_created",
+    ):
+        session.pop(key, None)
+
+    return redirect(url_for("home"))
+
+
 # =========================================================
 # CUSTOMER PROFILE
 # =========================================================
 
 @app.route("/profile", methods=["GET", "POST"])
 def profile():
+        # Customer must be logged in to access their profile.
+    if not session.get("customer_id") or not session.get("customer_mobile"):
+        return redirect(url_for("customer_login"))
 
     # =====================================================
     # CREATE / UPDATE CUSTOMER PROFILE
@@ -353,6 +611,15 @@ def profile():
 
         name = request.form.get("name", "").strip()
         mobile = request.form.get("mobile", "").strip()
+
+        if mobile != session.get("customer_mobile"):
+            return render_template(
+                "profile.html",
+                customer=None,
+                total_bookings=0,
+                completed_services=0,
+                error="You can only update your own profile."
+            )
 
         if not name or not mobile:
             return render_template(
@@ -572,6 +839,7 @@ def profile():
         completed_services=completed_services
     )
 
+
 # =========================================================
 # BOOK SERVICE
 # =========================================================
@@ -580,38 +848,73 @@ def profile():
 def book():
 
     # -----------------------------------------
+    # CUSTOMER LOGIN REQUIRED
+    # -----------------------------------------
+    customer_id = session.get("customer_id")
+    customer_mobile = session.get("customer_mobile")
+
+    if not customer_id or not customer_mobile:
+        return redirect(
+            url_for("customer_login", next=url_for("book"))
+        )
+
+    # -----------------------------------------
+    # GET CUSTOMER FROM DATABASE
+    # -----------------------------------------
+    connection = get_db_connection()
+
+    try:
+        cursor = connection.cursor()
+
+        cursor.execute(
+            """
+            SELECT id, name, mobile
+            FROM customers
+            WHERE id = %s AND mobile = %s
+            """,
+            (customer_id, customer_mobile)
+        )
+
+        customer = cursor.fetchone()
+
+    finally:
+        connection.close()
+
+    if not customer:
+        session.pop("customer_id", None)
+        session.pop("customer_mobile", None)
+        session.pop("customer_name", None)
+
+        return redirect(
+            url_for("customer_login", next=url_for("book"))
+        )
+
+    # Use the account's saved details, not untrusted form values.
+    name = customer["name"]
+    mobile = customer["mobile"]
+
+    # -----------------------------------------
     # OPEN BOOKING FORM
     # -----------------------------------------
     if request.method == "GET":
-        return render_template("index.html")
+        return render_template(
+            "index.html",
+            customer_name=name,
+            customer_mobile=mobile
+        )
 
-    name = request.form.get("name", "").strip()
-    mobile = request.form.get("mobile", "").strip()
+    # -----------------------------------------
+    # BOOKING FORM DATA
+    # -----------------------------------------
     car_model = request.form.get("car_model", "").strip()
     glass_type = request.form.get("glass_type", "").strip()
     booking_date = request.form.get("date", "").strip()
     message = request.form.get("message", "").strip()
-
-    # -----------------------------------------
-    # PHOTO FROM BOOKING FORM
-    # -----------------------------------------
     photo = request.files.get("photo")
 
     # -----------------------------------------
     # BASIC VALIDATION
     # -----------------------------------------
-    if not name:
-        return "Please enter your name.", 400
-
-    if not mobile:
-        return "Please enter your mobile number.", 400
-
-    if not mobile.isdigit():
-        return "Please enter numbers only 😊", 400
-
-    if len(mobile) != 10:
-        return "Please enter a valid 10-digit mobile number.", 400
-
     if not car_model:
         return "Please enter car model.", 400
 
@@ -643,51 +946,18 @@ def book():
             )
 
     # -----------------------------------------
-    # CREATE BOOKING
+    # CREATE BOOKING LINKED TO CUSTOMER
     # -----------------------------------------
     connection = get_db_connection()
 
     try:
         cursor = connection.cursor()
 
-        # =========================
-        # SAVE / UPDATE CUSTOMER
-        # =========================
-        cursor.execute(
-            """
-            SELECT id
-            FROM customers
-            WHERE mobile = %s
-            """,
-            (mobile,)
-        )
-
-        existing_customer = cursor.fetchone()
-
-        if existing_customer:
-            cursor.execute(
-                """
-                UPDATE customers
-                SET name = %s,
-                    updated_at = CURRENT_TIMESTAMP
-                WHERE mobile = %s
-                """,
-                (name, mobile)
-            )
-        else:
-            cursor.execute(
-                """
-                INSERT INTO customers (name, mobile)
-                VALUES (%s, %s)
-                ON CONFLICT (mobile) DO NOTHING
-                """,
-                (name, mobile)
-            )
-
         cursor.execute(
             """
             INSERT INTO bookings
             (
+                customer_id,
                 name,
                 mobile,
                 car_model,
@@ -696,10 +966,11 @@ def book():
                 message,
                 status
             )
-            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
             RETURNING id
             """,
             (
+                customer["id"],
                 name,
                 mobile,
                 car_model,
@@ -711,11 +982,7 @@ def book():
         )
 
         booking_id = cursor.fetchone()["id"]
-
         connection.commit()
-
-        session["customer_mobile"] = mobile
-        session["customer_profile_created"] = True
 
     finally:
         connection.close()
@@ -744,24 +1011,19 @@ def book():
                     cursor.execute(
                         """
                         INSERT INTO booking_photos
-                        (
-                            booking_id,
-                            filename
-                        )
+                        (booking_id, filename)
                         VALUES (%s, %s)
                         """,
-                        (
-                            booking_id,
-                            secure_url
-                        )
+                        (booking_id, secure_url)
                     )
 
                     connection.commit()
-
                     photo_uploaded = True
 
                 finally:
                     connection.close()
+            else:
+                photo_error = True
 
         except Exception as e:
             print(
@@ -795,12 +1057,15 @@ def book():
     # -----------------------------------------
     # SUCCESS PAGE
     # -----------------------------------------
+    from html import escape
+
+    safe_name = escape(name)
+
     return f"""
     <!DOCTYPE html>
     <html>
     <head>
         <title>Booking Confirmed</title>
-
         <meta name="viewport"
               content="width=device-width, initial-scale=1.0">
 
@@ -823,16 +1088,16 @@ def book():
             }}
 
             h1 {{
-    color: green;
-    font-size: 28px;
-    line-height: 1.3;
-}}
+                color: green;
+                font-size: 28px;
+                line-height: 1.3;
+            }}
 
-@media (max-width: 650px) {{
-    h1 {{
-        font-size: 23px;
-    }}
-}}
+            @media (max-width: 650px) {{
+                h1 {{
+                    font-size: 23px;
+                }}
+            }}
 
             .booking-number {{
                 font-size: 24px;
@@ -842,7 +1107,7 @@ def book():
 
             .btn {{
                 display: inline-block;
-                margin-top: 20px;
+                margin: 10px 5px 0;
                 padding: 12px 20px;
                 background: #111;
                 color: white;
@@ -853,30 +1118,33 @@ def book():
     </head>
 
     <body>
+        <div class="success-box">
 
-<div class="success-box">
+            <h1>✅ Booking Successful!</h1>
 
-    <h1>✅ Booking Successful!</h1>
+            <p>Thank you, <strong>{safe_name}</strong>.</p>
 
-    <p>
-        Thank you, <strong>{name}</strong>.
-    </p>
+            <p>Your service booking has been created successfully.</p>
 
-    <p>
-        Your service booking has been created successfully.
-    </p>
+            <p class="booking-number">
+                Booking Number: #{booking_id}
+            </p>
 
-    {photo_message}
+            {photo_message}
 
-    <a href="/" class="btn">
-        Back to Home
-    </a>
+            <a href="/my_bookings" class="btn">
+                My Bookings
+            </a>
 
-</div>
+            <a href="/" class="btn">
+                Back to Home
+            </a>
 
+        </div>
     </body>
     </html>
     """
+
 
 
 # =========================================================
@@ -2070,206 +2338,44 @@ def upload_booking_photo(id):
         )
     )
 
+
 # =========================================================
 # CUSTOMER MY BOOKINGS
 # =========================================================
 
-@app.route(
-    "/my_bookings",
-    methods=["GET", "POST"]
-)
+@app.route("/my_bookings", methods=["GET", "POST"])
 def my_bookings():
 
-    # -----------------------------------------------------
-    # CUSTOMER ENTERS MOBILE NUMBER
-    # -----------------------------------------------------
+    # Only logged-in customers can view their bookings.
+    if not session.get("customer_id") or not session.get("customer_mobile"):
+        return redirect(url_for("customer_login"))
 
-    if request.method == "POST":
-
-        mobile = request.form.get(
-            "mobile",
-            ""
-        ).strip()
-
-
-        # -------------------------------------------------
-        # VALIDATE MOBILE
-        # -------------------------------------------------
-
-        if not mobile:
-
-            return render_template(
-                "my_bookings.html",
-                error="Please enter your mobile number."
-            )
-
-
-        if not mobile.isdigit():
-
-            return render_template(
-                "my_bookings.html",
-                error="Please enter numbers only."
-            )
-
-
-        if len(mobile) != 10:
-
-            return render_template(
-                "my_bookings.html",
-                error="Please enter a valid 10-digit mobile number."
-            )
-
-
-        # -------------------------------------------------
-        # SAVE CUSTOMER MOBILE IN SESSION
-        # -------------------------------------------------
-
-        session["customer_mobile"] = mobile
-        session["my_bookings_searched"] = True
-
-        return redirect(
-            url_for("my_bookings")
-        )
-
-
-    # -----------------------------------------------------
-    # GET MOBILE FROM SESSION
-    # -----------------------------------------------------
-
-    mobile = session.get(
-        "customer_mobile"
-    )
-
-    searched = session.get(
-    "my_bookings_searched",
-    False
-    )
-
-    # -----------------------------------------------------
-    # IF MOBILE NOT ENTERED
-    # -----------------------------------------------------
-
-    if not mobile:
-
-        return render_template(
-            "my_bookings.html"
-        )
-
-
-    # -----------------------------------------------------
-    # FIND CUSTOMER BOOKINGS
-    # -----------------------------------------------------
+    mobile = session["customer_mobile"]
 
     connection = get_db_connection()
 
     try:
-
         cursor = connection.cursor()
 
-        cursor.execute(
-            """
-            SELECT
-                id,
-                name,
-                car_model,
-                glass_type,
-                date,
-                status
+        cursor.execute("""
+            SELECT id, name, car_model, glass_type, date, status
             FROM bookings
             WHERE mobile = %s
             ORDER BY id DESC
-            """,
-            (mobile,)
-        )
+        """, (mobile,))
 
         bookings = cursor.fetchall()
 
     finally:
-
         connection.close()
 
-
-    # -----------------------------------------------------
-    # SHOW BOOKINGS
-    # -----------------------------------------------------
-
     return render_template(
-    "my_bookings.html",
-    bookings=bookings,
-    mobile=mobile,
-    searched=searched
+        "my_bookings.html",
+        bookings=bookings,
+        mobile=mobile,
+        searched=True
     )
 
-    # -----------------------------------------------------
-    # CUSTOMER MOBILE SESSION
-    # -----------------------------------------------------
-
-    customer_mobile = session.get(
-        "customer_mobile"
-    )
-
-
-    # -----------------------------------------------------
-    # CUSTOMER NOT VERIFIED
-    # -----------------------------------------------------
-
-    if not customer_mobile:
-
-        return redirect(
-            url_for("my_bookings")
-        )
-
-
-    # -----------------------------------------------------
-    # FIND BOOKING
-    # -----------------------------------------------------
-
-    connection = get_db_connection()
-
-    try:
-
-        cursor = connection.cursor()
-
-        cursor.execute(
-            """
-            SELECT *
-            FROM bookings
-            WHERE id = %s
-              AND mobile = %s
-            """,
-            (
-                id,
-                customer_mobile
-            )
-        )
-
-        booking = cursor.fetchone()
-
-    finally:
-
-        connection.close()
-
-
-    # -----------------------------------------------------
-    # BOOKING NOT FOUND
-    # -----------------------------------------------------
-
-    if not booking:
-
-        return (
-            "Booking not found or access denied.",
-            404
-        )
-
-
-    # -----------------------------------------------------
-    # SHOW CUSTOMER BOOKING STATUS
-    # -----------------------------------------------------
-
-    return render_template(
-        "customer_booking_status.html",
-        booking=booking
-    )
 
 @app.route("/cancel_booking/<int:id>", methods=["POST"])
 def cancel_booking(id):

@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Login | Golden Car Glass</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f3f5f8;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .card {
+            width: 100%;
+            max-width: 420px;
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0,0,0,.08);
+        }
+        h1 { text-align: center; font-size: 25px; margin-bottom: 8px; }
+        .subtitle { text-align: center; color: #666; margin-bottom: 25px; }
+        label { display: block; margin: 16px 0 7px; font-weight: bold; }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 13px;
+            margin-top: 22px;
+            background: #111;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover { background: #333; }
+        .error {
+            background: #ffe8e8;
+            color: #a40000;
+            padding: 11px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        .footer { text-align: center; margin-top: 20px; font-size: 14px; }
+        a { color: #111; font-weight: bold; }
+        .brand { text-align: center; font-weight: bold; color: #555; }
+    </style>
+</head>
+<body>
+    <main class="card">
+        <p class="brand">GOLDEN CAR GLASS</p>
+        <h1>Customer Login</h1>
+        <p class="subtitle">Login to view and manage your bookings</p>
+
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+
+        <form method="POST" action="{{ url_for('customer_login') }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <input type="hidden" name="next" value="{{ next_url|default('') }}">
+
+            <label for="mobile">Mobile Number</label>
+            <input id="mobile" type="tel" name="mobile"
+                   placeholder="Enter your registered mobile number"
+                   inputmode="numeric" pattern="[0-9]{10}"
+                   maxlength="10" autocomplete="tel" required>
+
+            <label for="password">Password</label>
+            <input id="password" type="password" name="password"
+                   placeholder="Enter your password"
+                   autocomplete="current-password" required>
+
+            <button type="submit">Login</button>
+        </form>
+
+        <p class="footer">
+            Don't have an account?
+            <a href="{{ url_for('customer_register', next=request.args.get('next', '')) }}">Create Account</a>
+        </p>
+        <p class="footer"><a href="{{ url_for('home') }}">Back to Home</a></p>
+    </main>
+</body>
+</html>
