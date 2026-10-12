@@ -470,16 +470,26 @@
 
                 {% endif %}
 
-            </div>
+            
+<div class="back-section">
 
-            <div class="back-section">
-                <a
-                    href="{{ url_for('bookings') }}"
-                    class="back-btn"
-                >
-                    Back to Bookings
-                </a>
-            </div>
+    <a
+        href="{{ url_for('create_invoice', booking_id=booking['id']) }}"
+        class="back-btn"
+        style="margin-bottom: 10px;"
+    >
+        Create Bill
+    </a>
+
+    <a
+        href="{{ url_for('bookings') }}"
+        class="back-btn"
+    >
+        Back to Bookings
+    </a>
+
+</div>
+
 
         </div>
 

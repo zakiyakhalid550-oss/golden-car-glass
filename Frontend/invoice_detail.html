@@ -1,0 +1,87 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bill #{{ invoice['id'] }} - Golden Car Glass</title>
+    <style>
+        body { font-family:Arial,sans-serif; background:#f4f4f4; padding:15px; color:#222; }
+        main { max-width:750px; margin:auto; background:white; padding:24px; border-radius:12px; }
+        .row { display:flex; justify-content:space-between; gap:15px; border-bottom:1px solid #ddd; padding:10px 0; }
+        label { display:block; font-weight:bold; margin-top:12px; }
+        input,select { width:100%; padding:11px; box-sizing:border-box; margin-top:5px; }
+        button,a { display:inline-block; margin-top:15px; padding:10px 14px; border:0; border-radius:6px; background:#222; color:white; text-decoration:none; cursor:pointer; }
+        .notice { background:#fff3cd; padding:10px; }
+        @media print { body { background:white; padding:0; } main { box-shadow:none; } .no-print { display:none !important; } }
+    </style>
+</head>
+<body>
+<main>
+    <h1>Golden Car Glass</h1>
+    <h2>Invoice #{{ invoice['id'] }}</h2>
+
+    <p><b>Customer:</b> {{ invoice['customer_name'] }}</p>
+    <p><b>Mobile:</b> {{ invoice['customer_mobile'] }}</p>
+    <p><b>Car:</b> {{ invoice['car_model'] }}</p>
+    <p><b>Glass/service:</b> {{ invoice['glass_type'] }}</p>
+    <p><b>Booking:</b> {{ invoice['booking_id'] if invoice['booking_id'] else 'Unlinked' }}</p>
+    <p><b>Created:</b> {{ invoice['created_at'] }}</p>
+
+    <div class="row"><span>Glass price</span><b>₹{{ "%.2f"|format(invoice['glass_price']) }}</b></div>
+    <div class="row"><span>Fitting charges</span><b>₹{{ "%.2f"|format(invoice['fitting_charges']) }}</b></div>
+    <div class="row"><span>Discount</span><b>− ₹{{ "%.2f"|format(invoice['discount']) }}</b></div>
+    <div class="row"><span>Total</span><b>₹{{ "%.2f"|format(invoice['total_amount']) }}</b></div>
+    <div class="row"><span>Paid</span><b>₹{{ "%.2f"|format(invoice['paid_amount']) }}</b></div>
+    <div class="row"><span>Balance</span><b>₹{{ "%.2f"|format(remaining) }}</b></div>
+    <p><b>Payment status:</b> {{ invoice['payment_status'] }}</p>
+    <p><b>Notes:</b> {{ invoice['notes'] or '—' }}</p>
+
+    <div class="no-print">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <p class="notice">{{ message }}</p>
+            {% endfor %}
+        {% endwith %}
+
+        {% if remaining > 0 %}
+        <h2>Record Payment</h2>
+        <form method="POST" action="{{ url_for('record_invoice_payment', invoice_id=invoice['id']) }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <label>Amount received (₹)</label>
+            <input type="number" name="amount" min="0.01" max="{{ remaining }}" step="0.01" required>
+
+            <label>Payment method</label>
+            <select name="payment_method" required>
+                <option value="Cash">Cash</option>
+                <option value="UPI">UPI</option>
+                <option value="Bank Transfer">Bank Transfer</option>
+                <option value="Online">Online (manually verified)</option>
+            </select>
+
+            <label>Reference / note (optional)</label>
+            <input type="text" name="note" maxlength="500">
+
+            <button type="submit">Record Payment</button>
+        </form>
+        {% endif %}
+
+        <h2>Payment History</h2>
+        {% for payment in payments %}
+            <p>
+                ₹{{ "%.2f"|format(payment['amount']) }}
+                — {{ payment['payment_method'] }}
+                — {{ payment['created_at'] }}
+                {% if payment['note'] %} — {{ payment['note'] }}{% endif %}
+            </p>
+        {% else %}
+            <p>No payments recorded yet.</p>
+        {% endfor %}
+
+        <button onclick="window.print()">Print / Save as PDF</button>
+        <a href="{{ url_for('billing_list') }}">Back to Billing</a>
+    </div>
+</main>
+</body>
+</html>

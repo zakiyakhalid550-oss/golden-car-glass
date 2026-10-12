@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Create Bill</title>
+    <style>
+        body { font-family:Arial,sans-serif; background:#f4f4f4; padding:15px; }
+        main { max-width:600px; margin:auto; background:white; padding:22px; border-radius:12px; }
+        label { display:block; margin-top:14px; font-weight:bold; }
+        input,textarea { width:100%; padding:11px; margin-top:5px; border:1px solid #ccc; border-radius:6px; box-sizing:border-box; }
+        button,a { display:inline-block; margin-top:18px; padding:11px 16px; border:0; border-radius:6px; background:#222; color:white; text-decoration:none; cursor:pointer; }
+        .notice { background:#fff3cd; padding:10px; }
+    </style>
+</head>
+<body>
+<main>
+    <h1>Create Bill</h1>
+    <p>Booking #{{ booking['id'] }}</p>
+    <p><b>Customer:</b> {{ booking['name'] }}</p>
+    <p><b>Mobile:</b> {{ booking['mobile'] }}</p>
+    <p><b>Car:</b> {{ booking['car_model'] }}</p>
+    <p><b>Glass/service:</b> {{ booking['glass_type'] }}</p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <p class="notice">{{ message }}</p>
+        {% endfor %}
+    {% endwith %}
+
+    <form method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <label>Glass Price (₹)</label>
+        <input type="number" name="glass_price" min="0" step="0.01" required value="0">
+
+        <label>Fitting Charges (₹)</label>
+        <input type="number" name="fitting_charges" min="0" step="0.01" required value="0">
+
+        <label>Discount (₹)</label>
+        <input type="number" name="discount" min="0" step="0.01" required value="0">
+
+        <label>Notes (optional)</label>
+        <textarea name="notes" maxlength="1000" rows="3"></textarea>
+
+        <button type="submit">Create Bill</button>
+        <a href="{{ url_for('billing_list') }}">Cancel</a>
+    </form>
+</main>
+</body>
+</html>
