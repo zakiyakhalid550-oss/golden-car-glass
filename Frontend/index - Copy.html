@@ -1,0 +1,1616 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta name="theme-color" content="#111111">
+
+    <title>Golden Car Glass</title>
+
+    <link
+        rel="manifest"
+        href="{{ url_for('static', filename='manifest.json') }}"
+    >
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f5f5;
+            color: #222;
+            line-height: 1.5;
+        }
+
+        /* =========================
+           DESKTOP HEADER
+        ========================= */
+
+        header {
+            background: #111111;
+            color: white;
+            padding: 16px 25px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 20px;
+        }
+
+        .logo {
+            color: #D4AF37;
+            font-size: 21px;
+            font-weight: 800;
+        }
+
+        header nav {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 20px;
+        }
+
+        header nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        header nav a:hover {
+            color: #D4AF37;
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            background: #111111;
+            color: white;
+            text-align: center;
+            padding: 70px 20px 80px;
+        }
+
+        .hero h1 {
+            margin: 0 0 12px;
+            font-size: 38px;
+        }
+
+        .hero p {
+            margin: 0 auto 25px;
+            max-width: 650px;
+            color: #dddddd;
+            font-size: 16px;
+        }
+
+        .hero-button {
+            display: inline-block;
+            background: #D4AF37;
+            color: #111111;
+            text-decoration: none;
+            padding: 13px 24px;
+            border-radius: 8px;
+            font-weight: 700;
+        }
+
+        /* =========================
+           SERVICES
+        ========================= */
+
+        .services {
+            padding: 55px 20px;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 28px;
+            margin: 0 0 30px;
+            color: #111111;
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 14px;
+            padding: 25px 18px;
+            text-align: center;
+
+            box-shadow:
+                0 4px 15px rgba(0, 0, 0, 0.06);
+
+            border: 1px solid #eeeeee;
+        }
+
+        .service-card h3 {
+            margin: 0 0 8px;
+            font-size: 18px;
+        }
+
+        .service-card p {
+            margin: 0;
+            color: #666666;
+            font-size: 13px;
+        }
+
+        /* =========================
+           BOOKING
+        ========================= */
+
+        .booking-section {
+            padding: 20px 20px 60px;
+        }
+
+        .booking-box {
+            background: white;
+            max-width: 650px;
+            margin: auto;
+            padding: 28px;
+            border-radius: 16px;
+
+            box-shadow:
+                0 5px 20px rgba(0, 0, 0, 0.07);
+
+            border: 1px solid #eeeeee;
+        }
+
+        .form-group {
+            margin-bottom: 17px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+
+            border: 1px solid #cccccc;
+            border-radius: 8px;
+
+            font-size: 15px;
+            font-family: Arial, Helvetica, sans-serif;
+
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #D4AF37;
+
+            box-shadow:
+                0 0 0 3px rgba(212, 175, 55, 0.12);
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 13px;
+
+            border: none;
+            border-radius: 8px;
+
+            background: #111111;
+            color: white;
+
+            font-size: 16px;
+            font-weight: 700;
+
+            cursor: pointer;
+        }
+
+        .submit-button:hover {
+            background: #333333;
+        }
+
+        /* =========================
+           PHOTO UPLOAD
+        ========================= */
+
+        
+.photo-section {
+    margin-top: 12px;
+    padding: 10px;
+    background: #fafafa;
+    border: 1px solid #eeeeee;
+    border-radius: 10px;
+}
+
+
+        .photo-section label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .photo-section small {
+            display: block;
+            color: #777777;
+            margin-bottom: 12px;
+        }
+
+        .photo-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        
+.photo-button {
+    display: inline-block;
+    padding: 8px 11px;
+    background: #111111;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+
+        .photo-preview {
+            display: none;
+            margin-top: 15px;
+        }
+
+        .photo-preview img {
+            width: 100%;
+            max-height: 250px;
+            object-fit: contain;
+
+            border-radius: 10px;
+            border: 1px solid #dddddd;
+        }
+
+        .remove-photo {
+            display: none;
+            margin-top: 10px;
+
+            border: none;
+            background: #b00020;
+            color: white;
+
+            padding: 9px 14px;
+            border-radius: 7px;
+
+            cursor: pointer;
+        }
+        
+
+        /* =========================
+           CONTACT
+        ========================= */
+
+        #contact {
+            background: #111111;
+            color: white;
+            padding: 45px 20px;
+            text-align: center;
+        }
+
+        #contact h2 {
+            margin-top: 0;
+            color: #D4AF37;
+        }
+
+        #contact p {
+            color: #dddddd;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            background: #111111;
+            color: #999999;
+            text-align: center;
+            padding: 22px 15px;
+            font-size: 12px;
+        }
+
+        footer strong {
+            color: #D4AF37;
+        }
+
+        /* =========================================================
+           MOBILE
+        ========================================================= */
+
+        @media screen and (max-width: 768px) {
+
+            body {
+                padding-bottom: 72px !important;
+            }
+
+            header {
+                display: none;
+            }
+
+            .hero {
+                padding: 45px 18px 55px;
+            }
+
+            .hero h1 {
+                font-size: 29px;
+            }
+
+            .hero p {
+                font-size: 14px;
+            }
+
+            .services {
+                padding: 40px 15px;
+            }
+
+            .section-title {
+                font-size: 24px;
+            }
+
+            .service-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .service-card {
+                padding: 20px 12px;
+            }
+
+            .booking-section {
+                padding: 10px 15px 40px;
+            }
+
+            .booking-box {
+                padding: 20px;
+            }
+
+            /* =====================================================
+               COMMON BOTTOM NAV
+            ===================================================== */
+
+            .bottom-nav {
+                position: fixed !important;
+
+                left: 0 !important;
+                right: 0 !important;
+                bottom: 0 !important;
+
+                width: 100% !important;
+                height: 72px !important;
+
+                display: flex !important;
+                flex-direction: row !important;
+
+                align-items: stretch !important;
+                justify-content: space-around !important;
+
+                padding: 0 !important;
+                margin: 0 !important;
+
+                background: #ffffff !important;
+
+                border-top: 1px solid #e5e5e5 !important;
+
+                box-shadow:
+                    0 -2px 10px rgba(0, 0, 0, 0.06) !important;
+
+                z-index: 99999 !important;
+
+                box-sizing: border-box !important;
+            }
+
+            .bottom-nav .bottom-nav-item {
+                width: 25% !important;
+                height: 72px !important;
+
+                flex: 1 1 25% !important;
+
+                min-width: 0 !important;
+
+                display: flex !important;
+                flex-direction: column !important;
+
+                align-items: center !important;
+                justify-content: center !important;
+
+                gap: 5px !important;
+
+                padding: 0 !important;
+                margin: 0 !important;
+
+                color: #555555 !important;
+
+                font-family: Arial, Helvetica, sans-serif !important;
+
+                font-size: 11px !important;
+                font-weight: 500 !important;
+
+                line-height: 16px !important;
+
+                text-decoration: none !important;
+
+                transform: none !important;
+                transition: none !important;
+
+                outline: none !important;
+
+                -webkit-tap-highlight-color: transparent !important;
+
+                box-sizing: border-box !important;
+            }
+
+            .bottom-nav .nav-icon {
+                width: 23px !important;
+                height: 23px !important;
+
+                flex: 0 0 23px !important;
+
+                display: flex !important;
+
+                align-items: center !important;
+                justify-content: center !important;
+
+                color: #C49A00 !important;
+
+                transform: none !important;
+                transition: none !important;
+                filter: none !important;
+            }
+
+            .bottom-nav .nav-icon svg {
+                width: 23px !important;
+                height: 23px !important;
+
+                display: block !important;
+
+                color: currentColor !important;
+                stroke: currentColor !important;
+                fill: none !important;
+
+                transform: none !important;
+                transition: none !important;
+                filter: none !important;
+            }
+
+            .bottom-nav .nav-icon svg * {
+                stroke: currentColor !important;
+                fill: none !important;
+            }
+
+            .bottom-nav .nav-label {
+                display: block !important;
+
+                width: auto !important;
+                height: 16px !important;
+
+                margin: 0 !important;
+                padding: 0 !important;
+
+                color: #333333 !important;
+
+                font-family: Arial, Helvetica, sans-serif !important;
+
+                font-size: 11px !important;
+                font-weight: 500 !important;
+
+                line-height: 16px !important;
+
+                white-space: nowrap !important;
+
+                transform: none !important;
+                transition: none !important;
+            }
+
+            .bottom-nav .bottom-nav-item.active {
+                color: #B89520 !important;
+
+                background: transparent !important;
+
+                transform: none !important;
+            }
+
+            .bottom-nav .bottom-nav-item.active .nav-icon {
+                color: #B89520 !important;
+            }
+
+            .bottom-nav .bottom-nav-item.active .nav-label {
+                color: #B89520 !important;
+            }
+
+            .bottom-nav .bottom-nav-item:hover,
+            .bottom-nav .bottom-nav-item:focus,
+            .bottom-nav .bottom-nav-item:active,
+            .bottom-nav .bottom-nav-item.active:hover,
+            .bottom-nav .bottom-nav-item.active:focus,
+            .bottom-nav .bottom-nav-item.active:active {
+                background: transparent !important;
+                transform: none !important;
+                transition: none !important;
+                outline: none !important;
+            }
+
+            .bottom-nav .bottom-nav-item:hover .nav-icon,
+            .bottom-nav .bottom-nav-item:focus .nav-icon,
+            .bottom-nav .bottom-nav-item:active .nav-icon,
+            .bottom-nav .bottom-nav-item:hover .nav-label,
+            .bottom-nav .bottom-nav-item:focus .nav-label,
+            .bottom-nav .bottom-nav-item:active .nav-label {
+                transform: none !important;
+                transition: none !important;
+            }
+        }
+
+        @media screen and (min-width: 769px) {
+
+            .bottom-nav {
+                display: none !important;
+            }
+        }
+
+
+/* LOGIN LINKS */
+header nav a {
+    white-space: nowrap;
+}
+
+/* MOBILE MORE MENU */
+.more-menu-container {
+    position: relative;
+}
+
+.more-menu-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    width: 100%;
+    height: 72px;
+    border: none;
+    background: transparent;
+    color: #C49A00;
+    cursor: pointer;
+}
+
+.more-dots {
+    font-size: 27px;
+    line-height: 23px;
+    font-weight: bold;
+}
+
+.more-menu-dropdown {
+    position: absolute;
+    right: 5px;
+    bottom: 78px;
+    width: 180px;
+    background: #111111;
+    border: 1px solid #D4AF37;
+    border-radius: 10px;
+    padding: 8px;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.2);
+    z-index: 100000;
+}
+
+.more-menu-dropdown[hidden] {
+    display: none !important;
+}
+
+.more-menu-dropdown a {
+    display: block;
+    padding: 12px 10px;
+    color: #D4AF37;
+    text-decoration: none;
+    font-size: 14px;
+    border-radius: 6px;
+}
+
+.more-menu-dropdown a:hover {
+    background: #292929;
+}
+
+@media screen and (max-width: 768px) {
+    .bottom-nav .bottom-nav-item {
+        flex: 1 1 20% !important;
+        width: 20% !important;
+    }
+}
+
+@media screen and (min-width: 769px) {
+    .more-menu-container {
+        display: none !important;
+    }
+}
+
+
+/* FORCE SMALL PHOTO UPLOAD BOX */
+.photo-section {
+    margin-top: 10px !important;
+    padding: 8px !important;
+    border-radius: 8px !important;
+}
+
+.photo-section small {
+    margin-bottom: 6px !important;
+    font-size: 10px !important;
+}
+
+.photo-buttons {
+    gap: 6px !important;
+}
+
+.photo-button {
+    padding: 6px 9px !important;
+    font-size: 11px !important;
+    border-radius: 6px !important;
+}
+
+.photo-preview {
+    margin-top: 8px !important;
+}
+
+.photo-preview img {
+    max-height: 100px !important;
+}
+
+
+        .admin-login-link {
+            background: #D4AF37;
+            color: #111111 !important;
+            padding: 9px 14px;
+            border-radius: 7px;
+        }
+
+        .admin-login-link:hover {
+            background: #e5c65b;
+            color: #111111 !important;
+        }
+
+        /* CONTACT POPUP */
+        .contact-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 200000;
+            background: rgba(0, 0, 0, 0.65);
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+        }
+
+        .contact-modal.show {
+            display: flex;
+        }
+
+        .contact-modal-box {
+            width: 100%;
+            max-width: 360px;
+            background: #ffffff;
+            color: #222222;
+            border-radius: 14px;
+            padding: 24px 20px;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+            position: relative;
+        }
+
+        .contact-modal-box h2 {
+            color: #111111;
+            margin: 0 0 8px;
+            font-size: 22px;
+        }
+
+        .contact-modal-box p {
+            color: #666666;
+            margin: 0 0 18px;
+            font-size: 14px;
+        }
+
+        .contact-number {
+            display: block;
+            margin: 10px 0;
+            padding: 12px;
+            border: 1px solid #e5d49a;
+            border-radius: 8px;
+            color: #111111;
+            text-decoration: none;
+            font-weight: 700;
+            background: #fffaf0;
+        }
+
+        .contact-number:hover {
+            background: #f7edcf;
+        }
+
+        .contact-close {
+            margin-top: 12px;
+            border: 0;
+            border-radius: 7px;
+            padding: 10px 18px;
+            background: #111111;
+            color: white;
+            cursor: pointer;
+        }
+
+        .bottom-nav .admin-bottom-link {
+            color: #555555 !important;
+        }
+
+        @media screen and (max-width: 768px) {
+            .bottom-nav .bottom-nav-item {
+                flex: 1 1 16.666% !important;
+                width: 16.666% !important;
+            }
+            .bottom-nav .nav-label {
+                font-size: 10px !important;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    
+<!-- DESKTOP HEADER -->
+<header>
+    <div class="logo">Golden Car Glass</div>
+
+    <nav>
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="#services">Services</a>
+        <a href="{{ url_for('book') }}#book">Book Service</a>
+        <a href="#" class="contact-trigger">Contact</a>
+        <a href="{{ url_for('profile') }}">Customer Profile</a>
+        <a href="{{ url_for('customer_login') }}">Customer Login</a>
+        <a href="{{ url_for('login') }}" class="admin-login-link">Admin Login</a> 
+        
+
+    </nav>
+</header>
+
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <h1>
+            Golden Car Glass
+        </h1>
+
+        <p>
+            Professional car glass replacement and repair service.
+            Easy booking, photo upload and service tracking.
+        </p>
+
+        
+<a href="{{ url_for('book') }}#book" class="hero-button">Book a Service</a>
+
+
+    </section>
+
+
+    <!-- SERVICES -->
+
+    <section
+        class="services"
+        id="services"
+    >
+
+        <h2 class="section-title">
+            Our Services
+        </h2>
+
+        <div class="service-grid">
+
+            <div class="service-card">
+                <h3>Windshield</h3>
+                <p>Professional windshield replacement.</p>
+            </div>
+
+            <div class="service-card">
+                <h3>Window Glass</h3>
+                <p>Car side window glass replacement.</p>
+            </div>
+
+            <div class="service-card">
+                <h3>Rear Glass</h3>
+                <p>Rear glass replacement service.</p>
+            </div>
+
+            <div class="service-card">
+                <h3>Glass Repair</h3>
+                <p>Repair for suitable glass damage.</p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- BOOKING -->
+
+    <section
+        class="booking-section"
+        id="book"
+    >
+
+        <h2 class="section-title">
+            Book a Service
+        </h2>
+
+
+        <div class="booking-box">
+
+            <form
+                method="POST"
+                action="{{ url_for('book') }}"
+                enctype="multipart/form-data"
+                id="bookingForm"
+            >
+
+                <input
+                    type="hidden"
+                    name="csrf_token"
+                    value="{{ csrf_token() }}"
+                >
+
+
+                <div class="form-group">
+
+                    <label for="name">
+                        Name
+                    </label>
+
+                    
+<input
+    type="text"
+    id="name"
+    name="name"
+    value="{{ customer_name|default('') }}"
+    required
+    autocomplete="name"
+>
+
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="mobile">
+                        Mobile Number
+                    </label>
+
+                    
+<input
+    type="tel"
+    id="mobile"
+    name="mobile"
+    value="{{ customer_mobile|default('') }}"
+    maxlength="10"
+    inputmode="numeric"
+    autocomplete="tel"
+    required
+>
+
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="car_model">
+                        Car Model
+                    </label>
+
+                    <input
+                        type="text"
+                        id="car_model"
+                        name="car_model"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="glass_type">
+                        Glass Type
+                    </label>
+
+                    <select
+                        id="glass_type"
+                        name="glass_type"
+                        required
+                    >
+
+                        <option value="">
+                            Select Glass Type
+                        </option>
+
+                        <option value="Windshield">
+                            Windshield
+                        </option>
+
+                        <option value="Window Glass">
+                            Window Glass
+                        </option>
+
+                        <option value="Rear Glass">
+                            Rear Glass
+                        </option>
+
+                        <option value="Glass Repair">
+                            Glass Repair
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="date">
+                        Service Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="date"
+                        name="date"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="message">
+                        Message
+                    </label>
+
+                    <textarea
+                        id="message"
+                        name="message"
+                        placeholder="Describe the glass problem..."
+                    ></textarea>
+
+                </div>
+
+
+                <!-- PHOTO -->
+
+                <div class="photo-section">
+
+                    <label>
+                        Upload Glass / Damage Photo
+                    </label>
+
+                    <small>
+                        Optional. JPG, JPEG, PNG or WEBP. Maximum 5MB.
+                    </small>
+
+
+                    <div class="photo-buttons">
+
+                        <label
+                            for="cameraInput"
+                            class="photo-button"
+                        >
+                            Take Photo
+                        </label>
+
+                        <label
+                            for="galleryInput"
+                            class="photo-button"
+                        >
+                            Choose from Gallery
+                        </label>
+
+                    </div>
+
+
+                    <input
+                        type="file"
+                        id="cameraInput"
+                        name="photo"
+                        accept="image/jpeg,image/png,image/webp"
+                        capture="environment"
+                        hidden
+                    >
+
+
+                    <input
+                        type="file"
+                        id="galleryInput"
+                        accept="image/jpeg,image/png,image/webp"
+                        hidden
+                    >
+
+
+                    <div
+                        class="photo-preview"
+                        id="photoPreview"
+                    >
+
+                        <img
+                            id="previewImage"
+                            src=""
+                            alt="Selected photo"
+                        >
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="remove-photo"
+                        id="removePhoto"
+                    >
+                        Remove Photo
+                    </button>
+
+                </div>
+
+
+                <br>
+
+
+                <button
+                    type="submit"
+                    class="submit-button"
+                >
+                    Book Service
+                </button>
+
+            </form>
+
+        </div>
+
+    </section>
+
+
+    <!-- CONTACT -->
+
+    <section id="contact">
+
+        <h2>
+            Contact Golden Car Glass
+        </h2>
+
+        <p>
+            For car glass replacement and repair services,
+            contact Golden Car Glass.
+        </p>
+
+    </section>
+
+
+    <!-- CONTACT NUMBERS POPUP -->
+    <div class="contact-modal" id="contactModal" role="dialog"
+         aria-modal="true" aria-labelledby="contactModalTitle">
+        <div class="contact-modal-box">
+            <h2 id="contactModalTitle">Contact Golden Car Glass</h2>
+            <p>Call us for car glass replacement and repair services.</p>
+
+            <a class="contact-number" href="tel:7507656109">
+                Call: 7507656109
+            </a>
+            <a class="contact-number" href="tel:9326337979">
+                Call: 9326337979
+            </a>
+
+            <button type="button" class="contact-close" id="closeContactModal">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <strong>
+            Golden Car Glass
+        </strong>
+
+        <br>
+
+        Professional Car Glass Replacement & Repair
+
+    </footer>
+
+
+    <!-- =========================================================
+         COMMON MOBILE BOTTOM NAV
+    ========================================================= -->
+
+    <nav
+        class="bottom-nav"
+        aria-label="Mobile navigation"
+    >
+
+        <!-- HOME — ACTIVE -->
+
+        <a
+            href="{{ url_for('home') }}"
+            class="bottom-nav-item active"
+        >
+
+            <span class="nav-icon">
+
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                >
+
+                    <path d="M3 11.5L12 4l9 7.5"></path>
+
+                    <path d="M5.5 10.5V20h13v-9.5"></path>
+
+                    <path d="M9.5 20v-5.5h5V20"></path>
+
+                </svg>
+
+            </span>
+
+            <span class="nav-label">
+                Home
+            </span>
+
+        </a>
+
+
+        <!-- BOOK SERVICE -->
+
+        <a
+            href="{{ url_for('home') }}#book"
+            class="bottom-nav-item"
+        >
+
+            <span class="nav-icon">
+
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                >
+
+                    <path d="M12 5v14"></path>
+
+                    <path d="M5 12h14"></path>
+
+                </svg>
+
+            </span>
+
+            <span class="nav-label">
+                Book Service
+            </span>
+
+        </a>
+
+
+        <!-- MY BOOKINGS -->
+
+        <a
+            href="{{ url_for('my_bookings') }}"
+            class="bottom-nav-item"
+        >
+
+            <span class="nav-icon">
+
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                >
+
+                    <rect
+                        x="5"
+                        y="3"
+                        width="14"
+                        height="18"
+                        rx="2"
+                    ></rect>
+
+                    <path d="M8 7h8"></path>
+
+                    <path d="M8 11h8"></path>
+
+                    <path d="M8 15h5"></path>
+
+                </svg>
+
+            </span>
+
+            <span class="nav-label">
+                My Bookings
+            </span>
+
+        </a>
+
+
+        <!-- PROFILE -->
+
+        <a
+            href="{{ url_for('profile') }}"
+            class="bottom-nav-item"
+        >
+
+        
+<!-- MORE MENU -->
+<div class="bottom-nav-item more-menu-container">
+    <button
+        type="button"
+        class="more-menu-button"
+        id="moreMenuButton"
+        aria-label="More options"
+        aria-expanded="false"
+    >
+        <span class="more-dots">⋮</span>
+        <span class="nav-label">More</span>
+    </button>
+
+    <div class="more-menu-dropdown" id="moreMenuDropdown" hidden>
+        <a href="{{ url_for('customer_login') }}">
+            Customer Login
+        </a>
+        <a href="{{ url_for('login') }}">
+            Admin Login
+        </a>
+    </div>
+</div>
+
+            <span class="nav-icon">
+
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                >
+
+                    <circle
+                        cx="12"
+                        cy="8"
+                        r="4"
+                    ></circle>
+
+                    <path
+                        d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"
+                    ></path>
+
+                </svg>
+
+            </span>
+
+            <span class="nav-label">
+                Profile
+            </span>
+
+        </a>
+
+    </nav>
+
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const mobileInput =
+                document.getElementById("mobile");
+
+            if (mobileInput) {
+
+                mobileInput.addEventListener("input", function () {
+
+                    this.value =
+                        this.value.replace(/[^0-9]/g, "");
+
+                });
+
+            }
+
+
+            const dateInput =
+                document.getElementById("date");
+
+            if (dateInput) {
+
+                const today =
+                    new Date().toISOString().split("T")[0];
+
+                dateInput.min = today;
+
+            }
+
+
+            const cameraInput =
+                document.getElementById("cameraInput");
+
+            const galleryInput =
+                document.getElementById("galleryInput");
+
+            const previewBox =
+                document.getElementById("photoPreview");
+
+            const previewImage =
+                document.getElementById("previewImage");
+
+            const removeButton =
+                document.getElementById("removePhoto");
+
+
+            function showPreview(file) {
+
+                if (!file) {
+                    return;
+                }
+
+                const reader =
+                    new FileReader();
+
+                reader.onload = function (event) {
+
+                    previewImage.src =
+                        event.target.result;
+
+                    previewBox.style.display =
+                        "block";
+
+                    removeButton.style.display =
+                        "inline-block";
+
+                };
+
+                reader.readAsDataURL(file);
+
+            }
+
+
+            if (cameraInput) {
+
+                cameraInput.addEventListener(
+                    "change",
+                    function () {
+
+                        if (this.files.length > 0) {
+
+                            showPreview(this.files[0]);
+
+                        }
+
+                    }
+                );
+
+            }
+
+
+            if (galleryInput) {
+
+                galleryInput.addEventListener(
+                    "change",
+                    function () {
+
+                        if (this.files.length > 0) {
+
+                            try {
+
+                                const dataTransfer =
+                                    new DataTransfer();
+
+                                dataTransfer.items.add(
+                                    this.files[0]
+                                );
+
+                                cameraInput.files =
+                                    dataTransfer.files;
+
+                            } catch (error) {
+
+                                console.log(
+                                    "File transfer not supported."
+                                );
+
+                            }
+
+                            showPreview(
+                                this.files[0]
+                            );
+
+                        }
+
+                    }
+                );
+
+            }
+
+
+            if (removeButton) {
+
+                removeButton.addEventListener(
+                    "click",
+                    function () {
+
+                        cameraInput.value = "";
+
+                        galleryInput.value = "";
+
+                        previewImage.src = "";
+
+                        previewBox.style.display =
+                            "none";
+
+                        removeButton.style.display =
+                            "none";
+
+                    }
+                );
+
+            }
+
+        });
+
+    </script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const bottomNavItems = document.querySelectorAll(".bottom-nav-item");
+
+    function updateBottomNav() {
+
+        bottomNavItems.forEach(function (item) {
+            item.classList.remove("active");
+        });
+
+        const currentHash = window.location.hash;
+
+        if (currentHash === "#book") {
+
+            const bookButton = document.querySelector(
+                '.bottom-nav-item[href$="#book"]'
+            );
+
+            if (bookButton) {
+                bookButton.classList.add("active");
+            }
+
+        } else {
+
+            const homeButton = document.querySelector(
+                '.bottom-nav-item[href="{{ url_for("home") }}"]'
+            );
+
+            if (homeButton) {
+                homeButton.classList.add("active");
+            }
+        }
+    }
+
+    updateBottomNav();
+
+    window.addEventListener("hashchange", updateBottomNav);
+});
+</script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const button = document.getElementById("moreMenuButton");
+    const dropdown = document.getElementById("moreMenuDropdown");
+
+    if (!button || !dropdown) return;
+
+    button.addEventListener("click", function () {
+        const isOpen = !dropdown.hidden;
+        dropdown.hidden = isOpen;
+        button.setAttribute("aria-expanded", String(!isOpen));
+    });
+
+    document.addEventListener("click", function (event) {
+        if (!event.target.closest(".more-menu-container")) {
+            dropdown.hidden = true;
+            button.setAttribute("aria-expanded", "false");
+        }
+    });
+});
+</script>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const modal = document.getElementById("contactModal");
+    const closeButton = document.getElementById("closeContactModal");
+
+    document.querySelectorAll(".contact-trigger").forEach(function (link) {
+        link.addEventListener("click", function (event) {
+            event.preventDefault();
+            modal.classList.add("show");
+        });
+    });
+
+    function closeContactPopup() {
+        modal.classList.remove("show");
+    }
+
+    if (closeButton) {
+        closeButton.addEventListener("click", closeContactPopup);
+    }
+
+    if (modal) {
+        modal.addEventListener("click", function (event) {
+            if (event.target === modal) {
+                closeContactPopup();
+            }
+        });
+    }
+
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && modal) {
+            closeContactPopup();
+        }
+    });
+});
+</script>
+
+</body>
+
+</html>

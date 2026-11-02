@@ -4,84 +4,468 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bill #{{ invoice['id'] }} - Golden Car Glass</title>
+    <title>Cash Memo - Golden Car Glass</title>
+
     <style>
-        body { font-family:Arial,sans-serif; background:#f4f4f4; padding:15px; color:#222; }
-        main { max-width:750px; margin:auto; background:white; padding:24px; border-radius:12px; }
-        .row { display:flex; justify-content:space-between; gap:15px; border-bottom:1px solid #ddd; padding:10px 0; }
-        label { display:block; font-weight:bold; margin-top:12px; }
-        input,select { width:100%; padding:11px; box-sizing:border-box; margin-top:5px; }
-        button,a { display:inline-block; margin-top:15px; padding:10px 14px; border:0; border-radius:6px; background:#222; color:white; text-decoration:none; cursor:pointer; }
-        .notice { background:#fff3cd; padding:10px; }
-        @media print { body { background:white; padding:0; } main { box-shadow:none; } .no-print { display:none !important; } }
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #eeeeee;
+            color: #111;
+            padding: 20px;
+            margin: 0;
+        }
+
+        .cash-memo {
+            width: 100%;
+            max-width: 800px;
+            min-height: 950px;
+            margin: auto;
+            padding: 25px;
+            background: white;
+            border: 1px solid #222;
+        }
+
+        .top-header {
+            text-align: center;
+            border-bottom: 1px solid #222;
+            padding-bottom: 12px;
+        }
+
+        .business-name {
+            font-size: 30px;
+            font-weight: bold;
+            color: #172b55;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+
+        .business-subtitle {
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        .mobile-numbers {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .service-info {
+            font-size: 12px;
+            line-height: 1.6;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .address {
+            font-size: 12px;
+            text-align: center;
+            margin-top: 5px;
+        }
+
+        .challan-details {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-top: 18px;
+            font-size: 14px;
+        }
+
+        .challan-details div {
+            flex: 1;
+        }
+
+        .challan-details input {
+            width: 100%;
+            border: none;
+            border-bottom: 1px solid #222;
+            padding: 5px 0;
+            font-size: 14px;
+        }
+
+        .customer-name {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .customer-name span {
+            display: inline-block;
+            width: 85%;
+            border-bottom: 1px solid #222;
+            padding: 5px;
+        }
+
+        .bill-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 18px;
+            font-size: 13px;
+        }
+
+        .bill-table th,
+        .bill-table td {
+            border: 1px solid #263b65;
+            padding: 9px 7px;
+            height: 32px;
+        }
+
+        .bill-table th {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .bill-table td:nth-child(2),
+        .bill-table td:nth-child(3),
+        .bill-table td:nth-child(4) {
+            text-align: center;
+        }
+
+        .particulars {
+            width: 58%;
+        }
+
+        .quantity {
+            width: 12%;
+        }
+
+        .rate {
+            width: 13%;
+        }
+
+        .amount {
+            width: 17%;
+        }
+
+        .total-row td {
+            font-weight: bold;
+            height: 40px;
+        }
+
+        .total-label {
+            text-align: right !important;
+        }
+
+        .memo-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 45px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .payment-info {
+            margin-top: 15px;
+            font-size: 12px;
+            text-align: right;
+        }
+
+        .payment-info p {
+            margin: 5px 0;
+        }
+
+        .signature {
+            margin-top: 65px;
+            text-align: right;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .controls {
+            max-width: 800px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .controls button,
+        .controls a {
+            display: inline-block;
+            padding: 11px 16px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            background: #222;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .download-btn {
+            background: #198754 !important;
+        }
+
+        .print-btn {
+            background: #0d6efd !important;
+        }
+
+        .payment-section {
+            margin-top: 25px;
+            border-top: 1px solid #ddd;
+            padding-top: 15px;
+        }
+
+        .payment-section input,
+        .payment-section select {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+        }
+
+        .notice {
+            background: #fff3cd;
+            padding: 10px;
+        }
+
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 10mm;
+            }
+
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+
+            .cash-memo {
+                width: 100%;
+                max-width: none;
+                min-height: 0;
+                margin: 0;
+                padding: 10px;
+                border: 1px solid #222;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+
+            .bill-table th,
+            .bill-table td {
+                border: 1px solid #222;
+            }
+        }
     </style>
 </head>
+
 <body>
-<main>
-    <h1>Golden Car Glass</h1>
-    <h2>Invoice #{{ invoice['id'] }}</h2>
 
-    <p><b>Customer:</b> {{ invoice['customer_name'] }}</p>
-    <p><b>Mobile:</b> {{ invoice['customer_mobile'] }}</p>
-    <p><b>Car:</b> {{ invoice['car_model'] }}</p>
-    <p><b>Glass/service:</b> {{ invoice['glass_type'] }}</p>
-    <p><b>Booking:</b> {{ invoice['booking_id'] if invoice['booking_id'] else 'Unlinked' }}</p>
-    <p><b>Created:</b> {{ invoice['created_at'] }}</p>
+<div class="cash-memo">
 
-    <div class="row"><span>Glass price</span><b>₹{{ "%.2f"|format(invoice['glass_price']) }}</b></div>
-    <div class="row"><span>Fitting charges</span><b>₹{{ "%.2f"|format(invoice['fitting_charges']) }}</b></div>
-    <div class="row"><span>Discount</span><b>− ₹{{ "%.2f"|format(invoice['discount']) }}</b></div>
-    <div class="row"><span>Total</span><b>₹{{ "%.2f"|format(invoice['total_amount']) }}</b></div>
-    <div class="row"><span>Paid</span><b>₹{{ "%.2f"|format(invoice['paid_amount']) }}</b></div>
-    <div class="row"><span>Balance</span><b>₹{{ "%.2f"|format(remaining) }}</b></div>
-    <p><b>Payment status:</b> {{ invoice['payment_status'] }}</p>
-    <p><b>Notes:</b> {{ invoice['notes'] or '—' }}</p>
+    <div class="top-header">
 
-    <div class="no-print">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% for category, message in messages %}
-                <p class="notice">{{ message }}</p>
-            {% endfor %}
-        {% endwith %}
+        <div class="mobile-numbers">
+            <span>Mob.: 7507656109</span>
+            <span>Mob.: 9326337979</span>
+        </div>
+
+        <h1 class="business-name">GOLDEN</h1>
+        <h1 class="business-name">CAR GLASS</h1>
+
+        <div class="service-info">
+            All Imported &amp; Indian Automobile Glass Fitting Job Undertaken<br>
+            Heavy Vehicle &amp; Light Vehicle
+        </div>
+
+        <div class="address">
+            Tapola Car Studio, 72, Chavindra-Nasik Road,
+            Bhiwandi - 421 302 (Thane)
+        </div>
+
+    </div>
+
+    <div class="challan-details">
+        <div>
+            <b>Challan No.</b><br>
+            GCG-{{ invoice['id'] }}
+        </div>
+
+        <div style="text-align:right;">
+            <b>Date</b><br>
+            {% if invoice['created_at'].strftime is defined %}
+                {{ invoice['created_at'].strftime('%d-%m-%Y') }}
+            {% else %}
+                {{ invoice['created_at'] }}
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="customer-name">
+        <b>M/s.</b>
+        <span>{{ invoice['customer_name'] }}</span>
+    </div>
+
+    <table class="bill-table">
+
+        <thead>
+            <tr>
+                <th class="particulars">PARTICULARS</th>
+                <th class="quantity">Quantity</th>
+                <th class="rate">Rate</th>
+                <th class="amount">Amount Rs.</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+    {% for item in items %}
+    <tr>
+        <td>{{ item['particulars'] }}</td>
+
+        <td>
+            {{ "%.2f"|format(item['quantity']|float) }}
+        </td>
+
+        <td>
+            {{ "%.2f"|format(item['rate']|float) }}
+        </td>
+
+        <td>
+            {% if item['amount']|float < 0 %}-{% endif %}
+            {{ "%.2f"|format(item['amount']|float|abs) }}
+        </td>
+    </tr>
+    {% endfor %}
+
+    <tr class="total-row">
+        <td></td>
+        <td></td>
+        <td class="total-label">TOTAL</td>
+        <td>
+            {{ "%.2f"|format(invoice['total_amount']|float) }}
+        </td>
+    </tr>
+
+</tbody>
+    </table>
+
+    <div class="payment-info">
+        <p>
+            Paid Amount:
+            Rs. {{ "%.2f"|format(invoice['paid_amount']|float) }}
+        </p>
+
+        <p>
+            Balance:
+            Rs. {{ "%.2f"|format(remaining|float) }}
+        </p>
+
+        <p>
+            Payment Status:
+            <b>{{ invoice['payment_status'] }}</b>
+        </p>
+
+        <p>
+            Payment Method:
+            {{ invoice['payment_method'] or 'Not recorded' }}
+        </p>
+    </div>
+
+    <div class="memo-footer">
+        <span>Customer Signature</span>
+        <span>For New Golden Car Glass</span>
+    </div>
+
+    <div class="signature">
+        Authorized Signature
+    </div>
+
+</div>
+
+
+<!-- ADMIN CONTROLS - NOT PRINTED -->
+
+<div class="controls no-print">
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <p class="notice">{{ message }}</p>
+        {% endfor %}
+    {% endwith %}
+
+    <div class="payment-section">
 
         {% if remaining > 0 %}
-        <h2>Record Payment</h2>
-        <form method="POST" action="{{ url_for('record_invoice_payment', invoice_id=invoice['id']) }}">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
-            <label>Amount received (₹)</label>
-            <input type="number" name="amount" min="0.01" max="{{ remaining }}" step="0.01" required>
+        <h3>Record Payment</h3>
 
-            <label>Payment method</label>
+        <form method="POST"
+              action="{{ url_for('record_invoice_payment', invoice_id=invoice['id']) }}">
+
+            <input type="hidden"
+                   name="csrf_token"
+                   value="{{ csrf_token() }}">
+
+            <label>Amount Received (₹)</label>
+
+            <input type="number"
+                   name="amount"
+                   min="0.01"
+                   max="{{ remaining }}"
+                   step="0.01"
+                   required>
+
+            <label>Payment Method</label>
+
             <select name="payment_method" required>
                 <option value="Cash">Cash</option>
                 <option value="UPI">UPI</option>
                 <option value="Bank Transfer">Bank Transfer</option>
-                <option value="Online">Online (manually verified)</option>
+                <option value="Online">Online</option>
             </select>
 
-            <label>Reference / note (optional)</label>
-            <input type="text" name="note" maxlength="500">
+            <label>Reference / Note</label>
+
+            <input type="text"
+                   name="note"
+                   maxlength="500">
 
             <button type="submit">Record Payment</button>
+
         </form>
+
         {% endif %}
 
-        <h2>Payment History</h2>
-        {% for payment in payments %}
-            <p>
-                ₹{{ "%.2f"|format(payment['amount']) }}
-                — {{ payment['payment_method'] }}
-                — {{ payment['created_at'] }}
-                {% if payment['note'] %} — {{ payment['note'] }}{% endif %}
-            </p>
-        {% else %}
-            <p>No payments recorded yet.</p>
-        {% endfor %}
-
-        <button onclick="window.print()">Print / Save as PDF</button>
-        <a href="{{ url_for('billing_list') }}">Back to Billing</a>
     </div>
-</main>
+
+    <h3>Payment History</h3>
+
+    {% for payment in payments %}
+        <p>
+            ₹{{ "%.2f"|format(payment['amount']|float) }}
+            — {{ payment['payment_method'] }}
+            — {{ payment['created_at'] }}
+            {% if payment['note'] %}
+                — {{ payment['note'] }}
+            {% endif %}
+        </p>
+    {% else %}
+        <p>No payments recorded yet.</p>
+    {% endfor %}
+
+    <a class="download-btn"
+       href="{{ url_for('download_invoice_pdf', invoice_id=invoice['id']) }}">
+        Download Bill PDF
+    </a>
+
+    <button class="print-btn" onclick="window.print()">
+        Print Cash Memo
+    </button>
+
+    <a href="{{ url_for('billing_list') }}">
+        Back to Billing
+    </a>
+
+</div>
+
 </body>
 </html>

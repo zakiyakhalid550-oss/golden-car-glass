@@ -1,52 +1,326 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Create Bill</title>
-    <style>
-        body { font-family:Arial,sans-serif; background:#f4f4f4; padding:15px; }
-        main { max-width:600px; margin:auto; background:white; padding:22px; border-radius:12px; }
-        label { display:block; margin-top:14px; font-weight:bold; }
-        input,textarea { width:100%; padding:11px; margin-top:5px; border:1px solid #ccc; border-radius:6px; box-sizing:border-box; }
-        button,a { display:inline-block; margin-top:18px; padding:11px 16px; border:0; border-radius:6px; background:#222; color:white; text-decoration:none; cursor:pointer; }
-        .notice { background:#fff3cd; padding:10px; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Create Cash Memo - Golden Car Glass</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f1f1f1;
+    margin: 0;
+    padding: 15px;
+}
+
+.container {
+    max-width: 850px;
+    margin: auto;
+    background: white;
+    padding: 22px;
+    border: 1px solid #ccc;
+}
+
+h2 {
+    text-align: center;
+    color: #172b55;
+}
+
+.booking-info {
+    background: #f5f5f5;
+    padding: 12px;
+    margin-bottom: 20px;
+    line-height: 1.8;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    min-width: 600px;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #263b65;
+    padding: 8px;
+}
+
+th {
+    background: #e9edf5;
+}
+
+input {
+    width: 100%;
+    padding: 9px;
+    border: 1px solid #bbb;
+}
+
+.amount {
+    font-weight: bold;
+    text-align: right;
+}
+
+.total {
+    text-align: right;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 18px;
+}
+
+button, .back {
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    background: #172b55;
+    border-radius: 4px;
+    margin-top: 12px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.remove {
+    background: #dc3545;
+    margin: 0;
+}
+
+.add {
+    background: #198754;
+}
+
+.save {
+    background: #0d6efd;
+    width: 100%;
+    font-size: 16px;
+}
+
+.notes {
+    margin-top: 20px;
+}
+
+.notes textarea {
+    width: 100%;
+    padding: 10px;
+    min-height: 70px;
+}
+
+@media(max-width: 600px) {
+    body {
+        padding: 5px;
+    }
+
+    .container {
+        padding: 12px;
+    }
+}
+</style>
 </head>
+
 <body>
-<main>
-    <h1>Create Bill</h1>
-    <p>Booking #{{ booking['id'] }}</p>
-    <p><b>Customer:</b> {{ booking['name'] }}</p>
-    <p><b>Mobile:</b> {{ booking['mobile'] }}</p>
-    <p><b>Car:</b> {{ booking['car_model'] }}</p>
-    <p><b>Glass/service:</b> {{ booking['glass_type'] }}</p>
 
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% for category, message in messages %}
-            <p class="notice">{{ message }}</p>
-        {% endfor %}
-    {% endwith %}
+<div class="container">
 
-    <form method="POST">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<h2>GOLDEN CAR GLASS</h2>
+<h3>Create Cash Memo</h3>
 
-        <label>Glass Price (₹)</label>
-        <input type="number" name="glass_price" min="0" step="0.01" required value="0">
+<div class="booking-info">
+    <b>Customer:</b> {{ booking['name'] }}<br>
+    <b>Mobile:</b> {{ booking['mobile'] }}<br>
+    <b>Car Model:</b> {{ booking['car_model'] }}<br>
+    <b>Glass Type:</b> {{ booking['glass_type'] }}
+</div>
 
-        <label>Fitting Charges (₹)</label>
-        <input type="number" name="fitting_charges" min="0" step="0.01" required value="0">
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+{% endwith %}
 
-        <label>Discount (₹)</label>
-        <input type="number" name="discount" min="0" step="0.01" required value="0">
+<form method="POST">
 
-        <label>Notes (optional)</label>
-        <textarea name="notes" maxlength="1000" rows="3"></textarea>
+    <input type="hidden"
+           name="csrf_token"
+           value="{{ csrf_token() }}">
 
-        <button type="submit">Create Bill</button>
-        <a href="{{ url_for('billing_list') }}">Cancel</a>
-    </form>
-</main>
+    <div class="table-wrap">
+    <table id="itemsTable">
+
+        <thead>
+            <tr>
+                <th>PARTICULARS</th>
+                <th>QUANTITY</th>
+                <th>RATE (₹)</th>
+                <th>AMOUNT (₹)</th>
+                <th>REMOVE</th>
+            </tr>
+        </thead>
+
+        <tbody id="itemsBody">
+
+            {% for i in range(3) %}
+            <tr>
+                <td>
+                    <input type="text"
+                           name="particulars[]"
+                           placeholder="Enter particulars">
+                </td>
+
+                <td>
+                    <input type="number"
+                           name="quantity[]"
+                           class="quantity"
+                           min="0.01"
+                           step="0.01"
+                           placeholder="0"
+                           oninput="calculateTotal()">
+                </td>
+
+                <td>
+                    <input type="number"
+                           name="rate[]"
+                           class="rate"
+                           min="0"
+                           step="0.01"
+                           placeholder="0.00"
+                           oninput="calculateTotal()">
+                </td>
+
+                <td class="amount">0.00</td>
+
+                <td>
+                    <button type="button"
+                            class="remove"
+                            onclick="removeRow(this)">
+                        X
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+    </div>
+
+    <button type="button"
+            class="add"
+            onclick="addRow()">
+        + Add Item
+    </button>
+
+    <div class="total">
+        TOTAL: ₹ <span id="grandTotal">0.00</span>
+    </div>
+
+    <div class="notes">
+        <label>Notes:</label>
+        <textarea name="notes"
+                  maxlength="1000"
+                  placeholder="Optional notes"></textarea>
+    </div>
+
+    <button type="submit" class="save">
+        Save Cash Memo
+    </button>
+
+    <a href="{{ url_for('billing_list') }}" class="back">
+        Back to Billing
+    </a>
+
+</form>
+</div>
+
+<script>
+function calculateTotal() {
+
+    let grandTotal = 0;
+
+    document.querySelectorAll("#itemsBody tr").forEach(row => {
+
+        let quantity = parseFloat(
+            row.querySelector(".quantity").value
+        ) || 0;
+
+        let rate = parseFloat(
+            row.querySelector(".rate").value
+        ) || 0;
+
+        let amount = quantity * rate;
+
+        row.querySelector(".amount").textContent =
+            amount.toFixed(2);
+
+        grandTotal += amount;
+    });
+
+    document.getElementById("grandTotal").textContent =
+        grandTotal.toFixed(2);
+}
+
+function addRow() {
+
+    let tbody = document.getElementById("itemsBody");
+
+    let row = document.createElement("tr");
+
+    row.innerHTML = `
+        <td>
+            <input type="text"
+                   name="particulars[]"
+                   placeholder="Enter particulars">
+        </td>
+
+        <td>
+            <input type="number"
+                   name="quantity[]"
+                   class="quantity"
+                   min="0.01"
+                   step="0.01"
+                   placeholder="0"
+                   oninput="calculateTotal()">
+        </td>
+
+        <td>
+            <input type="number"
+                   name="rate[]"
+                   class="rate"
+                   min="0"
+                   step="0.01"
+                   placeholder="0.00"
+                   oninput="calculateTotal()">
+        </td>
+
+        <td class="amount">0.00</td>
+
+        <td>
+            <button type="button"
+                    class="remove"
+                    onclick="removeRow(this)">X</button>
+        </td>
+    `;
+
+    tbody.appendChild(row);
+}
+
+function removeRow(button) {
+
+    let tbody = document.getElementById("itemsBody");
+
+    if (tbody.rows.length > 1) {
+        button.closest("tr").remove();
+        calculateTotal();
+    } else {
+        alert("At least one row is required.");
+    }
+}
+</script>
+
 </body>
 </html>

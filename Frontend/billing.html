@@ -5,23 +5,182 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Golden Car Glass - Billing</title>
+
     <style>
-        body { font-family: Arial, sans-serif; background:#f4f4f4; margin:0; padding:20px; color:#222; }
-        main { max-width:1000px; margin:auto; background:white; padding:20px; border-radius:12px; }
-        a, button { display:inline-block; padding:10px 14px; border:0; border-radius:6px; background:#222; color:white; text-decoration:none; cursor:pointer; }
-        .notice { padding:10px; background:#fff3cd; margin:10px 0; }
-        table { width:100%; border-collapse:collapse; margin-top:20px; }
-        th, td { padding:10px; border:1px solid #ddd; text-align:left; }
-        th { background:#222; color:white; }
-        .scroll { overflow-x:auto; }
-        .status { font-weight:bold; }
-        @media(max-width:600px) { body { padding:8px; } main { padding:10px; } th,td { padding:7px; font-size:12px; } }
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f3f5;
+            margin: 0;
+            padding: 20px;
+            color: #222;
+        }
+
+        main {
+            max-width: 1100px;
+            margin: auto;
+            background: white;
+            padding: 22px;
+            border-radius: 10px;
+        }
+
+        h1 {
+            color: #17345c;
+            margin-top: 5px;
+        }
+
+        h2 {
+            margin-top: 28px;
+            font-size: 20px;
+        }
+
+        .top-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 18px 0;
+        }
+
+        a {
+            display: inline-block;
+            padding: 10px 14px;
+            border-radius: 5px;
+            background: #17345c;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        a:hover {
+            opacity: .85;
+        }
+
+        .notice {
+            padding: 12px;
+            background: #fff3cd;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 15px;
+        }
+
+        table {
+            width: 100%;
+            min-width: 850px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        th {
+            background: #17345c;
+            color: white;
+            white-space: nowrap;
+        }
+
+        tbody tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .status {
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .view-btn {
+            background: #198754;
+            padding: 7px 12px;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 25px;
+            color: #666;
+        }
+
+        .info-section {
+            margin-top: 25px;
+            padding: 18px;
+            background: #f5f7fa;
+            border-radius: 8px;
+            line-height: 1.6;
+        }
+
+        .booking-btn {
+            background: #198754;
+        }
+
+        .search-box {
+            width: 100%;
+            max-width: 350px;
+            padding: 11px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-top: 8px;
+            font-size: 14px;
+        }
+
+        @media(max-width: 600px) {
+            body {
+                padding: 8px;
+            }
+
+            main {
+                padding: 13px;
+                border-radius: 7px;
+            }
+
+            h1 {
+                font-size: 23px;
+            }
+
+            h2 {
+                font-size: 18px;
+            }
+
+            .top-actions {
+                flex-direction: column;
+            }
+
+            .top-actions a {
+                text-align: center;
+                width: 100%;
+            }
+
+            .info-section {
+                padding: 13px;
+            }
+
+            .search-box {
+                max-width: 100%;
+            }
+        }
     </style>
 </head>
+
 <body>
+
 <main>
-    <h1>Golden Car Glass — Billing</h1>
-    <p><a href="{{ url_for('bookings') }}">← Back to Bookings</a></p>
+
+    <h1>Golden Car Glass</h1>
+    <h2>Billing Dashboard</h2>
+
+    <div class="top-actions">
+        <a href="{{ url_for('bookings') }}">← Back to Bookings</a>
+        <a href="{{ url_for('bookings') }}">Create Bill from Booking</a>
+    </div>
 
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% for category, message in messages %}
@@ -30,42 +189,127 @@
     {% endwith %}
 
     <h2>Existing Bills</h2>
-    <div class="scroll">
-    <table>
-        <thead>
-            <tr>
-                <th>Bill No.</th><th>Customer</th><th>Booking</th>
-                <th>Total</th><th>Paid</th><th>Balance</th><th>Status</th><th>Open</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for bill in invoices %}
-            <tr>
-                <td>{{ bill['id'] }}</td>
-                <td>{{ bill['customer_name'] }}</td>
-                <td>{{ bill['booking_id'] if bill['booking_id'] else 'Manual/Unlinked' }}</td>
-                <td>₹{{ "%.2f"|format(bill['total_amount']) }}</td>
-                <td>₹{{ "%.2f"|format(bill['paid_amount']) }}</td>
-                <td>₹{{ "%.2f"|format(bill['total_amount'] - bill['paid_amount']) }}</td>
-                <td class="status">{{ bill['payment_status'] }}</td>
-                <td><a href="{{ url_for('invoice_detail', invoice_id=bill['id']) }}">View</a></td>
-            </tr>
-        {% else %}
-            <tr><td colspan="8">Abhi koi bill nahi bana hai. Booking se bill banayein.</td></tr>
-        {% endfor %}
-        </tbody>
-    </table>
+
+    <label for="billSearch"><b>Search Bill</b></label><br>
+
+    <input
+        type="text"
+        id="billSearch"
+        class="search-box"
+        placeholder="Search customer, bill number or status..."
+        onkeyup="searchBills()"
+    >
+
+    <div class="table-wrapper">
+
+        <table id="billingTable">
+
+            <thead>
+                <tr>
+                    <th>Bill No.</th>
+                    <th>Customer</th>
+                    <th>Booking</th>
+                    <th>Total</th>
+                    <th>Paid</th>
+                    <th>Balance</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+            {% for bill in invoices %}
+
+                <tr>
+                    <td>#{{ bill['id'] }}</td>
+
+                    <td>{{ bill['customer_name'] }}</td>
+
+                    <td>
+                        {{ bill['booking_id'] if bill['booking_id'] else 'Manual/Unlinked' }}
+                    </td>
+
+                    <td>
+                        ₹{{ "%.2f"|format(bill['total_amount']|float) }}
+                    </td>
+
+                    <td>
+                        ₹{{ "%.2f"|format(bill['paid_amount']|float) }}
+                    </td>
+
+                    <td>
+                        ₹{{ "%.2f"|format((bill['total_amount']|float) - (bill['paid_amount']|float)) }}
+                    </td>
+
+                    <td class="status">
+                        {{ bill['payment_status'] }}
+                    </td>
+
+                    <td>
+                        <a class="view-btn"
+                           href="{{ url_for('invoice_detail', invoice_id=bill['id']) }}">
+                            View Bill
+                        </a>
+                    </td>
+                </tr>
+
+            {% else %}
+
+                <tr>
+                    <td colspan="8" class="empty">
+                        Abhi koi bill nahi bana hai.
+                        Booking se bill banayein.
+                    </td>
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
     </div>
 
-    
-<h2>Create Bill from Booking</h2>
-<p>
-    Pehle booking dashboard se customer ki booking open karein.
-    Uske baad booking details page par Create Bill button par click karein.
-</p>
-<p>
-    <a href="{{ url_for('bookings') }}">Open Bookings</a>
-</p>
+    <div class="info-section">
+
+        <h2>Create New Bill</h2>
+
+        <p>
+            Pehle booking dashboard se customer ki booking open karein.
+            Booking details page par Create Bill button se naya bill banayein.
+        </p>
+
+        <a class="booking-btn"
+           href="{{ url_for('bookings') }}">
+            Open Bookings
+        </a>
+
+    </div>
+
 </main>
+
+<script>
+    function searchBills() {
+
+        const input = document
+            .getElementById("billSearch")
+            .value.toLowerCase();
+
+        const rows = document.querySelectorAll(
+            "#billingTable tbody tr"
+        );
+
+        rows.forEach(function(row) {
+
+            const text = row.innerText.toLowerCase();
+
+            row.style.display =
+                text.includes(input) ? "" : "none";
+
+        });
+    }
+</script>
+
 </body>
 </html>
