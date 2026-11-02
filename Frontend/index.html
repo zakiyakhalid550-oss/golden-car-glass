@@ -806,6 +806,21 @@ header nav a {
             }
         }
 
+    
+@media screen and (max-width: 768px) {
+    .bottom-nav .more-menu-button {
+        width: 100% !important;
+        height: 72px !important;
+        padding: 0 !important;
+        color: #C49A00 !important;
+        font-family: Arial, Helvetica, sans-serif !important;
+    }
+
+    .bottom-nav .more-menu-button .nav-label {
+        color: #333333 !important;
+    }
+}
+
     </style>
 
 </head>
@@ -1319,18 +1334,11 @@ header nav a {
 
 
         <!-- PROFILE -->
-
         <a
             href="{{ url_for('profile') }}"
             class="bottom-nav-item"
         >
-
-        
-<!-- MORE MENU -->
-
-
             <span class="nav-icon">
-
                 <svg
                     viewBox="0 0 24 24"
                     fill="none"
@@ -1340,27 +1348,32 @@ header nav a {
                     stroke-linejoin="round"
                     aria-hidden="true"
                 >
-
-                    <circle
-                        cx="12"
-                        cy="8"
-                        r="4"
-                    ></circle>
-
-                    <path
-                        d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"
-                    ></path>
-
+                    <circle cx="12" cy="8" r="4"></circle>
+                    <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"></path>
                 </svg>
-
             </span>
-
-            <span class="nav-label">
-                Profile
-            </span>
-
+            <span class="nav-label">Profile</span>
         </a>
 
+        <!-- MORE MENU -->
+        <div class="bottom-nav-item more-menu-container">
+            <button
+                type="button"
+                class="more-menu-button"
+                id="moreMenuButton"
+                aria-label="More options"
+                aria-expanded="false"
+            >
+                <span class="more-dots">⋮</span>
+                <span class="nav-label">More</span>
+            </button>
+
+            <div class="more-menu-dropdown" id="moreMenuDropdown" hidden>
+                <a href="{{ url_for('customer_login') }}">Customer Login</a>
+                <a href="{{ url_for('login') }}">Admin Login</a>
+                <a href="#" class="contact-trigger">Contact</a>
+            </div>
+        </div>
     </nav>
 
 
