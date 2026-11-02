@@ -1,913 +1,560 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Bookings - Golden Car Glass</title>
 
     <style>
-
         * {
             box-sizing: border-box;
         }
 
         body {
             margin: 0;
-
-            font-family:
-                Arial,
-                Helvetica,
-                sans-serif;
-
+            font-family: Arial, Helvetica, sans-serif;
             background: #f5f5f5;
-
             color: #222;
-
             line-height: 1.5;
         }
 
-
-        /* =========================================================
-           DESKTOP NAVBAR
-        ========================================================= */
-
+        /* DESKTOP NAVBAR */
         .navbar {
-            background: #111111;
-
+            background: #111;
             color: white;
-
             padding: 15px 20px;
-
             display: flex;
-
             justify-content: space-between;
-
             align-items: center;
-
             flex-wrap: wrap;
-
             gap: 10px;
         }
 
-
         .logo {
             font-size: 20px;
-
             font-weight: 800;
-
             color: #f5c518;
         }
 
-
         .nav-links {
             display: flex;
-
             gap: 16px;
-
             flex-wrap: wrap;
         }
 
-
         .nav-links a {
             color: white;
-
             text-decoration: none;
-
             font-size: 14px;
-
             font-weight: 600;
         }
-
 
         .nav-links a:hover {
             color: #f5c518;
         }
 
-
-        /* =========================================================
-           MAIN
-        ========================================================= */
-
+        /* MAIN */
         .container {
             width: 92%;
-
             max-width: 700px;
-
             margin: 30px auto 55px;
         }
 
-
         h1 {
             text-align: center;
-
             margin: 0 0 25px;
-
-            color: #111111;
-
+            color: #111;
             font-size: 30px;
         }
 
-
-        /* =========================================================
-           SEARCH BOX
-        ========================================================= */
-
+        /* SEARCH BOX */
         .search-box {
             background: white;
-
             padding: 24px;
-
             border-radius: 16px;
-
-            box-shadow:
-                0 5px 20px rgba(0, 0, 0, 0.07);
-
+            box-shadow: 0 5px 20px rgba(0,0,0,.07);
             margin-bottom: 25px;
-
-            border: 1px solid #eeeeee;
+            border: 1px solid #eee;
         }
-
 
         .search-box label {
             display: block;
-
             font-weight: 700;
-
             margin-bottom: 8px;
-
             color: #222;
         }
 
-
         .search-box input {
             width: 100%;
-
             padding: 13px;
-
-            border: 1px solid #cccccc;
-
+            border: 1px solid #ccc;
             border-radius: 9px;
-
             font-size: 16px;
-
             margin-bottom: 12px;
-
             outline: none;
         }
 
-
         .search-box input:focus {
             border-color: #f5c518;
-
-            box-shadow:
-                0 0 0 3px rgba(245, 197, 24, 0.12);
+            box-shadow: 0 0 0 3px rgba(245,197,24,.12);
         }
-
 
         .search-box button {
             width: 100%;
-
             padding: 13px;
-
-            background: #111111;
-
+            background: #111;
             color: white;
-
             border: none;
-
             border-radius: 9px;
-
             font-size: 16px;
-
             font-weight: 700;
-
             cursor: pointer;
         }
 
-
         .search-box button:hover {
-            background: #333333;
+            background: #333;
         }
 
-
-        /* =========================================================
-           ERROR
-        ========================================================= */
-
+        /* ERROR */
         .error {
             background: #ffe5e5;
-
             color: #b00020;
-
             padding: 12px;
-
             border-radius: 9px;
-
             margin-bottom: 15px;
-
             text-align: center;
-
             font-size: 14px;
         }
 
-
-        /* =========================================================
-           NO BOOKINGS
-        ========================================================= */
-
+        /* NO BOOKINGS */
         .no-bookings {
             background: white;
-
             padding: 28px 22px;
-
             border-radius: 16px;
-
             text-align: center;
-
-            box-shadow:
-                0 5px 20px rgba(0, 0, 0, 0.07);
-
+            box-shadow: 0 5px 20px rgba(0,0,0,.07);
             margin-bottom: 20px;
-
-            border: 1px solid #eeeeee;
+            border: 1px solid #eee;
         }
-
 
         .no-bookings h3 {
             margin-top: 0;
-
             margin-bottom: 8px;
-
             font-size: 20px;
         }
 
-
         .no-bookings p {
-            color: #666666;
-
+            color: #666;
             margin-bottom: 20px;
-
             font-size: 14px;
         }
 
-
-        /* =========================================================
-           BOOKING CARD
-        ========================================================= */
-
+        /* BOOKING CARD */
         .booking-card {
             background: white;
-
             border-radius: 16px;
-
             padding: 20px;
-
             margin-bottom: 18px;
-
-            box-shadow:
-                0 5px 20px rgba(0, 0, 0, 0.07);
-
-            border: 1px solid #eeeeee;
+            box-shadow: 0 5px 20px rgba(0,0,0,.07);
+            border: 1px solid #eee;
         }
-
 
         .booking-header {
             display: flex;
-
             justify-content: flex-end;
-
             align-items: center;
-
             margin-bottom: 17px;
         }
 
-
-        /* =========================================================
-           STATUS
-        ========================================================= */
-
+        /* STATUS */
         .status {
             display: inline-block;
-
             padding: 7px 12px;
-
             border-radius: 20px;
-
             font-size: 13px;
-
             font-weight: 800;
         }
 
-
         .pending {
             background: #fff3cd;
-
             color: #856404;
         }
 
-
         .in-progress {
             background: #cfe2ff;
-
             color: #084298;
         }
 
-
         .completed {
             background: #d1e7dd;
-
             color: #0f5132;
         }
 
-
         .cancelled {
             background: #f8d7da;
-
             color: #842029;
         }
 
-
-        /* =========================================================
-           BOOKING INFO
-        ========================================================= */
-
+        /* BOOKING INFO */
         .booking-info {
             line-height: 1.9;
-
             font-size: 15px;
         }
 
-
         .booking-info div {
             padding: 7px 0;
-
-            border-bottom: 1px solid #eeeeee;
+            border-bottom: 1px solid #eee;
         }
-
 
         .booking-info div:last-child {
             border-bottom: none;
         }
 
-
         .booking-info strong {
             display: inline-block;
-
             min-width: 125px;
-
-            color: #555555;
+            color: #555;
         }
 
-
-        /* =========================================================
-           ACTION BUTTONS
-        ========================================================= */
-
+        /* ACTION BUTTONS */
         .booking-actions {
             display: flex;
-
             gap: 10px;
-
             margin-top: 18px;
-
             width: 100%;
         }
-
 
         .view-details {
             flex: 1;
-
             display: block;
-
             text-align: center;
-
             padding: 12px 10px;
-
-            background: #111111;
-
+            background: #111;
             color: white;
-
             text-decoration: none;
-
             border-radius: 9px;
-
             font-size: 14px;
-
             font-weight: 700;
-
-            border: 1px solid #111111;
+            border: 1px solid #111;
         }
-
 
         .view-details:hover {
-            background: #333333;
-
-            border-color: #333333;
+            background: #333;
+            border-color: #333;
         }
 
-
-        /* =========================================================
-           CANCEL BOOKING
-        ========================================================= */
-
+        /* CANCEL BOOKING */
         .cancel-booking-form {
             flex: 1;
-
             margin: 0;
-
             padding: 0;
         }
 
-
         .cancel-booking-btn {
             width: 100%;
-
             padding: 12px 10px;
-
             background: #c62828;
-
             color: white;
-
             border: 1px solid #c62828;
-
             border-radius: 9px;
-
             font-size: 14px;
-
             font-weight: 700;
-
             cursor: pointer;
         }
 
-
         .cancel-booking-btn:hover {
             background: #b71c1c;
-
             border-color: #b71c1c;
         }
 
-
-        /* =========================================================
-           CHANGE MOBILE
-        ========================================================= */
-
+        /* CHANGE MOBILE */
         .change-mobile {
             display: block;
-
             text-align: center;
-
             margin-top: 22px;
-
-            color: #111111;
-
+            color: #111;
             text-decoration: none;
-
             font-weight: 700;
-
             font-size: 14px;
         }
 
-
         .change-mobile:hover {
             color: #b18a00;
-
             text-decoration: underline;
         }
 
-
-        /* =========================================================
-           FOOTER
-        ========================================================= */
-
+        /* FOOTER */
         .footer {
-            background: #111111;
-
-            color: #aaaaaa;
-
+            background: #111;
+            color: #aaa;
             text-align: center;
-
             padding: 22px 15px;
-
             font-size: 12px;
         }
-
 
         .footer strong {
             color: #f5c518;
         }
 
+        /* MORE MENU */
+        .more-container {
+            position: relative !important;
+        }
 
-        /* =========================================================
-           MOBILE PAGE
-        ========================================================= */
+        .more-button {
+            width: 100%;
+            height: 72px;
+            padding: 0;
+            border: none;
+            background: transparent;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            color: #555;
+            cursor: pointer;
+            font: inherit;
+            -webkit-tap-highlight-color: transparent;
+        }
 
+        .more-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            bottom: 78px;
+            width: 165px;
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            box-shadow: 0 4px 16px rgba(0,0,0,.16);
+            overflow: hidden;
+            z-index: 100000;
+        }
+
+        .more-dropdown.show {
+            display: block;
+        }
+
+        .more-dropdown a {
+            display: block;
+            padding: 12px 14px;
+            color: #222;
+            background: white;
+            text-decoration: none;
+            font-size: 13px;
+            line-height: 1.4;
+            border-bottom: 1px solid #eee;
+        }
+
+        .more-dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        .more-dropdown a:hover {
+            background: #f7f7f7;
+        }
+
+        /* MOBILE PAGE */
         @media screen and (max-width: 768px) {
-
             body {
                 padding-bottom: 72px !important;
             }
-
 
             .navbar {
                 display: none;
             }
 
-
             .container {
                 width: 94%;
-
                 margin-top: 22px;
-
                 margin-bottom: 30px;
             }
 
-
             h1 {
                 font-size: 26px;
-
                 margin-bottom: 22px;
             }
-
 
             .search-box {
                 padding: 20px;
             }
 
-
             .booking-card {
                 padding: 17px;
-
                 border-radius: 14px;
             }
-
 
             .booking-header {
                 justify-content: flex-start;
             }
 
-
             .booking-info {
                 font-size: 14px;
             }
-
 
             .booking-info strong {
                 min-width: 105px;
             }
 
-
-            /* =====================================================
-               ACTION BUTTONS
-            ===================================================== */
-
             .booking-actions {
                 gap: 8px;
-
                 margin-top: 15px;
             }
 
-
             .view-details {
                 padding: 11px 8px;
-
                 font-size: 13px;
             }
-
 
             .cancel-booking-btn {
                 padding: 11px 8px;
-
                 font-size: 13px;
             }
 
-
-            /* =====================================================
-               COMMON BOTTOM NAV
-            ===================================================== */
-
+            /* BOTTOM NAVIGATION */
             .bottom-nav {
                 position: fixed !important;
-
                 left: 0 !important;
-
                 right: 0 !important;
-
                 bottom: 0 !important;
-
                 width: 100% !important;
-
                 height: 72px !important;
-
                 display: flex !important;
-
                 flex-direction: row !important;
-
                 align-items: stretch !important;
-
                 justify-content: space-around !important;
-
                 padding: 0 !important;
-
                 margin: 0 !important;
-
-                background: #ffffff !important;
-
+                background: #fff !important;
                 border-top: 1px solid #e5e5e5 !important;
-
-                box-shadow:
-                    0 -2px 10px rgba(0, 0, 0, 0.06) !important;
-
+                box-shadow: 0 -2px 10px rgba(0,0,0,.06) !important;
                 z-index: 99999 !important;
-
                 box-sizing: border-box !important;
             }
-
 
             .bottom-nav .bottom-nav-item {
-                width: 25% !important;
-
+                width: 20% !important;
                 height: 72px !important;
-
-                flex: 1 1 25% !important;
-
+                flex: 1 1 20% !important;
                 min-width: 0 !important;
-
                 display: flex !important;
-
                 flex-direction: column !important;
-
                 align-items: center !important;
-
                 justify-content: center !important;
-
                 gap: 5px !important;
-
                 padding: 0 !important;
-
                 margin: 0 !important;
-
-                color: #555555 !important;
-
-                font-family:
-                    Arial,
-                    Helvetica,
-                    sans-serif !important;
-
+                color: #555 !important;
+                font-family: Arial, Helvetica, sans-serif !important;
                 font-size: 11px !important;
-
                 font-weight: 500 !important;
-
                 line-height: 16px !important;
-
                 text-decoration: none !important;
-
                 transform: none !important;
-
                 transition: none !important;
-
                 outline: none !important;
-
                 -webkit-tap-highlight-color: transparent !important;
-
                 box-sizing: border-box !important;
             }
-
 
             .bottom-nav .nav-icon {
                 width: 23px !important;
-
                 height: 23px !important;
-
                 flex: 0 0 23px !important;
-
                 display: flex !important;
-
                 align-items: center !important;
-
                 justify-content: center !important;
-
                 color: #C49A00 !important;
-
-                transform: none !important;
-
-                transition: none !important;
-
-                filter: none !important;
             }
-
 
             .bottom-nav .nav-icon svg {
                 width: 23px !important;
-
                 height: 23px !important;
-
                 display: block !important;
-
                 color: currentColor !important;
-
                 stroke: currentColor !important;
-
                 fill: none !important;
-
-                transform: none !important;
-
-                transition: none !important;
-
-                filter: none !important;
             }
-
 
             .bottom-nav .nav-icon svg * {
                 stroke: currentColor !important;
-
                 fill: none !important;
             }
 
-
             .bottom-nav .nav-label {
                 display: block !important;
-
                 width: auto !important;
-
                 height: 16px !important;
-
                 margin: 0 !important;
-
                 padding: 0 !important;
-
-                color: #333333 !important;
-
-                font-family:
-                    Arial,
-                    Helvetica,
-                    sans-serif !important;
-
+                color: #333 !important;
+                font-family: Arial, Helvetica, sans-serif !important;
                 font-size: 11px !important;
-
                 font-weight: 500 !important;
-
                 line-height: 16px !important;
-
                 white-space: nowrap !important;
-
-                transform: none !important;
-
-                transition: none !important;
             }
 
-
-            .bottom-nav .bottom-nav-item.active {
-                color: #B89520 !important;
-
-                background: transparent !important;
-
-                transform: none !important;
-            }
-
-
+            .bottom-nav .bottom-nav-item.active,
+            .bottom-nav .bottom-nav-item.active .nav-label,
             .bottom-nav .bottom-nav-item.active .nav-icon {
                 color: #B89520 !important;
+                background: transparent !important;
             }
-
-
-            .bottom-nav .bottom-nav-item.active .nav-label {
-                color: #B89520 !important;
-            }
-
 
             .bottom-nav .bottom-nav-item:hover,
             .bottom-nav .bottom-nav-item:focus,
-            .bottom-nav .bottom-nav-item:active,
-            .bottom-nav .bottom-nav-item.active:hover,
-            .bottom-nav .bottom-nav-item.active:focus,
-            .bottom-nav .bottom-nav-item.active:active {
-
+            .bottom-nav .bottom-nav-item:active {
                 background: transparent !important;
-
-                transform: none !important;
-
-                transition: none !important;
-
                 outline: none !important;
             }
-
-
-            .bottom-nav .bottom-nav-item:hover .nav-icon,
-            .bottom-nav .bottom-nav-item:focus .nav-icon,
-            .bottom-nav .bottom-nav-item:active .nav-icon,
-            .bottom-nav .bottom-nav-item:hover .nav-label,
-            .bottom-nav .bottom-nav-item:focus .nav-label,
-            .bottom-nav .bottom-nav-item:active .nav-label {
-
-                transform: none !important;
-
-                transition: none !important;
-            }
-
         }
 
-
-        /* =========================================================
-           DESKTOP - HIDE BOTTOM NAV
-        ========================================================= */
-
+        /* HIDE BOTTOM NAV ON DESKTOP */
         @media screen and (min-width: 769px) {
-
             .bottom-nav {
                 display: none !important;
             }
-
         }
-
     </style>
-
 </head>
-
 
 <body>
 
-
-    <!-- =========================================================
-         DESKTOP NAVBAR
-    ========================================================= -->
-
+    <!-- DESKTOP NAVBAR -->
     <nav class="navbar">
-
-        <div class="logo">
-            Golden Car Glass
-        </div>
-
+        <div class="logo">Golden Car Glass</div>
 
         <div class="nav-links">
-
-            <a href="/">
-                Home
-            </a>
-
-            <a href="/#services">
-                Services
-            </a>
-
-            <a href="/#book">
-                Book a Service
-            </a>
-
+            <a href="/">Home</a>
+            <a href="/#services">Services</a>
+            <a href="/#book">Book a Service</a>
         </div>
-
     </nav>
 
-
-    <!-- =========================================================
-         MAIN
-    ========================================================= -->
-
+    <!-- MAIN -->
     <div class="container">
+        <h1>📋 My Bookings</h1>
 
-        <h1>
-            📋 My Bookings
-        </h1>
-
-
-        <!-- =====================================================
-             SEARCH BOX
-        ===================================================== -->
-
+        <!-- SEARCH BOX -->
         {% if not bookings and not searched %}
-
         <div class="search-box">
 
             {% if error %}
-
             <div class="error">
                 {{ error }}
             </div>
-
             {% endif %}
 
-
-            <form
-                method="POST"
-                action="{{ url_for('my_bookings') }}"
-            >
-
+            <form method="POST" action="{{ url_for('my_bookings') }}">
                 <input
                     type="hidden"
                     name="csrf_token"
                     value="{{ csrf_token() }}"
                 >
 
-
-                <label for="mobile">
-                    Enter your mobile number
-                </label>
-
+                <label for="mobile">Enter your mobile number</label>
 
                 <input
                     type="tel"
@@ -921,35 +568,19 @@
                     oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                 >
 
-
-                <button type="submit">
-                    View My Bookings
-                </button>
-
+                <button type="submit">View My Bookings</button>
             </form>
-
         </div>
-
         {% endif %}
 
-
-        <!-- =====================================================
-             NO BOOKINGS
-        ===================================================== -->
-
+        <!-- NO BOOKINGS -->
         {% if searched and not bookings %}
-
         <div class="no-bookings">
-
-            <h3>
-                🔍 No bookings found
-            </h3>
-
+            <h3>🔍 No bookings found</h3>
             <p>
                 We couldn't find any booking associated
                 with this mobile number.
             </p>
-
 
             <a
                 href="{{ url_for('clear_customer_bookings') }}"
@@ -957,94 +588,53 @@
             >
                 Search Again
             </a>
-
         </div>
-
         {% endif %}
 
-
-        <!-- =====================================================
-             BOOKINGS
-        ===================================================== -->
-
+        <!-- BOOKINGS -->
         {% if bookings %}
-
             {% for booking in bookings %}
-
             <div class="booking-card">
 
-
                 <!-- STATUS -->
-
                 <div class="booking-header">
-
                     {% if booking.status == "Pending" %}
-
-                    <span class="status pending">
-                        Pending
-                    </span>
+                    <span class="status pending">Pending</span>
 
                     {% elif booking.status == "In Progress" %}
-
-                    <span class="status in-progress">
-                        In Progress
-                    </span>
+                    <span class="status in-progress">In Progress</span>
 
                     {% elif booking.status == "Completed" %}
-
-                    <span class="status completed">
-                        Completed
-                    </span>
+                    <span class="status completed">Completed</span>
 
                     {% elif booking.status == "Cancelled" %}
-
-                    <span class="status cancelled">
-                        Cancelled
-                    </span>
+                    <span class="status cancelled">Cancelled</span>
 
                     {% else %}
-
-                    <span class="status">
-                        {{ booking.status }}
-                    </span>
-
+                    <span class="status">{{ booking.status }}</span>
                     {% endif %}
-
                 </div>
 
-
                 <!-- BOOKING INFORMATION -->
-
                 <div class="booking-info">
-
                     <div>
                         <strong>Car Model:</strong>
                         {{ booking.car_model }}
                     </div>
-
 
                     <div>
                         <strong>Glass Type:</strong>
                         {{ booking.glass_type }}
                     </div>
 
-
                     <div>
                         <strong>Service Date:</strong>
                         {{ booking.date }}
                     </div>
-
                 </div>
 
-
-                <!-- =================================================
-                     ACTION BUTTONS
-                ================================================= -->
-
+                <!-- ACTION BUTTONS -->
                 <div class="booking-actions">
-
-
-                    <!-- VIEW DETAILS -->
 
                     <a
                         href="{{ url_for('customer_booking_details', id=booking.id) }}"
@@ -1053,24 +643,18 @@
                         View Details
                     </a>
 
-
-                    <!-- CANCEL BOOKING -->
-
                     {% if booking.status == "Pending" %}
-
                     <form
                         method="POST"
                         action="{{ url_for('cancel_booking', id=booking.id) }}"
                         class="cancel-booking-form"
                         onsubmit="return confirm('Are you sure you want to cancel this booking?');"
                     >
-
                         <input
                             type="hidden"
                             name="csrf_token"
                             value="{{ csrf_token() }}"
                         >
-
 
                         <button
                             type="submit"
@@ -1078,219 +662,190 @@
                         >
                             Cancel Booking
                         </button>
-
                     </form>
-
                     {% endif %}
-
                 </div>
-
             </div>
-
             {% endfor %}
 
-
             <!-- CHANGE MOBILE -->
-
             <a
                 href="{{ url_for('clear_customer_bookings') }}"
                 class="change-mobile"
             >
                 Search with another mobile number
             </a>
-
         {% endif %}
-
     </div>
 
-
-    <!-- =========================================================
-         FOOTER
-    ========================================================= -->
-
+    <!-- FOOTER -->
     <footer class="footer">
-
-        <div>
-            <strong>Golden Car Glass</strong>
-        </div>
-
-        <div>
-            Professional Car Glass Replacement & Repair
-        </div>
-
+        <div><strong>Golden Car Glass</strong></div>
+        <div>Professional Car Glass Replacement & Repair</div>
     </footer>
 
-
-    <!-- =========================================================
-         COMMON MOBILE BOTTOM NAV
-    ========================================================= -->
-
-    <nav
-        class="bottom-nav"
-        aria-label="Mobile navigation"
-    >
-
+    <!-- MOBILE BOTTOM NAVIGATION -->
+    <nav class="bottom-nav" aria-label="Mobile navigation">
 
         <!-- HOME -->
-
         <a
             href="{{ url_for('home') }}"
             class="bottom-nav-item"
         >
-
             <span class="nav-icon">
-
-                <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1.7"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                >
-
+                <svg viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="1.7"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     aria-hidden="true">
                     <path d="M3 11.5L12 4l9 7.5"></path>
-
                     <path d="M5.5 10.5V20h13v-9.5"></path>
-
                     <path d="M9.5 20v-5.5h5V20"></path>
-
                 </svg>
-
             </span>
-
-
-            <span class="nav-label">
-                Home
-            </span>
-
+            <span class="nav-label">Home</span>
         </a>
 
-
         <!-- BOOK SERVICE -->
-
         <a
             href="{{ url_for('home') }}#book"
             class="bottom-nav-item"
         >
-
             <span class="nav-icon">
-
-                <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1.7"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                >
-
+                <svg viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="1.7"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     aria-hidden="true">
                     <path d="M12 5v14"></path>
-
                     <path d="M5 12h14"></path>
-
                 </svg>
-
             </span>
-
-
-            <span class="nav-label">
-                Book Service
-            </span>
-
+            <span class="nav-label">Book Service</span>
         </a>
 
-
-        <!-- MY BOOKINGS — ACTIVE -->
-
+        <!-- MY BOOKINGS -->
         <a
             href="{{ url_for('my_bookings') }}"
             class="bottom-nav-item active"
         >
-
             <span class="nav-icon">
-
-                <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1.7"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                >
-
-                    <rect
-                        x="5"
-                        y="3"
-                        width="14"
-                        height="18"
-                        rx="2"
-                    ></rect>
-
+                <svg viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="1.7"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     aria-hidden="true">
+                    <rect x="5" y="3" width="14" height="18" rx="2"></rect>
                     <path d="M8 7h8"></path>
-
                     <path d="M8 11h8"></path>
-
                     <path d="M8 15h5"></path>
-
                 </svg>
-
             </span>
-
-
-            <span class="nav-label">
-                My Bookings
-            </span>
-
+            <span class="nav-label">My Bookings</span>
         </a>
 
-
         <!-- PROFILE -->
-
         <a
             href="{{ url_for('profile') }}"
             class="bottom-nav-item"
         >
-
             <span class="nav-icon">
-
-                <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1.7"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    aria-hidden="true"
-                >
-
-                    <circle
-                        cx="12"
-                        cy="8"
-                        r="4"
-                    ></circle>
-
-                    <path
-                        d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"
-                    ></path>
-
+                <svg viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="1.7"
+                     stroke-linecap="round"
+                     stroke-linejoin="round"
+                     aria-hidden="true">
+                    <circle cx="12" cy="8" r="4"></circle>
+                    <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"></path>
                 </svg>
-
             </span>
-
-
-            <span class="nav-label">
-                Profile
-            </span>
-
+            <span class="nav-label">Profile</span>
         </a>
+
+        <!-- MORE MENU -->
+        <div class="bottom-nav-item more-container">
+            <button
+                type="button"
+                class="more-button"
+                aria-label="Open more menu"
+                aria-expanded="false"
+                aria-controls="moreDropdown"
+                onclick="toggleMoreMenu(event)"
+            >
+                <span class="nav-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         stroke-linecap="round">
+                        <circle cx="5" cy="12" r="1"></circle>
+                        <circle cx="12" cy="12" r="1"></circle>
+                        <circle cx="19" cy="12" r="1"></circle>
+                    </svg>
+                </span>
+                <span class="nav-label">More</span>
+            </button>
+
+            <div class="more-dropdown" id="moreDropdown">
+                <a href="{{ url_for('customer_login') }}">
+                    Customer Login
+                </a>
+
+                <a href="{{ url_for('login') }}">
+                    Admin Login
+                </a>
+
+                <a href="{{ url_for('home') }}#contact">
+                    Contact
+                </a>
+            </div>
+        </div>
 
     </nav>
 
+    <!-- MORE MENU JAVASCRIPT -->
+    <script>
+        function toggleMoreMenu(event) {
+            event.stopPropagation();
+
+            const dropdown = document.getElementById("moreDropdown");
+            const button = document.querySelector(".more-button");
+
+            if (!dropdown || !button) {
+                return;
+            }
+
+            const isOpen = dropdown.classList.toggle("show");
+
+            button.setAttribute(
+                "aria-expanded",
+                isOpen ? "true" : "false"
+            );
+        }
+
+        document.addEventListener("click", function(event) {
+            const container = document.querySelector(".more-container");
+            const dropdown = document.getElementById("moreDropdown");
+            const button = document.querySelector(".more-button");
+
+            if (!container || !dropdown || !button) {
+                return;
+            }
+
+            if (!container.contains(event.target)) {
+                dropdown.classList.remove("show");
+                button.setAttribute("aria-expanded", "false");
+            }
+        });
+    </script>
 
 </body>
-
 </html>

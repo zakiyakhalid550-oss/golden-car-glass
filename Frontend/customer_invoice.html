@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Bill - Golden Car Glass</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 18px;
+    background: #eee;
+    color: #111;
+    font-family: Arial, sans-serif;
+}
+
+.cash-memo {
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+    padding: 24px;
+    background: #fff;
+    border: 1px solid #222;
+}
+
+.top-header {
+    text-align: center;
+    border-bottom: 1px solid #222;
+    padding-bottom: 12px;
+}
+
+.numbers {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+h1 {
+    margin: 5px 0;
+    color: #172b55;
+    font-size: 28px;
+}
+
+.sub, .address {
+    font-size: 12px;
+    margin-top: 6px;
+}
+
+.details {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: 18px;
+    font-size: 14px;
+}
+
+.customer {
+    margin-top: 16px;
+    font-size: 14px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 18px;
+    font-size: 13px;
+}
+
+th, td {
+    border: 1px solid #263b65;
+    padding: 9px 7px;
+}
+
+th:not(:first-child), td:not(:first-child) {
+    text-align: center;
+}
+
+.totals {
+    text-align: right;
+    margin-top: 18px;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.payments {
+    margin-top: 22px;
+    font-size: 13px;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 45px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.actions {
+    max-width: 800px;
+    margin: 15px auto;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.actions a, .actions button {
+    padding: 11px 16px;
+    border: 0;
+    border-radius: 6px;
+    background: #172b55;
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+@media(max-width:600px) {
+    body {
+        padding: 8px;
+    }
+
+    .cash-memo {
+        padding: 12px;
+    }
+
+    h1 {
+        font-size: 23px;
+    }
+
+    table {
+        font-size: 11px;
+    }
+
+    th, td {
+        padding: 6px 4px;
+    }
+}
+
+@media print {
+    body {
+        padding: 0;
+        background: #fff;
+    }
+
+    .actions {
+        display: none;
+    }
+
+    .cash-memo {
+        border: 0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="cash-memo">
+
+    <div class="top-header">
+
+        <div class="numbers">
+            <span>Mob.: 7507656109</span>
+            <span>Mob.: 9326337979</span>
+        </div>
+
+        <h1>GOLDEN CAR GLASS</h1>
+
+        <div class="sub">
+            All Imported &amp; Indian Automobile Glass Fitting Job Undertaken<br>
+            Heavy Vehicle &amp; Light Vehicle
+        </div>
+
+        <div class="address">
+            Tapola Car Studio, 72, Chavindra-Nasik Road, Bhiwandi - 421 302 (Thane)
+        </div>
+
+    </div>
+
+    <div class="details">
+
+        <div>
+            <b>Challan No.</b><br>
+            GCG-{{ invoice['id'] }}
+        </div>
+
+        <div style="text-align:right">
+            <b>Date</b><br>
+            {% if invoice['created_at'].strftime is defined %}
+                {{ invoice['created_at'].strftime('%d-%m-%Y') }}
+            {% else %}
+                {{ invoice['created_at'] }}
+            {% endif %}
+        </div>
+
+    </div>
+
+    <div class="customer">
+        <b>M/s.</b> {{ invoice['customer_name'] }}
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>PARTICULARS</th>
+                <th>Quantity</th>
+                <th>Rate</th>
+                <th>Amount Rs.</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for item in items %}
+            <tr>
+                <td>{{ item['particulars'] }}</td>
+                <td>{{ "%.2f"|format(item['quantity']|float) }}</td>
+                <td>{{ "%.2f"|format(item['rate']|float) }}</td>
+                <td>
+                    {% if item['amount']|float < 0 %}-{% endif %}
+                    {{ "%.2f"|format(item['amount']|float|abs) }}
+                </td>
+            </tr>
+            {% endfor %}
+
+            <tr>
+                <td></td>
+                <td></td>
+                <td><b>TOTAL</b></td>
+                <td>
+                    <b>{{ "%.2f"|format(invoice['total_amount']|float) }}</b>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <div class="totals">
+
+        <div>
+            Paid Amount: Rs.
+            {{ "%.2f"|format(invoice['paid_amount']|float) }}
+        </div>
+
+        <div>
+            Balance: Rs.
+            {{ "%.2f"|format(remaining|float) }}
+        </div>
+
+        <div>
+            Payment Status: <b>{{ invoice['payment_status'] }}</b>
+        </div>
+
+        <div>
+            Payment Method:
+            {{ invoice['payment_method'] or 'Not recorded' }}
+        </div>
+
+    </div>
+
+    {% if payments %}
+    <div class="payments">
+
+        <b>Payment History</b>
+
+        {% for payment in payments %}
+        <p>
+            ₹{{ "%.2f"|format(payment['amount']|float) }}
+            — {{ payment['payment_method'] }}
+            — {{ payment['created_at'] }}
+            {% if payment['note'] %}
+                — {{ payment['note'] }}
+            {% endif %}
+        </p>
+        {% endfor %}
+
+    </div>
+    {% endif %}
+
+    <div class="footer">
+        <span>Customer Signature</span>
+        <span>For New Golden Car Glass</span>
+    </div>
+
+</div>
+
+<div class="actions">
+
+    <button onclick="window.print()">Print Bill</button>
+
+    <a href="{{ url_for('customer_download_bill', id=invoice['booking_id']) }}">
+        Download PDF
+    </a>
+
+    <a href="{{ url_for('my_bookings') }}">
+        Back to My Bookings
+    </a>
+
+</div>
+
+</body>
+</html>

@@ -2001,6 +2001,13 @@ def customer_booking_details(id):
         )
 
         photos = cursor.fetchall()
+        cursor.execute("""
+        SELECT id
+        FROM invoices
+        WHERE booking_id = %s
+        """, (id,))
+
+        invoice = cursor.fetchone()
 
     finally:
 
@@ -2022,9 +2029,10 @@ def customer_booking_details(id):
     # -----------------------------------------------------
 
     return render_template(
-        "customer_booking_status.html",
-        booking=booking,
-        photos=photos
+    "customer_booking_status.html",
+    booking=booking,
+    photos=photos,
+    invoice=invoice
     )
 
 # =========================================================
@@ -2365,10 +2373,16 @@ def my_bookings():
         cursor = connection.cursor()
 
         cursor.execute("""
-            SELECT id, name, car_model, glass_type, date, status
-            FROM bookings
-            WHERE mobile = %s
-            ORDER BY id DESC
+            SELECT
+                b.id, b.name, b.car_model, b.glass_type, b.date, b.status,
+                i.id AS invoice_id,
+                i.total_amount AS bill_total,
+                i.paid_amount AS bill_paid,
+                i.payment_status AS bill_status
+            FROM bookings b
+            LEFT JOIN invoices i ON i.booking_id = b.id
+            WHERE b.mobile = %s
+            ORDER BY b.id DESC
         """, (mobile,))
 
         bookings = cursor.fetchall()
@@ -2632,6 +2646,297 @@ def invoice_status(total, paid):
 
 # Create the tables when the app starts.
 ensure_billing_tables()
+
+
+@app.route("/my_bill/<int:invoice_id>")
+def customer_invoice_detail(invoice_id):
+    """Show a bill only to the customer whose mobile is on that invoice."""
+
+    customer_mobile = session.get("customer_mobile")
+    customer_id = session.get("customer_id")
+
+    if not customer_mobile or not customer_id:
+        return redirect(url_for("customer_login", next=request.path))
+
+    connection = get_db_connection()
+
+    try:
+        cursor = connection.cursor()
+
+        cursor.execute("""
+            SELECT i.*
+            FROM invoices i
+            INNER JOIN bookings b ON b.id = i.booking_id
+            WHERE i.id = %s
+              AND i.customer_mobile = %s
+              AND b.mobile = %s
+        """, (invoice_id, customer_mobile, customer_mobile))
+
+        invoice = cursor.fetchone()
+
+        if not invoice:
+            return "Bill not found.", 404
+
+        cursor.execute("""
+            SELECT particulars, quantity, rate, amount
+            FROM invoice_items
+            WHERE invoice_id = %s
+            ORDER BY id ASC
+        """, (invoice_id,))
+
+        items = cursor.fetchall()
+
+        cursor.execute("""
+            SELECT amount, payment_method, note, created_at
+            FROM invoice_payments
+            WHERE invoice_id = %s
+            ORDER BY id DESC
+        """, (invoice_id,))
+
+        payments = cursor.fetchall()
+
+    finally:
+        connection.close()
+
+    # Keep older invoices readable when they pre-date invoice_items.
+    if not items:
+        if Decimal(str(invoice["glass_price"])) > 0:
+            items.append({
+                "particulars": "Car Glass - " + str(invoice["glass_type"]),
+                "quantity": Decimal("1"),
+                "rate": invoice["glass_price"],
+                "amount": invoice["glass_price"]
+            })
+        if Decimal(str(invoice["fitting_charges"])) > 0:
+            items.append({
+                "particulars": "Fitting Charges",
+                "quantity": Decimal("1"),
+                "rate": invoice["fitting_charges"],
+                "amount": invoice["fitting_charges"]
+            })
+        if Decimal(str(invoice["discount"])) > 0:
+            items.append({
+                "particulars": "Discount",
+                "quantity": Decimal("1"),
+                "rate": invoice["discount"],
+                "amount": -Decimal(str(invoice["discount"]))
+            })
+
+    remaining = (
+        Decimal(str(invoice["total_amount"]))
+        - Decimal(str(invoice["paid_amount"]))
+    )
+
+    return render_template(
+        "customer_invoice.html",
+        invoice=invoice,
+        items=items,
+        payments=payments,
+        remaining=remaining
+    )
+
+
+
+@app.route("/my_booking/<int:id>/bill")
+def customer_view_bill(id):
+    """Open the bill belonging to this customer's booking."""
+    customer_mobile = session.get("customer_mobile")
+    customer_id = session.get("customer_id")
+
+    if not customer_mobile or not customer_id:
+        return redirect(url_for("customer_login", next=request.path))
+
+    connection = get_db_connection()
+    try:
+        cursor = connection.cursor()
+        cursor.execute("""
+            SELECT i.id
+            FROM invoices i
+            INNER JOIN bookings b ON b.id = i.booking_id
+            WHERE b.id = %s
+              AND b.mobile = %s
+              AND i.customer_mobile = %s
+        """, (id, customer_mobile, customer_mobile))
+        invoice = cursor.fetchone()
+    finally:
+        connection.close()
+
+    if not invoice:
+        return "Bill not found for this booking.", 404
+
+    return redirect(url_for(
+        "customer_invoice_detail",
+        invoice_id=invoice["id"]
+    ))
+
+
+@app.route("/my_booking/<int:id>/bill/download")
+def customer_download_bill(id):
+    """Download a PDF bill only after verifying booking ownership."""
+    customer_mobile = session.get("customer_mobile")
+    customer_id = session.get("customer_id")
+
+    if not customer_mobile or not customer_id:
+        return redirect(url_for("customer_login", next=request.path))
+
+    connection = get_db_connection()
+    try:
+        cursor = connection.cursor()
+        cursor.execute("""
+            SELECT i.*
+            FROM invoices i
+            INNER JOIN bookings b ON b.id = i.booking_id
+            WHERE b.id = %s
+              AND b.mobile = %s
+              AND i.customer_mobile = %s
+        """, (id, customer_mobile, customer_mobile))
+        invoice = cursor.fetchone()
+
+        if not invoice:
+            return "Bill not found for this booking.", 404
+
+        cursor.execute("""
+            SELECT particulars, quantity, rate, amount
+            FROM invoice_items
+            WHERE invoice_id = %s
+            ORDER BY id ASC
+        """, (invoice["id"],))
+        items = cursor.fetchall()
+    finally:
+        connection.close()
+
+    # Support older bills which were saved before invoice_items was introduced.
+    if not items:
+        if Decimal(str(invoice["glass_price"])) > 0:
+            items.append({
+                "particulars": "Car Glass - " + str(invoice["glass_type"]),
+                "quantity": Decimal("1"),
+                "rate": invoice["glass_price"],
+                "amount": invoice["glass_price"]
+            })
+        if Decimal(str(invoice["fitting_charges"])) > 0:
+            items.append({
+                "particulars": "Fitting Charges",
+                "quantity": Decimal("1"),
+                "rate": invoice["fitting_charges"],
+                "amount": invoice["fitting_charges"]
+            })
+        if Decimal(str(invoice["discount"])) > 0:
+            items.append({
+                "particulars": "Discount",
+                "quantity": Decimal("1"),
+                "rate": invoice["discount"],
+                "amount": -Decimal(str(invoice["discount"]))
+            })
+
+    # Generate the customer's PDF independently; the admin-only download route
+    # remains protected by @login_required and is not called from here.
+    pdf_buffer = BytesIO()
+    page_width, page_height = A4
+    pdf = canvas.Canvas(pdf_buffer, pagesize=A4)
+
+    pdf.setStrokeColor(colors.black)
+    pdf.setLineWidth(1)
+    pdf.rect(15 * mm, 15 * mm, page_width - 30 * mm, page_height - 30 * mm)
+
+    y = page_height - 30 * mm
+    pdf.setFont("Helvetica-Bold", 21)
+    pdf.drawCentredString(page_width / 2, y, "GOLDEN CAR GLASS")
+    y -= 8 * mm
+
+    pdf.setFont("Helvetica", 9)
+    pdf.drawCentredString(page_width / 2, y, "Car Glass Services & Fitting")
+    y -= 6 * mm
+    pdf.drawCentredString(page_width / 2, y, "Bhiwandi - 421 302 (Thane)")
+    y -= 8 * mm
+    pdf.line(20 * mm, y, page_width - 20 * mm, y)
+    y -= 10 * mm
+
+    pdf.setFont("Helvetica-Bold", 11)
+    pdf.drawString(22 * mm, y, f"Bill No.: GCG-{invoice['id']}")
+    created_at = invoice["created_at"]
+    bill_date = created_at.strftime("%d-%m-%Y") if hasattr(created_at, "strftime") else str(created_at)[:10]
+    pdf.drawRightString(page_width - 22 * mm, y, f"Date: {bill_date}")
+    y -= 10 * mm
+
+    pdf.setFont("Helvetica", 10)
+    pdf.drawString(22 * mm, y, f"Customer: {str(invoice['customer_name'])[:70]}")
+    y -= 7 * mm
+    pdf.drawString(22 * mm, y, f"Mobile: {str(invoice['customer_mobile'])[:20]}")
+    y -= 7 * mm
+    pdf.drawString(22 * mm, y, f"Car Model: {str(invoice['car_model'])[:60]}")
+    y -= 7 * mm
+    pdf.drawString(22 * mm, y, f"Glass Type: {str(invoice['glass_type'])[:60]}")
+    y -= 12 * mm
+
+    table_data = [["PARTICULARS", "QTY", "RATE (Rs.)", "AMOUNT (Rs.)"]]
+    for item in items:
+        amount = Decimal(str(item["amount"]))
+        table_data.append([
+            str(item["particulars"])[:55],
+            f"{Decimal(str(item['quantity'])):.2f}",
+            f"{Decimal(str(item['rate'])):.2f}",
+            f"{amount:.2f}"
+        ])
+
+    memo_table = Table(
+        table_data,
+        colWidths=[83 * mm, 22 * mm, 30 * mm, 35 * mm],
+        repeatRows=1
+    )
+    memo_table.setStyle(TableStyle([
+        ("GRID", (0, 0), (-1, -1), 0.6, colors.black),
+        ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
+        ("FONTNAME", (0, 1), (-1, -1), "Helvetica"),
+        ("FONTSIZE", (0, 0), (-1, -1), 8),
+        ("ALIGN", (1, 0), (-1, -1), "RIGHT"),
+        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+        ("BACKGROUND", (0, 0), (-1, 0), colors.lightgrey),
+        ("TOPPADDING", (0, 0), (-1, -1), 7),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 7)
+    ]))
+    table_width, table_height = memo_table.wrapOn(pdf, page_width - 40 * mm, y)
+    if y - table_height < 75 * mm:
+        pdf.showPage()
+        y = page_height - 30 * mm
+    memo_table.drawOn(pdf, 20 * mm, y - table_height)
+    y -= table_height + 12 * mm
+
+    total = Decimal(str(invoice["total_amount"]))
+    paid = Decimal(str(invoice["paid_amount"]))
+    balance = total - paid
+
+    pdf.setFont("Helvetica-Bold", 10)
+    pdf.drawRightString(page_width - 22 * mm, y, f"Total Amount: Rs. {total:.2f}")
+    y -= 7 * mm
+    pdf.setFont("Helvetica", 10)
+    pdf.drawRightString(page_width - 22 * mm, y, f"Paid Amount: Rs. {paid:.2f}")
+    y -= 7 * mm
+    pdf.drawRightString(page_width - 22 * mm, y, f"Balance: Rs. {balance:.2f}")
+    y -= 7 * mm
+    pdf.drawRightString(page_width - 22 * mm, y, f"Payment Status: {invoice['payment_status']}")
+    y -= 7 * mm
+    pdf.drawRightString(page_width - 22 * mm, y, f"Payment Method: {invoice['payment_method']}")
+
+    if invoice.get("notes"):
+        y -= 12 * mm
+        pdf.setFont("Helvetica-Bold", 9)
+        pdf.drawString(22 * mm, y, "Notes:")
+        y -= 6 * mm
+        pdf.setFont("Helvetica", 9)
+        pdf.drawString(22 * mm, y, str(invoice["notes"])[:130])
+
+    pdf.setFont("Helvetica", 9)
+    pdf.drawCentredString(page_width / 2, 25 * mm, "Thank you for choosing Golden Car Glass!")
+    pdf.save()
+    pdf_buffer.seek(0)
+
+    return send_file(
+        pdf_buffer,
+        mimetype="application/pdf",
+        as_attachment=True,
+        download_name=f"Golden_Car_Glass_Bill_{invoice['id']}.pdf"
+    )
 
 
 @app.route("/admin/billing")

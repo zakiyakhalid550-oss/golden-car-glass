@@ -1110,6 +1110,59 @@
 
         </section>
 
+
+        <!-- =========================
+             CUSTOMER MY BILL
+        ========================= -->
+
+        <section class="card">
+
+            <div class="card-title">
+                🧾 My Bill
+            </div>
+
+            <div class="gold-line"></div>
+
+            {% if invoice %}
+
+                <p style="color:#555; margin-bottom:16px;">
+                    Your service bill is ready.
+                </p>
+
+                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+
+                    <a
+                        href="{{ url_for('customer_view_bill', id=booking['id']) }}"
+                        style="display:inline-block; padding:12px 18px;
+                               background:#111; color:#fff;
+                               text-decoration:none; border-radius:9px;
+                               font-weight:700;"
+                    >
+                        👁️ View Bill
+                    </a>
+
+                    <a
+                        href="{{ url_for('customer_download_bill', id=booking['id']) }}"
+                        style="display:inline-block; padding:12px 18px;
+                               background:#f5c518; color:#111;
+                               text-decoration:none; border-radius:9px;
+                               font-weight:700;"
+                    >
+                        📥 Download PDF
+                    </a>
+
+                </div>
+
+            {% else %}
+
+                <p style="color:#a66a00; font-weight:600;">
+                    Your bill has not been generated yet.
+                </p>
+
+            {% endif %}
+
+        </section>
+
     </main>
 
 
